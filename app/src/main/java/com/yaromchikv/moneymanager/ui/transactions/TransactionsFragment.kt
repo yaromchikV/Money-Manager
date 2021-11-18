@@ -1,42 +1,26 @@
 package com.yaromchikv.moneymanager.ui.transactions
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
+import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.FragmentTransactionsBinding
 
-class TransactionsFragment : Fragment() {
+class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
 
-    private var _binding: FragmentTransactionsBinding? = null
-    private val binding get() = _binding!!
+    private val binding: FragmentTransactionsBinding by viewBinding()
 
-    private lateinit var transactionsViewModel: TransactionsViewModel
+    private val transactionsViewModel: TransactionsViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        transactionsViewModel =
-            ViewModelProvider(this).get(TransactionsViewModel::class.java)
-
-        _binding = FragmentTransactionsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val textView: TextView = binding.textTransactions
         transactionsViewModel.text.observe(viewLifecycleOwner, {
             textView.text = it
         })
-        return root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

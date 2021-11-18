@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_categories"
+        android:id="@+id/navigation_accounts"
         android:icon="@drawable/ic_credit_card"
         android:title="@string/title_accounts" />
 
     <item
-        android:id="@+id/navigation_accounts"
+        android:id="@+id/navigation_categories"
         android:icon="@drawable/ic_pie_chart"
         android:title="@string/title_categories" />
 
