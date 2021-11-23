@@ -7,7 +7,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +24,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val navView: BottomNavigationView = binding.bottomNavigation
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_accounts,
@@ -35,6 +33,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         )
 
         setupActionBarWithNavController(navHostFragment.navController, appBarConfiguration)
-        navView.setupWithNavController(navHostFragment.navController)
+        binding.bottomNavigation.setupWithNavController(navHostFragment.navController)
     }
 }

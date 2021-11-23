@@ -6,8 +6,10 @@ import com.yaromchikv.moneymanager.feature.data.datasource.dao.AccountsDao
 import com.yaromchikv.moneymanager.feature.data.datasource.dao.CategoriesDao
 import com.yaromchikv.moneymanager.feature.data.datasource.dao.TransactionsDao
 import com.yaromchikv.moneymanager.feature.domain.model.Account
+import com.yaromchikv.moneymanager.feature.domain.model.Category
+import com.yaromchikv.moneymanager.feature.domain.model.Transaction
 
-@Database(entities = [Account::class], version = 1)
+@Database(entities = [Account::class, Category::class, Transaction::class], version = 1)
 abstract class MoneyManagerDatabase : RoomDatabase() {
 
     abstract val accountsDao: AccountsDao

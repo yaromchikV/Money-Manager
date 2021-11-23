@@ -10,7 +10,7 @@ import com.yaromchikv.moneymanager.feature.domain.usecase.AddAccount
 import com.yaromchikv.moneymanager.feature.domain.usecase.DeleteAccount
 import com.yaromchikv.moneymanager.feature.domain.usecase.GetAccount
 import com.yaromchikv.moneymanager.feature.domain.usecase.GetAccounts
-import com.yaromchikv.moneymanager.feature.domain.usecase.UseCaseUpdateAccount
+import com.yaromchikv.moneymanager.feature.domain.usecase.UpdateAccount
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,7 +45,7 @@ object AppModule {
             getAccount = GetAccount(repository),
             deleteAccount = DeleteAccount(repository),
             addAccount = AddAccount(repository),
-            updateAccount = UseCaseUpdateAccount(repository)
+            updateAccount = UpdateAccount(repository)
         )
     }
 }

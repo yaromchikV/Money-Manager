@@ -62,7 +62,6 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/amount"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/amount"
         tools:text="BYN" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

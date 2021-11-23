@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TransactionsDao {
 
-    @Query("SELECT * FROM `transaction`")
+    @Query("SELECT * FROM 'transaction'")
     fun getTransactions(): Flow<List<Transaction>>
 
-    @Query("SELECT * FROM `transaction` WHERE id = :id")
+    @Query("SELECT * FROM 'transaction' WHERE id = :id")
     suspend fun getTransactionById(id: Int): Transaction?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

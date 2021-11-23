@@ -4,4 +4,9 @@
     <string name="title_chart">Chart</string>
     <string name="title_transactions">Transactions</string>
     <string name="accounts">Accounts</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="name">Name</string>
+    <string name="amount">Amount</string>
+    <string name="currency">Currency</string>
 </resources>

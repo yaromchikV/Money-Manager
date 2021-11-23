@@ -19,37 +19,19 @@ class AccountsViewModel @Inject constructor(
     private val accountsUseCase: AccountsUseCases
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(AccountsState())
-    val state: StateFlow<AccountsState> = _state
+    private val _accounts = MutableStateFlow(emptyList<Account>())
+    val accounts: StateFlow<List<Account>> = _accounts
 
     private var getAccountsJob: Job? = null
 
     init {
         getAccounts()
-
-        viewModelScope.launch {
-            val account = Account(name = "default", color = R.color.red_purple)
-            accountsUseCase.addAccount(account)
-        }
     }
 
     private fun getAccounts() {
         getAccountsJob?.cancel()
         getAccountsJob = accountsUseCase.getAccounts()
-            .onEach { accounts ->
-                _state.value = state.value.copy(accounts = accounts)
-            }
+            .onEach { accounts -> _accounts.value = accounts }
             .launchIn(viewModelScope)
     }
-
-//    fun onEvent(event: AccountsEvent) {
-//        when (event) {
-//            is AccountsEvent.DeleteAccount -> {
-//                viewModelScope.launch {
-//                    accountsUseCase.deleteAccount(event.account)
-//                    recentlyDeletedAccount = event.account
-//                }
-//            }
-//        }
-//    }
 }

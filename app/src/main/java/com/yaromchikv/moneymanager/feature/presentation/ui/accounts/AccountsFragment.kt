@@ -35,8 +35,8 @@ class AccountsFragment : Fragment(R.layout.fragment_accounts) {
         }
 
         lifecycleScope.launch {
-            accountsViewModel.state.collectLatest { newState ->
-                accountsAdapter.setData(newState.accounts)
+            accountsViewModel.accounts.collectLatest { newList ->
+                accountsAdapter.setData(newList)
             }
         }
     }
