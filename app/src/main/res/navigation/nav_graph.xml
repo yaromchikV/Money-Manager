@@ -3,23 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_categories">
-
-    <fragment
-        android:id="@+id/navigation_categories"
-        android:name="com.yaromchikv.moneymanager.ui.categories.CategoriesFragment"
-        android:label="@string/title_categories"
-        tools:layout="@layout/fragment_categories" />
+    app:startDestination="@+id/navigation_transactions">
 
     <fragment
         android:id="@+id/navigation_accounts"
-        android:name="com.yaromchikv.moneymanager.ui.accounts.AccountsFragment"
+        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.accounts.AccountsFragment"
         android:label="@string/title_accounts"
         tools:layout="@layout/fragment_accounts" />
 
     <fragment
         android:id="@+id/navigation_transactions"
-        android:name="com.yaromchikv.moneymanager.ui.transactions.TransactionsFragment"
+        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.transactions.TransactionsFragment"
         android:label="@string/title_transactions"
         tools:layout="@layout/fragment_transactions" />
+
+    <fragment
+        android:id="@+id/navigation_chart"
+        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.chart.ChartFragment"
+        android:label="@string/title_chart"
+        tools:layout="@layout/fragment_chart" />
+
 </navigation>

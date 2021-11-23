@@ -1,4 +1,4 @@
-package com.yaromchikv.moneymanager
+package com.yaromchikv.moneymanager.feature.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -8,8 +8,11 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val binding: ActivityMainBinding by viewBinding(R.id.container)
@@ -25,9 +28,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val navView: BottomNavigationView = binding.bottomNavigation
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_categories,
                 R.id.navigation_accounts,
-                R.id.navigation_transactions
+                R.id.navigation_transactions,
+                R.id.navigation_chart
             )
         )
 

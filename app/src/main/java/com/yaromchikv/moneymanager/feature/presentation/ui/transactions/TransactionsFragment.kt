@@ -1,13 +1,15 @@
-package com.yaromchikv.moneymanager.ui.transactions
+package com.yaromchikv.moneymanager.feature.presentation.ui.transactions
 
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.FragmentTransactionsBinding
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
 
@@ -18,9 +20,10 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val textView: TextView = binding.textTransactions
-        transactionsViewModel.text.observe(viewLifecycleOwner, {
-            textView.text = it
-        })
+//        lifecycleScope.launch {
+//            transactionsViewModel.text.collectLatest { newText ->
+//                binding.textTransactions.text = newText
+//            }
+//        }
     }
 }

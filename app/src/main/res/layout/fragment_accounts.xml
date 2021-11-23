@@ -4,19 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.accounts.AccountsFragment">
+    tools:context=".feature.presentation.ui.accounts.AccountsFragment">
 
     <TextView
-        android:id="@+id/text_accounts"
-        android:layout_width="match_parent"
+        android:id="@+id/accounts_label"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/accounts"
+        android:textAllCaps="true"
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/full_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="6dp"
+        android:textAllCaps="true"
+        android:textColor="@color/blue_green"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@id/main_currency"
+        app:layout_constraintTop_toTopOf="@+id/accounts_label"
+        tools:text="1 817,20" />
+
+    <TextView
+        android:id="@+id/main_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:textAllCaps="true"
+        android:textColor="@color/blue_green"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/full_amount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/full_amount"
+        tools:text="BYN" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_of_accounts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/accounts_label"
+        tools:itemCount="6"
+        tools:listitem="@layout/item_account" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
