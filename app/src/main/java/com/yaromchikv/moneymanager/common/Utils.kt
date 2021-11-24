@@ -4,8 +4,6 @@ import com.yaromchikv.moneymanager.R
 import java.text.DecimalFormat
 import kotlin.math.absoluteValue
 
-enum class TransactionType { INCOME, EXPENSE }
-
 val listOfColors = listOf(
     R.color.red,
     R.color.red_purple,
@@ -26,9 +24,4 @@ val listOfColors = listOf(
 
 fun Double.toAmountFormat(): String {
     return DecimalFormat(if (this >= 0) "###,###.##" else "–###,###.##").format(this.absoluteValue)
-
-//    val str = StringBuilder()
-//    if (this < 0)
-//        str.insert(0, '–')
-//    return str.toString()
 }

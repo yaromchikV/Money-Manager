@@ -4,7 +4,7 @@ import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.domain.repository.AccountsRepository
 import kotlinx.coroutines.flow.Flow
 
-data class AccountsUseCases(
+data class AccountUseCases(
     val getAccounts: GetAccounts,
     val getAccount: GetAccount,
     val addAccount: AddAccount,

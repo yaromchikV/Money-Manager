@@ -9,7 +9,11 @@ import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.domain.model.Category
 import com.yaromchikv.moneymanager.feature.domain.model.Transaction
 
-@Database(entities = [Account::class, Category::class, Transaction::class], version = 1)
+@Database(
+    entities = [Account::class, Category::class, Transaction::class],
+    version = 1,
+    exportSchema = false
+)
 abstract class MoneyManagerDatabase : RoomDatabase() {
 
     abstract val accountsDao: AccountsDao

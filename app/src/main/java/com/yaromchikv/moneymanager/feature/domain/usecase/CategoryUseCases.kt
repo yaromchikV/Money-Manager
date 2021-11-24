@@ -1,10 +1,11 @@
 package com.yaromchikv.moneymanager.feature.domain.usecase
 
 import com.yaromchikv.moneymanager.feature.domain.model.Category
+import com.yaromchikv.moneymanager.feature.domain.repository.AccountsRepository
 import com.yaromchikv.moneymanager.feature.domain.repository.CategoriesRepository
 import kotlinx.coroutines.flow.Flow
 
-data class CategoriesUseCases(
+data class CategoryUseCases(
     val getCategories: GetCategories,
     val getCategory: GetCategory,
     val addCategory: AddCategory,
