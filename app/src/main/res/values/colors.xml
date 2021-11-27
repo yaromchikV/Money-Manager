@@ -12,16 +12,16 @@
     <color name="dark_gray">#767676</color>
     <color name="brown">#402C18</color>
 
-    <color name="red">#ef1d26</color>
-    <color name="red_purple">#a72391</color>
-    <color name="purple">#5b3197</color>
-    <color name="purple_blue">#20429c</color>
-    <color name="blue">#0268b3</color>
-    <color name="blue_green">#00aeaf</color>
-    <color name="green">#03a762</color>
-    <color name="green_yellow">#73bf45</color>
-    <color name="yellow">#fef102</color>
-    <color name="yellow_orange">#f8a71a</color>
-    <color name="orange">#f58726</color>
-    <color name="orange_red">#ee423e</color>
+    <color name="orange_red">#ffee423e</color>
+    <color name="red">#ffef1d26</color>
+    <color name="red_purple">#ffa72391</color>
+    <color name="purple">#ff5b3197</color>
+    <color name="purple_blue">#ff20429c</color>
+    <color name="blue">#ff0268b3</color>
+    <color name="blue_green">#ff00aeaf</color>
+    <color name="green">#ff03a762</color>
+    <color name="green_yellow">#ff73bf45</color>
+    <color name="yellow">#fffef102</color>
+    <color name="yellow_orange">#fff8a71a</color>
+    <color name="orange">#fff58726</color>
 </resources>

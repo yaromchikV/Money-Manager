@@ -1,6 +1,5 @@
 package com.yaromchikv.moneymanager.feature.domain.usecase
 
-import android.util.Log
 import com.yaromchikv.moneymanager.feature.domain.model.DayInfo
 import com.yaromchikv.moneymanager.feature.domain.model.Transaction
 import com.yaromchikv.moneymanager.feature.domain.repository.TransactionsRepository
@@ -42,7 +41,7 @@ class UpdateTransaction(private val repository: TransactionsRepository) {
 
 class DeleteTransaction(private val repository: TransactionsRepository) {
     suspend operator fun invoke(transaction: Transaction) {
-        repository.deleteTransaction(transaction);
+        repository.deleteTransaction(transaction)
     }
 }
 

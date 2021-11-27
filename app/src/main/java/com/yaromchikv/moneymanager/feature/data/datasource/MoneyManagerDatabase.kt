@@ -12,7 +12,7 @@ import com.yaromchikv.moneymanager.feature.domain.model.Transaction
 @Database(
     entities = [Account::class, Category::class, Transaction::class],
     version = 1,
-    exportSchema = false
+    exportSchema = true
 )
 abstract class MoneyManagerDatabase : RoomDatabase() {
 

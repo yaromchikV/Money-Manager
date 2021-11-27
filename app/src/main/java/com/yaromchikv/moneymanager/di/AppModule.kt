@@ -50,7 +50,7 @@ object AppModule {
             app.applicationContext,
             MoneyManagerDatabase::class.java,
             MoneyManagerDatabase.DATABASE_NAME
-        ).build()
+        ).createFromAsset("database/money_manager.db").build()
     }
 
     @Provides

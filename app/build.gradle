@@ -53,8 +53,9 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
     // Navigation
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.0-beta02'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.0-beta02'
+    androidTestImplementation "androidx.navigation:navigation-testing:2.4.0-beta02"
 
     // Lifecycle
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
