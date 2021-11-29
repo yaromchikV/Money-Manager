@@ -1,6 +1,9 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.transactions
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,13 +23,14 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
 
     private val binding: FragmentTransactionsBinding by viewBinding()
 
-    private val transactionsViewModel: TransactionsViewModel by viewModels()
+    private val viewModel: TransactionsViewModel by viewModels()
 
     @Inject
     lateinit var transactionAdapter: TransactionsRVAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
 
         binding.listOfTransactions.apply {
             adapter = transactionAdapter
@@ -37,9 +41,20 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
         }
 
         lifecycleScope.launch {
-            transactionsViewModel.transactions.collectLatest {
+            viewModel.transactions.collectLatest {
                 transactionAdapter.updateData()
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.date_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.select_date) {
+//            findNavController().navigate(ListFragmentDirections.actionListFragmentToSettingsFragment())
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

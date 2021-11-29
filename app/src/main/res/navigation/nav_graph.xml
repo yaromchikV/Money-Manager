@@ -3,63 +3,71 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_transactions">
+    app:startDestination="@+id/transactions_fragment">
 
     <fragment
-        android:id="@+id/navigation_accounts"
+        android:id="@+id/accounts_fragment"
         android:name="com.yaromchikv.moneymanager.feature.presentation.ui.accounts.AccountsFragment"
         android:label="@string/title_accounts"
         tools:layout="@layout/fragment_accounts">
         <action
-            android:id="@+id/action_navigation_accounts_to_accountActions"
-            app:destination="@id/account_actions_fragment" />
-        <action
-            android:id="@+id/action_navigation_accounts_to_accountEdit"
-            app:destination="@id/account_edit_fragment" />
-        <action
-            android:id="@+id/action_navigation_accounts_to_accountAddFragment"
+            android:id="@+id/action_accounts_fragment_to_account_add_fragment"
             app:destination="@id/account_add_fragment" />
+        <action
+            android:id="@+id/action_accounts_fragment_to_account_actions_sheet_fragment"
+            app:destination="@id/account_actions_sheet_fragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_transactions"
+        android:id="@+id/transactions_fragment"
         android:name="com.yaromchikv.moneymanager.feature.presentation.ui.transactions.TransactionsFragment"
         android:label="@string/title_transactions"
         tools:layout="@layout/fragment_transactions" />
 
     <fragment
-        android:id="@+id/navigation_chart"
+        android:id="@+id/chart_fragment"
         android:name="com.yaromchikv.moneymanager.feature.presentation.ui.chart.ChartFragment"
         android:label="@string/title_chart"
         tools:layout="@layout/fragment_chart" />
 
     <dialog
-        android:id="@+id/account_actions_fragment"
-        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.accounts.actions.AccountActionsFragment"
-        android:label="account_actions_fragment"
-        tools:layout="@layout/account_actions_fragment">
+        android:id="@+id/account_actions_sheet_fragment"
+        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.accounts.actions.AccountActionsSheetFragment"
+        android:label="@string/account_actions"
+        tools:layout="@layout/account_actions_sheet_fragment">
         <action
-            android:id="@+id/action_accountActions_to_navigation_accounts"
-            app:destination="@id/navigation_accounts" />
+            android:id="@+id/action_account_actions_sheet_fragment_to_accounts_fragment"
+            app:destination="@id/accounts_fragment" />
+        <argument
+            android:name="selectedAccount"
+            app:argType="com.yaromchikv.moneymanager.feature.domain.model.Account" />
+        <action
+            app:popUpTo="@id/accounts_fragment"
+            android:id="@+id/action_account_actions_sheet_fragment_to_account_edit_fragment"
+            app:destination="@id/account_edit_fragment" />
     </dialog>
 
     <fragment
         android:id="@+id/account_edit_fragment"
         android:name="com.yaromchikv.moneymanager.feature.presentation.ui.accounts.edit.AccountEditFragment"
-        android:label="account_edit_fragment"
+        android:label="@string/editing"
         tools:layout="@layout/account_edit_fragment">
         <action
-            android:id="@+id/action_accountEdit_to_navigation_accounts"
-            app:destination="@id/navigation_accounts" />
+            android:id="@+id/action_account_edit_fragment_to_accounts_fragment"
+            app:destination="@id/accounts_fragment" />
+        <argument
+            android:name="editableAccount"
+            app:argType="com.yaromchikv.moneymanager.feature.domain.model.Account" />
     </fragment>
+
     <fragment
         android:id="@+id/account_add_fragment"
         android:name="com.yaromchikv.moneymanager.feature.presentation.ui.accounts.add.AccountAddFragment"
-        android:label="account_add_fragment"
+        android:label="@string/adding"
         tools:layout="@layout/account_add_fragment">
         <action
-            android:id="@+id/action_accountAddFragment_to_navigation_accounts"
-            app:destination="@id/navigation_accounts" />
+            android:id="@+id/action_account_add_fragment_to_accounts_fragment"
+            app:destination="@id/accounts_fragment" />
     </fragment>
 
 </navigation>
