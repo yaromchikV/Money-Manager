@@ -1,14 +1,14 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.accounts.edit
 
+import android.widget.ImageView
+import androidx.core.widget.ImageViewCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.domain.usecase.AccountUseCases
-import com.yaromchikv.moneymanager.feature.presentation.ui.accounts.AccountsViewModel
+import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,7 +31,21 @@ class AccountEditViewModel @Inject constructor(
         }
     }
 
+
+    fun selectColorClick(image: ImageView) {
+        viewModelScope.launch {
+            var colorId: Int? = -1
+            val imageId = ImageViewCompat.getImageTintList(image)?.defaultColor
+            mapOfColors.forEach { entry ->
+                if (entry.value == imageId)
+                    colorId = entry.key
+            }
+            _events.emit(Event.SelectColor(colorId))
+        }
+    }
+
     sealed class Event {
-        object UpdateAccount: Event()
+        object UpdateAccount : Event()
+        data class SelectColor(val id: Int?) : Event()
     }
 }

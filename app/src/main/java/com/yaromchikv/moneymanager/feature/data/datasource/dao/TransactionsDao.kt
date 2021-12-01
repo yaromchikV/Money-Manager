@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.yaromchikv.moneymanager.feature.domain.model.DayInfo
 import com.yaromchikv.moneymanager.feature.domain.model.Transaction
 import kotlinx.coroutines.flow.Flow
@@ -23,6 +24,9 @@ interface TransactionsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTransaction(transaction: Transaction)
+
+    @Update
+    suspend fun updateTransaction(transaction: Transaction)
 
     @Delete
     suspend fun deleteTransaction(transaction: Transaction)

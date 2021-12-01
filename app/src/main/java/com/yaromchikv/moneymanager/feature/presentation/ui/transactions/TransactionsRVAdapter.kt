@@ -3,7 +3,10 @@ package com.yaromchikv.moneymanager.feature.presentation.ui.transactions
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.ItemDayInfoBinding
 import com.yaromchikv.moneymanager.databinding.ItemTransactionBinding
@@ -14,9 +17,13 @@ import com.yaromchikv.moneymanager.feature.domain.model.Transaction
 import com.yaromchikv.moneymanager.feature.domain.usecase.AccountUseCases
 import com.yaromchikv.moneymanager.feature.domain.usecase.CategoryUseCases
 import com.yaromchikv.moneymanager.feature.domain.usecase.TransactionUseCases
+import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
+import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfDrawables
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class TransactionsRVAdapter @Inject constructor(
     private val context: Context,
     private val transactionUseCases: TransactionUseCases,
@@ -41,10 +48,19 @@ class TransactionsRVAdapter @Inject constructor(
             }
 
             if (currentCategory != null && currentAccount != null) {
-                binding.transactionName.text = transaction.name
+                binding.categoryName.text = currentCategory.name
                 binding.cardName.text = currentAccount.name
-                binding.icon.setImageResource(currentCategory.icon)
-                binding.iconBackground.setImageResource(currentCategory.iconColor)
+                binding.icon.setImageResource(
+                    mapOfDrawables[currentCategory.icon] ?: R.drawable.ic_bank
+                )
+
+                DrawableCompat.setTint(
+                    binding.iconBackground.drawable,
+                    ContextCompat.getColor(
+                        context,
+                        mapOfColors[currentCategory.iconColor] ?: R.color.orange_red
+                    )
+                )
             }
         }
     }

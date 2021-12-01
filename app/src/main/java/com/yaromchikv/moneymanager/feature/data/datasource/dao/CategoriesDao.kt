@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.yaromchikv.moneymanager.feature.domain.model.Category
 import kotlinx.coroutines.flow.Flow
 
@@ -19,6 +20,9 @@ interface CategoriesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCategory(category: Category)
+
+    @Update
+    suspend fun updateCategory(category: Category)
 
     @Delete
     suspend fun deleteCategory(category: Category)

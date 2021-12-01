@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">Money Manager</string>
-    <string name="title_accounts">Accounts</string>
-    <string name="title_chart">Chart</string>
-    <string name="title_transactions">Transactions</string>
+    <string name="chart">Chart</string>
+    <string name="transactions">Transactions</string>
     <string name="accounts">Accounts</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
@@ -21,4 +20,18 @@
     <string name="account_actions">Account actions</string>
     <string name="editing">Editing</string>
     <string name="adding">Adding</string>
+    <string name="year">Year</string>
+    <string name="today">Today</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
+    <string name="all_time">All time</string>
+    <string name="from_account">From account</string>
+    <string name="to_category">To category</string>
+    <string name="expense">Expense</string>
+    <string name="note">Note</string>
+    <string name="select_an_account">Select an account</string>
+    <string name="accounts_filter">Accounts filter</string>
+    <string name="all_accounts">All accounts</string>
+    <string name="color_filter">Color filter</string>
+    <string name="selected_color">Selected color:</string>
 </resources>

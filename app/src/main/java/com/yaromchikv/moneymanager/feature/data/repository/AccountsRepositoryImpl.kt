@@ -21,6 +21,10 @@ class AccountsRepositoryImpl(
         dao.insertAccount(account)
     }
 
+    override suspend fun updateAccount(account: Account) {
+        dao.updateAccount(account)
+    }
+
     override suspend fun deleteAccount(account: Account) {
         dao.deleteAccount(account)
     }

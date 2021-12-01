@@ -35,7 +35,7 @@ class AddTransaction(private val repository: TransactionsRepository) {
 
 class UpdateTransaction(private val repository: TransactionsRepository) {
     suspend operator fun invoke(transaction: Transaction) {
-        repository.insertTransaction(transaction)
+        repository.updateTransaction(transaction)
     }
 }
 

@@ -33,7 +33,7 @@ class AddCategory(private val repository: CategoriesRepository) {
 
 class UpdateCategory(private val repository: CategoriesRepository) {
     suspend operator fun invoke(category: Category) {
-        repository.insertCategory(category)
+        repository.updateCategory(category)
     }
 }
 

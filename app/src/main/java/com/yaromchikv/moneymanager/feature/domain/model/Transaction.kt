@@ -7,6 +7,8 @@ import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.yaromchikv.moneymanager.common.Converter
+import com.yaromchikv.moneymanager.common.getCurrentLocalDate
+import com.yaromchikv.moneymanager.common.getCurrentLocalTime
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -29,15 +31,14 @@ import java.time.LocalTime
 )
 @TypeConverters(Converter::class)
 data class Transaction(
-    @PrimaryKey(autoGenerate = true) val id: Int? = null,
-    val name: String,
-    val note: String = "",
+    @PrimaryKey(autoGenerate = true)
+    val id: Int? = null,
+    val note: String,
     val amount: Double,
-    val date: LocalDate,
-    val time: LocalTime,
-    val type: TransactionType,
-    @ColumnInfo(name = "account_id") val accountId: Int,
-    @ColumnInfo(name = "category_id") val categoryId: Int
+    val date: LocalDate = getCurrentLocalDate(),
+    val time: LocalTime = getCurrentLocalTime(),
+    @ColumnInfo(name = "account_id")
+    val accountId: Int,
+    @ColumnInfo(name = "category_id")
+    val categoryId: Int
 )
-
-enum class TransactionType { INCOME, EXPENSE }

@@ -18,8 +18,8 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         app:layout_constraintBottom_toBottomOf="@+id/icon_background"
         app:layout_constraintEnd_toEndOf="@+id/icon_background"
         app:layout_constraintStart_toStartOf="@+id/icon_background"
@@ -27,7 +27,7 @@
         app:srcCompat="@drawable/ic_calendar" />
 
     <TextView
-        android:id="@+id/transactionName"
+        android:id="@+id/category_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -66,7 +66,7 @@
         android:textColor="@color/red"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/textDefaultCurrency"
-        app:layout_constraintTop_toTopOf="@+id/transactionName"
+        app:layout_constraintTop_toTopOf="@+id/category_name"
         tools:text="–1 817,20" />
 
     <TextView

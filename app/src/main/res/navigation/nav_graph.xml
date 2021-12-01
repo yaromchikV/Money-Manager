@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/accounts_fragment"
         android:name="com.yaromchikv.moneymanager.feature.presentation.ui.accounts.AccountsFragment"
-        android:label="@string/title_accounts"
+        android:label="@string/accounts"
         tools:layout="@layout/fragment_accounts">
         <action
             android:id="@+id/action_accounts_fragment_to_account_add_fragment"
@@ -21,20 +21,31 @@
     <fragment
         android:id="@+id/transactions_fragment"
         android:name="com.yaromchikv.moneymanager.feature.presentation.ui.transactions.TransactionsFragment"
-        android:label="@string/title_transactions"
-        tools:layout="@layout/fragment_transactions" />
+        android:label="@string/transactions"
+        tools:layout="@layout/fragment_transactions">
+        <action
+            android:id="@+id/action_transactions_fragment_to_selectDateDialogFragment"
+            app:destination="@id/select_date_dialog_fragment" />
+        <action
+            android:id="@+id/action_transactions_fragment_to_addTransactionSheetFragment"
+            app:destination="@id/add_transaction_sheet_fragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/chart_fragment"
         android:name="com.yaromchikv.moneymanager.feature.presentation.ui.chart.ChartFragment"
-        android:label="@string/title_chart"
-        tools:layout="@layout/fragment_chart" />
+        android:label="@string/chart"
+        tools:layout="@layout/fragment_chart">
+        <action
+            android:id="@+id/action_chart_fragment_to_selectDateDialogFragment"
+            app:destination="@id/select_date_dialog_fragment" />
+    </fragment>
 
     <dialog
         android:id="@+id/account_actions_sheet_fragment"
         android:name="com.yaromchikv.moneymanager.feature.presentation.ui.accounts.actions.AccountActionsSheetFragment"
         android:label="@string/account_actions"
-        tools:layout="@layout/account_actions_sheet_fragment">
+        tools:layout="@layout/sheet_fragment_account_actions">
         <action
             android:id="@+id/action_account_actions_sheet_fragment_to_accounts_fragment"
             app:destination="@id/accounts_fragment" />
@@ -42,32 +53,99 @@
             android:name="selectedAccount"
             app:argType="com.yaromchikv.moneymanager.feature.domain.model.Account" />
         <action
-            app:popUpTo="@id/accounts_fragment"
             android:id="@+id/action_account_actions_sheet_fragment_to_account_edit_fragment"
-            app:destination="@id/account_edit_fragment" />
+            app:destination="@id/account_edit_fragment"
+            app:popUpTo="@id/accounts_fragment" />
     </dialog>
 
     <fragment
         android:id="@+id/account_edit_fragment"
         android:name="com.yaromchikv.moneymanager.feature.presentation.ui.accounts.edit.AccountEditFragment"
         android:label="@string/editing"
-        tools:layout="@layout/account_edit_fragment">
+        tools:layout="@layout/fragment_account_edit">
         <action
             android:id="@+id/action_account_edit_fragment_to_accounts_fragment"
             app:destination="@id/accounts_fragment" />
         <argument
             android:name="editableAccount"
             app:argType="com.yaromchikv.moneymanager.feature.domain.model.Account" />
+        <action
+            android:id="@+id/action_account_edit_fragment_to_colorPickerDialogFragment"
+            app:destination="@id/colorPickerDialogFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/account_add_fragment"
         android:name="com.yaromchikv.moneymanager.feature.presentation.ui.accounts.add.AccountAddFragment"
         android:label="@string/adding"
-        tools:layout="@layout/account_add_fragment">
+        tools:layout="@layout/fragment_account_add">
         <action
             android:id="@+id/action_account_add_fragment_to_accounts_fragment"
             app:destination="@id/accounts_fragment" />
+        <action
+            android:id="@+id/action_account_add_fragment_to_colorPickerDialogFragment"
+            app:destination="@id/colorPickerDialogFragment" />
     </fragment>
+
+    <dialog
+        android:id="@+id/select_date_dialog_fragment"
+        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.transactions.date.SelectDateDialogFragment"
+        android:label="select_date_dialog_fragment"
+        tools:layout="@layout/dialog_fragment_select_date" />
+
+    <dialog
+        android:id="@+id/add_transaction_sheet_fragment"
+        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.transactions.add.AddTransactionSheetFragment"
+        android:label="AddTransactionSheetFragment"
+        tools:layout="@layout/sheet_fragment_add_transaction">
+        <action
+            android:id="@+id/action_addTransactionSheetFragment_to_transactions_fragment"
+            app:destination="@id/transactions_fragment" />
+        <argument
+            android:name="selectedAccount"
+            app:argType="com.yaromchikv.moneymanager.feature.domain.model.Account" />
+        <action
+            android:id="@+id/action_addTransactionSheetFragment_to_enterTheAmountSheetFragment"
+            app:destination="@id/enter_the_amount_sheet_fragment"
+            app:popUpTo="@id/transactions_fragment" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/enter_the_amount_sheet_fragment"
+        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.transactions.add.enter_amount.EnterTheAmountSheetFragment"
+        android:label="EnterTheAmountSheetFragment"
+        tools:layout="@layout/sheet_fragment_enter_the_amount">
+        <argument
+            android:name="selectedAccount"
+            app:argType="com.yaromchikv.moneymanager.feature.domain.model.Account" />
+        <argument
+            android:name="selectedCategory"
+            app:argType="com.yaromchikv.moneymanager.feature.domain.model.Category" />
+        <action
+            android:id="@+id/action_enterTheAmountSheetFragment_to_transactions_fragment"
+            app:destination="@id/transactions_fragment" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/dialog_fragment_account_filter"
+        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.account_filter.AccountFilterFragment"
+        android:label="dialog_fragment_account_filter"
+        tools:layout="@layout/dialog_fragment_account_filter" />
+
+    <action
+        android:id="@+id/action_dialog_fragment_account_filter"
+        app:destination="@id/dialog_fragment_account_filter" />
+    <dialog
+        android:id="@+id/colorPickerDialogFragment"
+        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.accounts.update.color_picker.ColorPickerDialogFragment"
+        android:label="color_picker_dialog_fragment"
+        tools:layout="@layout/color_picker_dialog_fragment" >
+        <action
+            android:id="@+id/action_colorPickerDialogFragment_to_account_add_fragment"
+            app:destination="@id/account_add_fragment" />
+        <action
+            android:id="@+id/action_colorPickerDialogFragment_to_account_edit_fragment"
+            app:destination="@id/account_edit_fragment" />
+    </dialog>
 
 </navigation>

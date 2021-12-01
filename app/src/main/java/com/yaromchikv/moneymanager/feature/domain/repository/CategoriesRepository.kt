@@ -11,5 +11,7 @@ interface CategoriesRepository {
 
     suspend fun insertCategory(category: Category)
 
+    suspend fun updateCategory(category: Category)
+
     suspend fun deleteCategory(category: Category)
 }

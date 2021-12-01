@@ -5,22 +5,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.DialogFragmentNavigator
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.toAmountFormat
-import com.yaromchikv.moneymanager.databinding.AccountActionsSheetFragmentBinding
+import com.yaromchikv.moneymanager.databinding.SheetFragmentAccountActionsBinding
+import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-
 
 @AndroidEntryPoint
 class AccountActionsSheetFragment : BottomSheetDialogFragment() {
 
-    private var _binding: AccountActionsSheetFragmentBinding? = null
+    private var _binding: SheetFragmentAccountActionsBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: AccountActionsViewModel by viewModels()
@@ -32,7 +35,7 @@ class AccountActionsSheetFragment : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = AccountActionsSheetFragmentBinding.inflate(inflater, container, false)
+        _binding = SheetFragmentAccountActionsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -43,8 +46,21 @@ class AccountActionsSheetFragment : BottomSheetDialogFragment() {
 
         binding.accountName.text = account.name
         binding.accountAmount.text = account.amount.toAmountFormat()
-        binding.accountCurrency.text = account.currency
-        binding.actionsContainer.setBackgroundColor(account.color)
+
+//        DrawableCompat.setTint(
+//            binding.actionsContainer.drawable,
+//            ContextCompat.getColor(
+//                context,
+//                mapOfColors[account.color] ?: R.color.orange_red
+//            )
+//        )
+
+        binding.actionsContainer.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                mapOfColors[account.color] ?: R.color.orange_red
+            )
+        )
 
         binding.editButton.setOnClickListener {
             viewModel.editButtonClick(account)
@@ -57,10 +73,12 @@ class AccountActionsSheetFragment : BottomSheetDialogFragment() {
             viewModel.events.collectLatest {
                 when (it) {
                     is AccountActionsViewModel.Event.NavigateToEditAccountScreen -> {
-                        findNavController().navigate(
-                            AccountActionsSheetFragmentDirections
-                                .actionAccountActionsSheetFragmentToAccountEditFragment(account)
-                        )
+                        if (getCurrentDestination() == this@AccountActionsSheetFragment.javaClass.name) {
+                            findNavController().navigate(
+                                AccountActionsSheetFragmentDirections
+                                    .actionAccountActionsSheetFragmentToAccountEditFragment(account)
+                            )
+                        }
                     }
                     is AccountActionsViewModel.Event.ShowTheDeleteAccountDialog -> {
                         val alert = AlertDialog.Builder(requireContext())
@@ -91,4 +109,8 @@ class AccountActionsSheetFragment : BottomSheetDialogFragment() {
         super.onDestroy()
         _binding = null
     }
+
+    private fun getCurrentDestination() =
+        (findNavController().currentDestination as? FragmentNavigator.Destination)?.className
+            ?: (findNavController().currentDestination as? DialogFragmentNavigator.Destination)?.className
 }

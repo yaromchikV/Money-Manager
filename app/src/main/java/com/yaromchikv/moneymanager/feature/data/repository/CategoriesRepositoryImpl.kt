@@ -21,6 +21,10 @@ class CategoriesRepositoryImpl(
         dao.insertCategory(category)
     }
 
+    override suspend fun updateCategory(category: Category) {
+        dao.updateCategory(category)
+    }
+
     override suspend fun deleteCategory(category: Category) {
         dao.deleteCategory(category)
     }

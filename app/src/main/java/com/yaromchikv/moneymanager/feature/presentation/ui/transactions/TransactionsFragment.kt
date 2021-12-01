@@ -6,16 +6,20 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.DialogFragmentNavigator
+import androidx.navigation.fragment.FragmentNavigator
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.FragmentTransactionsBinding
+import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -24,6 +28,7 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
     private val binding: FragmentTransactionsBinding by viewBinding()
 
     private val viewModel: TransactionsViewModel by viewModels()
+    private val activityViewModel: MainActivityViewModel by activityViewModels()
 
     @Inject
     lateinit var transactionAdapter: TransactionsRVAdapter
@@ -40,9 +45,38 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
             )
         }
 
-        lifecycleScope.launch {
+        binding.newTransactionButton.setOnClickListener {
+            viewModel.addTransactionClick(
+                activityViewModel.currentAccount.value ?: activityViewModel.accounts.value[0]
+            )
+        }
+
+        lifecycleScope.launchWhenStarted {
             viewModel.transactions.collectLatest {
                 transactionAdapter.updateData()
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.events.collectLatest {
+                when (it) {
+                    is TransactionsViewModel.Event.OpenTheAddTransactionSheet -> {
+                        if (getCurrentDestination() == this@TransactionsFragment.javaClass.name) {
+                            findNavController().navigate(
+                                TransactionsFragmentDirections.actionTransactionsFragmentToAddTransactionSheetFragment(
+                                    it.account
+                                )
+                            )
+                        }
+                    }
+                    is TransactionsViewModel.Event.SelectDate -> {
+                        if (getCurrentDestination() == this@TransactionsFragment.javaClass.name) {
+                            findNavController().navigate(
+                                TransactionsFragmentDirections.actionTransactionsFragmentToSelectDateDialogFragment()
+                            )
+                        }
+                    }
+                }
             }
         }
     }
@@ -53,8 +87,12 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.select_date) {
-//            findNavController().navigate(ListFragmentDirections.actionListFragmentToSettingsFragment())
+            viewModel.selectDateClick()
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun getCurrentDestination() =
+        (findNavController().currentDestination as? FragmentNavigator.Destination)?.className
+            ?: (findNavController().currentDestination as? DialogFragmentNavigator.Destination)?.className
 }
