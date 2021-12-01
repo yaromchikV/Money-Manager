@@ -2,9 +2,11 @@ package com.yaromchikv.moneymanager.feature.presentation.ui.transactions.add
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.ItemCategoryBinding
@@ -27,6 +29,7 @@ class CategoriesRVAdapter @Inject constructor(
         fun bind(category: Category) {
             binding.name.text = category.name
             binding.icon.setImageResource(mapOfDrawables[category.icon] ?: R.drawable.ic_other)
+            binding.amount.visibility = View.GONE
 
             DrawableCompat.setTint(
                 binding.iconBackground.drawable,

@@ -47,14 +47,6 @@ class AccountActionsSheetFragment : BottomSheetDialogFragment() {
         binding.accountName.text = account.name
         binding.accountAmount.text = account.amount.toAmountFormat()
 
-//        DrawableCompat.setTint(
-//            binding.actionsContainer.drawable,
-//            ContextCompat.getColor(
-//                context,
-//                mapOfColors[account.color] ?: R.color.orange_red
-//            )
-//        )
-
         binding.actionsContainer.setBackgroundColor(
             ContextCompat.getColor(
                 requireContext(),
@@ -73,12 +65,10 @@ class AccountActionsSheetFragment : BottomSheetDialogFragment() {
             viewModel.events.collectLatest {
                 when (it) {
                     is AccountActionsViewModel.Event.NavigateToEditAccountScreen -> {
-                        if (getCurrentDestination() == this@AccountActionsSheetFragment.javaClass.name) {
-                            findNavController().navigate(
-                                AccountActionsSheetFragmentDirections
-                                    .actionAccountActionsSheetFragmentToAccountEditFragment(account)
-                            )
-                        }
+                        findNavController().navigate(
+                            AccountActionsSheetFragmentDirections
+                                .actionAccountActionsSheetFragmentToAccountEditFragment(account)
+                        )
                     }
                     is AccountActionsViewModel.Event.ShowTheDeleteAccountDialog -> {
                         val alert = AlertDialog.Builder(requireContext())

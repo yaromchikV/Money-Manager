@@ -53,6 +53,7 @@
                     android:text="Regular" />
 
                 <ImageView
+                    android:id="@+id/more_button"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="bottom"

@@ -69,9 +69,6 @@
         <argument
             android:name="editableAccount"
             app:argType="com.yaromchikv.moneymanager.feature.domain.model.Account" />
-        <action
-            android:id="@+id/action_account_edit_fragment_to_colorPickerDialogFragment"
-            app:destination="@id/colorPickerDialogFragment" />
     </fragment>
 
     <fragment
@@ -82,9 +79,6 @@
         <action
             android:id="@+id/action_account_add_fragment_to_accounts_fragment"
             app:destination="@id/accounts_fragment" />
-        <action
-            android:id="@+id/action_account_add_fragment_to_colorPickerDialogFragment"
-            app:destination="@id/colorPickerDialogFragment" />
     </fragment>
 
     <dialog
@@ -135,17 +129,5 @@
     <action
         android:id="@+id/action_dialog_fragment_account_filter"
         app:destination="@id/dialog_fragment_account_filter" />
-    <dialog
-        android:id="@+id/colorPickerDialogFragment"
-        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.accounts.update.color_picker.ColorPickerDialogFragment"
-        android:label="color_picker_dialog_fragment"
-        tools:layout="@layout/color_picker_dialog_fragment" >
-        <action
-            android:id="@+id/action_colorPickerDialogFragment_to_account_add_fragment"
-            app:destination="@id/account_add_fragment" />
-        <action
-            android:id="@+id/action_colorPickerDialogFragment_to_account_edit_fragment"
-            app:destination="@id/account_edit_fragment" />
-    </dialog>
 
 </navigation>

@@ -7,6 +7,7 @@ import com.yaromchikv.moneymanager.feature.domain.usecase.AddCategory
 import com.yaromchikv.moneymanager.feature.domain.usecase.CategoryUseCases
 import com.yaromchikv.moneymanager.feature.domain.usecase.DeleteCategory
 import com.yaromchikv.moneymanager.feature.domain.usecase.GetCategories
+import com.yaromchikv.moneymanager.feature.domain.usecase.GetCategoriesWithAmount
 import com.yaromchikv.moneymanager.feature.domain.usecase.GetCategory
 import com.yaromchikv.moneymanager.feature.domain.usecase.UpdateCategory
 import dagger.Module
@@ -31,6 +32,7 @@ object CategoriesModule {
         return CategoryUseCases(
             getCategories = GetCategories(repository),
             getCategory = GetCategory(repository),
+            getCategoriesWithAmount = GetCategoriesWithAmount(repository),
             addCategory = AddCategory(repository),
             updateCategory = UpdateCategory(repository),
             deleteCategory = DeleteCategory(repository)

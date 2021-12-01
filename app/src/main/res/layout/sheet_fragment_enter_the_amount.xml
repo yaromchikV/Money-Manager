@@ -7,21 +7,29 @@
     android:paddingBottom="12dp"
     tools:context=".feature.presentation.ui.accounts.actions.AccountActionsSheetFragment">
 
-    <View
-        android:id="@+id/account_background"
-        android:layout_width="206dp"
-        android:layout_height="82dp"
-        android:background="@color/green_yellow"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:id="@+id/category_background"
-        android:layout_width="206dp"
-        android:layout_height="82dp"
-        android:background="@color/red_purple"
+    <LinearLayout
+        android:id="@+id/from_to_container"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/account_background"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/green_yellow" />
+
+        <View
+            android:id="@+id/category_background"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/red_purple" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/from_account"
@@ -79,7 +87,7 @@
         android:layout_marginTop="12dp"
         android:hint="@string/expense"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/account_background">
+        app:layout_constraintTop_toBottomOf="@id/from_to_container">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -110,6 +118,7 @@
         android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/note_text_field"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/expense_text_field"
         app:layout_constraintTop_toTopOf="@id/expense_text_field"
         app:srcCompat="@drawable/ic_circle"
         app:tint="@color/orange_red" />

@@ -91,9 +91,15 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             val isAddOrEditFragment =
                 destination.id == R.id.account_add_fragment || destination.id == R.id.account_edit_fragment
 
+            binding.bottomNavigation.visibility = if (isAddOrEditFragment) View.GONE else View.VISIBLE
             binding.buttonSettings.visibility = if (isAddOrEditFragment) View.GONE else View.VISIBLE
             binding.toolbarInfoBox.visibility = if (isAddOrEditFragment) View.GONE else View.VISIBLE
             supportActionBar?.setDisplayShowTitleEnabled(isAddOrEditFragment)
+
+            val isAccountsFragments = destination.id == R.id.accounts_fragment || destination.id == R.id.account_actions_sheet_fragment
+
+            binding.moreButton.visibility = if (isAccountsFragments) View.GONE else View.VISIBLE
+            binding.toolbarInfoBox.isEnabled = !isAccountsFragments
         }
     }
 
