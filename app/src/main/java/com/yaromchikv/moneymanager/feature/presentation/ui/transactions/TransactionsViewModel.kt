@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.domain.model.Transaction
+import com.yaromchikv.moneymanager.feature.domain.model.TransactionView
 import com.yaromchikv.moneymanager.feature.domain.usecase.TransactionUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -21,8 +22,8 @@ class TransactionsViewModel @Inject constructor(
     private val transactionUseCases: TransactionUseCases
 ) : ViewModel() {
 
-    private val _transactions = MutableStateFlow(emptyList<Transaction>())
-    val transactions: StateFlow<List<Transaction>> = _transactions
+    private val _transactions = MutableStateFlow(emptyList<TransactionView>())
+    val transactions: StateFlow<List<TransactionView>> = _transactions
 
     private var getTransactionsJob: Job? = null
 
@@ -35,7 +36,7 @@ class TransactionsViewModel @Inject constructor(
 
     private fun getTransactions() {
         getTransactionsJob?.cancel()
-        getTransactionsJob = transactionUseCases.getTransactions()
+        getTransactionsJob = transactionUseCases.getTransactionViews()
             .onEach { transactions -> _transactions.value = transactions }
             .launchIn(viewModelScope)
     }

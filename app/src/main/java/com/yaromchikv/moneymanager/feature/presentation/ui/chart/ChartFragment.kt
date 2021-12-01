@@ -22,7 +22,7 @@ import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.FragmentChartBinding
 import com.yaromchikv.moneymanager.databinding.ItemCategoryBinding
-import com.yaromchikv.moneymanager.feature.domain.model.CategoryWithAmount
+import com.yaromchikv.moneymanager.feature.domain.model.CategoryView
 import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
 import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfDrawables
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,14 +69,14 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         }
     }
 
-    private fun updateChartData(categories: List<CategoryWithAmount>) {
-        updateCategories(categories)
+    private fun updateChartData(categoryViews: List<CategoryView>) {
+        updateCategories(categoryViews)
 
         var amount = 0.0
         val entries = ArrayList<PieEntry>()
         val colors = ArrayList<Int>()
 
-        categories.forEach { category ->
+        categoryViews.forEach { category ->
             colors.add(
                 ContextCompat.getColor(
                     requireContext(),
@@ -95,7 +95,7 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         binding.chart.apply {
             isDrawHoleEnabled = true
             holeRadius = 78f
-            centerText = "Expenses\n${amount.toAmountFormat()}"
+            centerText = "Expenses\n${amount.toAmountFormat(withMinus = false)}"
             setCenterTextSize(20f)
             description.isEnabled = false
             legend.isEnabled = false
@@ -106,31 +106,31 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         binding.chart.animateY(1000, Easing.EaseInOutQuad)
     }
 
-    private fun updateCategories(categories: List<CategoryWithAmount>) {
-        binding.category1.setCategoryAttributes(categories[0])
-        binding.category2.setCategoryAttributes(categories[1])
-        binding.category3.setCategoryAttributes(categories[2])
-        binding.category4.setCategoryAttributes(categories[3])
-        binding.category5.setCategoryAttributes(categories[4])
-        binding.category6.setCategoryAttributes(categories[5])
-        binding.category7.setCategoryAttributes(categories[6])
-        binding.category8.setCategoryAttributes(categories[7])
-        binding.category9.setCategoryAttributes(categories[8])
-        binding.category10.setCategoryAttributes(categories[9])
-        binding.category11.setCategoryAttributes(categories[10])
-        binding.category12.setCategoryAttributes(categories[11])
+    private fun updateCategories(categoryViews: List<CategoryView>) {
+        binding.category1.setCategoryAttributes(categoryViews[0])
+        binding.category2.setCategoryAttributes(categoryViews[1])
+        binding.category3.setCategoryAttributes(categoryViews[2])
+        binding.category4.setCategoryAttributes(categoryViews[3])
+        binding.category5.setCategoryAttributes(categoryViews[4])
+        binding.category6.setCategoryAttributes(categoryViews[5])
+        binding.category7.setCategoryAttributes(categoryViews[6])
+        binding.category8.setCategoryAttributes(categoryViews[7])
+        binding.category9.setCategoryAttributes(categoryViews[8])
+        binding.category10.setCategoryAttributes(categoryViews[9])
+        binding.category11.setCategoryAttributes(categoryViews[10])
+        binding.category12.setCategoryAttributes(categoryViews[11])
     }
 
-    private fun ItemCategoryBinding.setCategoryAttributes(category: CategoryWithAmount) {
+    private fun ItemCategoryBinding.setCategoryAttributes(categoryView: CategoryView) {
 
-        this.name.text = category.name
-        this.icon.setImageResource(mapOfDrawables[category.icon] ?: 0)
-        this.amount.text = category.amount.toAmountFormat()
+        this.name.text = categoryView.name
+        this.icon.setImageResource(mapOfDrawables[categoryView.icon] ?: 0)
+        this.amount.text = categoryView.amount.toAmountFormat(withMinus = false)
         DrawableCompat.setTint(
             this.iconBackground.drawable,
             ContextCompat.getColor(
                 requireContext(),
-                mapOfColors[category.iconColor] ?: R.color.orange_red
+                mapOfColors[categoryView.iconColor] ?: R.color.orange_red
             )
         )
     }

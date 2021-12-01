@@ -1,4 +1,4 @@
-package com.yaromchikv.moneymanager.feature.presentation.ui.transactions.add
+package com.yaromchikv.moneymanager.feature.presentation.ui.transactions.select_category
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,11 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.ItemCategoryBinding
-import com.yaromchikv.moneymanager.feature.domain.model.Category
+import com.yaromchikv.moneymanager.feature.domain.model.CategoryView
 import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
 import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfDrawables
 import javax.inject.Inject
@@ -19,28 +18,28 @@ class CategoriesRVAdapter @Inject constructor(
     private val context: Context
 ) : RecyclerView.Adapter<CategoriesRVAdapter.CategoryViewHolder>() {
 
-    private var categoryList = emptyList<Category>()
+    private var categoryList = emptyList<CategoryView>()
 
     private var onClickListener: OnClickListener? = null
 
     inner class CategoryViewHolder(private val binding: ItemCategoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(category: Category) {
-            binding.name.text = category.name
-            binding.icon.setImageResource(mapOfDrawables[category.icon] ?: R.drawable.ic_other)
+        fun bind(categoryView: CategoryView) {
+            binding.name.text = categoryView.name
+            binding.icon.setImageResource(mapOfDrawables[categoryView.icon] ?: R.drawable.ic_other)
             binding.amount.visibility = View.GONE
 
             DrawableCompat.setTint(
                 binding.iconBackground.drawable,
                 ContextCompat.getColor(
                     context,
-                    mapOfColors[category.iconColor] ?: R.color.orange_red
+                    mapOfColors[categoryView.iconColor] ?: R.color.orange_red
                 )
             )
 
             itemView.setOnClickListener {
-                onClickListener?.onClick(category)
+                onClickListener?.onClick(categoryView)
             }
         }
     }
@@ -59,7 +58,7 @@ class CategoriesRVAdapter @Inject constructor(
         return categoryList.size
     }
 
-    fun setData(newList: List<Category>) {
+    fun setData(newList: List<CategoryView>) {
         this.categoryList = newList
         notifyDataSetChanged()
     }
@@ -68,7 +67,7 @@ class CategoriesRVAdapter @Inject constructor(
         this.onClickListener = onClickListener
     }
 
-    class OnClickListener(val clickListener: (category: Category) -> Unit) {
-        fun onClick(category: Category) = clickListener(category)
+    class OnClickListener(val clickListener: (category: CategoryView) -> Unit) {
+        fun onClick(category: CategoryView) = clickListener(category)
     }
 }

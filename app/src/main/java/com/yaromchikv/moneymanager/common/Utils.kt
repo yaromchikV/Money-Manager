@@ -1,6 +1,5 @@
 package com.yaromchikv.moneymanager.common
 
-import com.yaromchikv.moneymanager.R
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -11,8 +10,8 @@ import java.time.ZoneOffset
 import java.util.*
 import kotlin.math.absoluteValue
 
-fun Double.toAmountFormat(): String {
-    return DecimalFormat(if (this >= 0) "###,###.##" else "–###,###.##").format(this.absoluteValue)
+fun Double.toAmountFormat(withMinus: Boolean): String {
+    return DecimalFormat(if (withMinus) "-###,###.##" else "###,###.##").format(this.absoluteValue)
 }
 
 fun getCurrentLocalDate(): LocalDate = LocalDate.parse(

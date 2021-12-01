@@ -53,7 +53,7 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
 
         lifecycleScope.launchWhenStarted {
             viewModel.transactions.collectLatest {
-                transactionAdapter.updateData()
+                transactionAdapter.updateData(it)
             }
         }
 
@@ -63,7 +63,7 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
                     is TransactionsViewModel.Event.OpenTheAddTransactionSheet -> {
                         if (getCurrentDestination() == this@TransactionsFragment.javaClass.name) {
                             findNavController().navigate(
-                                TransactionsFragmentDirections.actionTransactionsFragmentToAddTransactionSheetFragment(
+                                TransactionsFragmentDirections.actionTransactionsFragmentToSelectCategorySheetFragment(
                                     it.account
                                 )
                             )

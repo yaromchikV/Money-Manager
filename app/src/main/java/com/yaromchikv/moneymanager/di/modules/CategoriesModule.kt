@@ -6,8 +6,7 @@ import com.yaromchikv.moneymanager.feature.domain.repository.CategoriesRepositor
 import com.yaromchikv.moneymanager.feature.domain.usecase.AddCategory
 import com.yaromchikv.moneymanager.feature.domain.usecase.CategoryUseCases
 import com.yaromchikv.moneymanager.feature.domain.usecase.DeleteCategory
-import com.yaromchikv.moneymanager.feature.domain.usecase.GetCategories
-import com.yaromchikv.moneymanager.feature.domain.usecase.GetCategoriesWithAmount
+import com.yaromchikv.moneymanager.feature.domain.usecase.GetCategoryViews
 import com.yaromchikv.moneymanager.feature.domain.usecase.GetCategory
 import com.yaromchikv.moneymanager.feature.domain.usecase.UpdateCategory
 import dagger.Module
@@ -30,9 +29,9 @@ object CategoriesModule {
     @Singleton
     fun provideCategoriesUseCases(repository: CategoriesRepository): CategoryUseCases {
         return CategoryUseCases(
-            getCategories = GetCategories(repository),
+            //getCategories = GetCategories(repository),
             getCategory = GetCategory(repository),
-            getCategoriesWithAmount = GetCategoriesWithAmount(repository),
+            getCategoryViews = GetCategoryViews(repository),
             addCategory = AddCategory(repository),
             updateCategory = UpdateCategory(repository),
             deleteCategory = DeleteCategory(repository)

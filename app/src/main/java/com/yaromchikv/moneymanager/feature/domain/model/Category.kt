@@ -6,7 +6,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
 @Entity(tableName = "categories")
 data class Category(
     @PrimaryKey(autoGenerate = true)
@@ -15,4 +14,4 @@ data class Category(
     val icon: Int,
     @ColumnInfo(name = "icon_color")
     val iconColor: Int
-) : Parcelable
+)

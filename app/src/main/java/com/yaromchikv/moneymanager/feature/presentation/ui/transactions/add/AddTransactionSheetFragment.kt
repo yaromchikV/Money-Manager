@@ -13,12 +13,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.yaromchikv.moneymanager.R
-import com.yaromchikv.moneymanager.common.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.SheetFragmentAddTransactionBinding
+import com.yaromchikv.moneymanager.feature.domain.model.Transaction
 import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddTransactionSheetFragment : BottomSheetDialogFragment() {
@@ -27,9 +26,6 @@ class AddTransactionSheetFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
 
     private val viewModel: AddTransactionViewModel by viewModels()
-
-    @Inject
-    lateinit var categoriesRVAdapter: CategoriesRVAdapter
 
     private val args by navArgs<AddTransactionSheetFragmentArgs>()
 
@@ -45,42 +41,48 @@ class AddTransactionSheetFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val account = args.selectedAccount
+        val category = args.selectedCategory
 
         binding.accountName.text = account.name
-        binding.accountAmount.text = account.amount.toAmountFormat()
-        binding.actionsContainer.setBackgroundColor(
+        binding.categoryName.text = category.name
+
+        binding.accountBackground.setBackgroundColor(
             ContextCompat.getColor(
                 requireContext(),
                 mapOfColors[account.color] ?: R.color.orange_red
             )
         )
+        binding.categoryBackground.setBackgroundColor(
+            ContextCompat.getColor(
+                requireContext(),
+                mapOfColors[category.iconColor] ?: R.color.orange_red
+            )
+        )
 
-        categoriesRVAdapter.setOnClickListener(CategoriesRVAdapter.OnClickListener {
-            viewModel.selectCategoryClick(account, it)
-        })
-
-        binding.gridOfCategories.apply {
-            adapter = categoriesRVAdapter
-        }
-
-        lifecycleScope.launchWhenStarted {
-            viewModel.categories.collectLatest { newList ->
-                categoriesRVAdapter.setData(newList)
-            }
+        binding.applyButton.setOnClickListener {
+            viewModel.applyButtonClick()
         }
 
         lifecycleScope.launchWhenStarted {
             viewModel.events.collectLatest {
                 when (it) {
-                    is AddTransactionViewModel.Event.SelectCategory -> {
-                        if (getCurrentDestination() == this@AddTransactionSheetFragment.javaClass.name) {
-                            findNavController().navigate(
-                                AddTransactionSheetFragmentDirections
-                                    .actionAddTransactionSheetFragmentToEnterTheAmountSheetFragment(
-                                        it.account,
-                                        it.category
-                                    )
+                    is AddTransactionViewModel.Event.AddTransaction -> {
+                        if (account.id != null) {
+                            val transaction = Transaction(
+                                note = binding.noteTextField.editText?.text.toString(),
+                                amount = binding.expenseTextField.editText?.text.toString()
+                                    .toDoubleOrNull() ?: 0.0,
+                                accountId = account.id,
+                                categoryId = category.id
                             )
+
+                            viewModel.addTransaction(transaction)
+                            if (getCurrentDestination() == this@AddTransactionSheetFragment.javaClass.name) {
+                                findNavController().navigate(
+                                    AddTransactionSheetFragmentDirections
+                                        .actionAddTransactionSheetFragmentToTransactionsFragment()
+                                )
+                            }
                         }
                     }
                 }

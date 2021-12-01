@@ -57,7 +57,7 @@
         tools:text="Default card name" />
 
     <TextView
-        android:id="@+id/textDefaultAmount"
+        android:id="@+id/text_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="6dp"
@@ -65,18 +65,18 @@
         android:textStyle=""
         android:textColor="@color/red"
         android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/textDefaultCurrency"
+        app:layout_constraintEnd_toStartOf="@+id/text_currency"
         app:layout_constraintTop_toTopOf="@+id/category_name"
         tools:text="–1 817,20" />
 
     <TextView
-        android:id="@+id/textDefaultCurrency"
+        android:id="@+id/text_currency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAllCaps="true"
         android:textColor="@color/red"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textDefaultAmount"
+        app:layout_constraintBottom_toBottomOf="@+id/text_amount"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="BYN" />
 

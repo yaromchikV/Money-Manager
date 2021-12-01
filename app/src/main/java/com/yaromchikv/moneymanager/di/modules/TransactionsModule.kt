@@ -7,7 +7,7 @@ import com.yaromchikv.moneymanager.feature.domain.usecase.AddTransaction
 import com.yaromchikv.moneymanager.feature.domain.usecase.DeleteTransaction
 import com.yaromchikv.moneymanager.feature.domain.usecase.GetTransaction
 import com.yaromchikv.moneymanager.feature.domain.usecase.GetTransactionListForRV
-import com.yaromchikv.moneymanager.feature.domain.usecase.GetTransactions
+import com.yaromchikv.moneymanager.feature.domain.usecase.GetTransactionViews
 import com.yaromchikv.moneymanager.feature.domain.usecase.TransactionUseCases
 import com.yaromchikv.moneymanager.feature.domain.usecase.UpdateTransaction
 import dagger.Module
@@ -30,8 +30,9 @@ object TransactionsModule {
     @Singleton
     fun provideTransactionsUseCases(repository: TransactionsRepository): TransactionUseCases {
         return TransactionUseCases(
-            getTransactions = GetTransactions(repository),
+            // getTransactions = GetTransactions(repository),
             getTransaction = GetTransaction(repository),
+            getTransactionViews = GetTransactionViews(repository),
             addTransaction = AddTransaction(repository),
             updateTransaction = UpdateTransaction(repository),
             deleteTransaction = DeleteTransaction(repository),

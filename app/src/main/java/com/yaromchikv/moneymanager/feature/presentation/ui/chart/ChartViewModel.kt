@@ -2,23 +2,17 @@ package com.yaromchikv.moneymanager.feature.presentation.ui.chart
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.yaromchikv.moneymanager.feature.domain.model.Category
-import com.yaromchikv.moneymanager.feature.domain.model.CategoryWithAmount
-import com.yaromchikv.moneymanager.feature.domain.model.Transaction
+import com.yaromchikv.moneymanager.feature.domain.model.CategoryView
 import com.yaromchikv.moneymanager.feature.domain.usecase.CategoryUseCases
 import com.yaromchikv.moneymanager.feature.domain.usecase.TransactionUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -41,7 +35,7 @@ class ChartViewModel @Inject constructor(
 //    private var getCategoriesJob: Job? = null
 //    private var getTransactionsJob: Job? = null
 
-    private val _categoriesWithAmount = MutableStateFlow(emptyList<CategoryWithAmount>())
+    private val _categoriesWithAmount = MutableStateFlow(emptyList<CategoryView>())
     val categoryWithAmount = _categoriesWithAmount.asStateFlow()
 
     private val _events = MutableSharedFlow<Event>()
@@ -71,7 +65,7 @@ class ChartViewModel @Inject constructor(
 
     private fun getCategoriesWithAmount() {
         getCategoriesWithAmountJob?.cancel()
-        getCategoriesWithAmountJob = categoryUseCases.getCategoriesWithAmount()
+        getCategoriesWithAmountJob = categoryUseCases.getCategoryViews()
             .onEach { categories -> _categoriesWithAmount.value = categories }
             .launchIn(viewModelScope)
     }

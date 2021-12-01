@@ -45,7 +45,7 @@ class AccountActionsSheetFragment : BottomSheetDialogFragment() {
         val account = args.selectedAccount
 
         binding.accountName.text = account.name
-        binding.accountAmount.text = account.amount.toAmountFormat()
+        binding.accountAmount.text = account.amount.toAmountFormat(withMinus = false)
 
         binding.actionsContainer.setBackgroundColor(
             ContextCompat.getColor(

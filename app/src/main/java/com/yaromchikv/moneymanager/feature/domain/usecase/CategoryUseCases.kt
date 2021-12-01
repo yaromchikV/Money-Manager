@@ -1,25 +1,24 @@
 package com.yaromchikv.moneymanager.feature.domain.usecase
 
 import com.yaromchikv.moneymanager.feature.domain.model.Category
-import com.yaromchikv.moneymanager.feature.domain.model.CategoryWithAmount
-import com.yaromchikv.moneymanager.feature.domain.repository.AccountsRepository
+import com.yaromchikv.moneymanager.feature.domain.model.CategoryView
 import com.yaromchikv.moneymanager.feature.domain.repository.CategoriesRepository
 import kotlinx.coroutines.flow.Flow
 
 data class CategoryUseCases(
-    val getCategories: GetCategories,
+    //val getCategories: GetCategories,
     val getCategory: GetCategory,
-    val getCategoriesWithAmount: GetCategoriesWithAmount,
+    val getCategoryViews: GetCategoryViews,
     val addCategory: AddCategory,
     val updateCategory: UpdateCategory,
     val deleteCategory: DeleteCategory,
 )
 
-class GetCategories(private val repository: CategoriesRepository) {
-    operator fun invoke(): Flow<List<Category>> {
-        return repository.getCategories()
-    }
-}
+//class GetCategories(private val repository: CategoriesRepository) {
+//    operator fun invoke(): Flow<List<Category>> {
+//        return repository.getCategories()
+//    }
+//}
 
 class GetCategory(private val repository: CategoriesRepository) {
     suspend operator fun invoke(id: Int): Category? {
@@ -27,9 +26,9 @@ class GetCategory(private val repository: CategoriesRepository) {
     }
 }
 
-class GetCategoriesWithAmount(private val repository: CategoriesRepository) {
-    operator fun invoke(): Flow<List<CategoryWithAmount>> {
-        return repository.getCategoriesWithAmount()
+class GetCategoryViews(private val repository: CategoriesRepository) {
+    operator fun invoke(): Flow<List<CategoryView>> {
+        return repository.getCategoryViews()
     }
 }
 

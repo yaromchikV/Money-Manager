@@ -17,6 +17,7 @@ import com.yaromchikv.moneymanager.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
@@ -68,7 +69,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             }
         }
 
-        val pattern = DateTimeFormatter.ofPattern("dd-MMM-yy")
+        val pattern = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
         lifecycleScope.launchWhenStarted {
             viewModel.currentDateRange.collectLatest {
                 binding.toolbarSubtitle.text =

@@ -29,7 +29,7 @@ class AccountsRVAdapter @Inject constructor(
 
         fun bind(account: Account) {
             binding.name.text = account.name
-            binding.amount.text = account.amount.toAmountFormat()
+            binding.amount.text = account.amount.toAmountFormat(withMinus = false)
 
             DrawableCompat.setTint(
                 binding.iconBackground.drawable,

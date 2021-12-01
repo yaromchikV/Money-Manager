@@ -27,8 +27,8 @@
             android:id="@+id/action_transactions_fragment_to_selectDateDialogFragment"
             app:destination="@id/select_date_dialog_fragment" />
         <action
-            android:id="@+id/action_transactions_fragment_to_addTransactionSheetFragment"
-            app:destination="@id/add_transaction_sheet_fragment" />
+            android:id="@+id/action_transactions_fragment_to_select_category_sheet_fragment"
+            app:destination="@id/select_category_sheet_fragment" />
     </fragment>
 
     <fragment
@@ -88,35 +88,35 @@
         tools:layout="@layout/dialog_fragment_select_date" />
 
     <dialog
-        android:id="@+id/add_transaction_sheet_fragment"
-        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.transactions.add.AddTransactionSheetFragment"
-        android:label="AddTransactionSheetFragment"
-        tools:layout="@layout/sheet_fragment_add_transaction">
+        android:id="@+id/select_category_sheet_fragment"
+        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.transactions.select_category.SelectCategorySheetFragment"
+        android:label="SelectCategorySheetFragment"
+        tools:layout="@layout/sheet_fragment_select_category">
         <action
-            android:id="@+id/action_addTransactionSheetFragment_to_transactions_fragment"
+            android:id="@+id/action_select_category_sheet_fragment_to_transactions_fragment"
             app:destination="@id/transactions_fragment" />
         <argument
             android:name="selectedAccount"
             app:argType="com.yaromchikv.moneymanager.feature.domain.model.Account" />
         <action
-            android:id="@+id/action_addTransactionSheetFragment_to_enterTheAmountSheetFragment"
-            app:destination="@id/enter_the_amount_sheet_fragment"
+            android:id="@+id/action_select_category_sheet_fragment_to_add_transaction_sheet_fragment"
+            app:destination="@id/add_transaction_sheet_fragment"
             app:popUpTo="@id/transactions_fragment" />
     </dialog>
 
     <dialog
-        android:id="@+id/enter_the_amount_sheet_fragment"
-        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.transactions.add.enter_amount.EnterTheAmountSheetFragment"
-        android:label="EnterTheAmountSheetFragment"
-        tools:layout="@layout/sheet_fragment_enter_the_amount">
+        android:id="@+id/add_transaction_sheet_fragment"
+        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.transactions.add.AddTransactionSheetFragment"
+        android:label="AddTransactionSheetFragment"
+        tools:layout="@layout/sheet_fragment_add_transaction">
         <argument
             android:name="selectedAccount"
             app:argType="com.yaromchikv.moneymanager.feature.domain.model.Account" />
         <argument
             android:name="selectedCategory"
-            app:argType="com.yaromchikv.moneymanager.feature.domain.model.Category" />
+            app:argType="com.yaromchikv.moneymanager.feature.domain.model.CategoryView" />
         <action
-            android:id="@+id/action_enterTheAmountSheetFragment_to_transactions_fragment"
+            android:id="@+id/action_add_transaction_sheet_fragment_to_transactions_fragment"
             app:destination="@id/transactions_fragment" />
     </dialog>
 
