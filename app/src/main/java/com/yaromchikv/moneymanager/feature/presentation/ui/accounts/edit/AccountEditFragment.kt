@@ -36,7 +36,7 @@ class AccountEditFragment : Fragment(R.layout.fragment_account_edit) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
-        var colorId = ImageViewCompat.getImageTintList(binding.selectedColor)?.defaultColor
+        val colorId = ImageViewCompat.getImageTintList(binding.selectedColor)?.defaultColor
         colorClickListener()
 
         val account = args.editableAccount

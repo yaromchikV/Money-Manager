@@ -1,5 +1,6 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.accounts
 
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,6 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountsViewModel @Inject constructor(
+    private val sharedPreferences: SharedPreferences,
     private val accountUseCase: AccountUseCases
 ) : ViewModel() {
 
@@ -55,6 +57,8 @@ class AccountsViewModel @Inject constructor(
             _events.emit(Event.NavigateToAddAccountScreen)
         }
     }
+
+    fun getPreferences() = sharedPreferences
 
     sealed class Event {
         object NavigateToAddAccountScreen : Event()

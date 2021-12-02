@@ -2,7 +2,9 @@ package com.yaromchikv.moneymanager.feature.presentation.ui.account_filter
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -14,12 +16,13 @@ import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.DialogFragmentAccountFilterBinding
 import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
 import com.yaromchikv.moneymanager.feature.presentation.ui.accounts.AccountsRVAdapter
+import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AccountFilterFragment : DialogFragment(R.layout.dialog_fragment_account_filter) {
+class AccountFilterDialogFragment : DialogFragment(R.layout.dialog_fragment_account_filter) {
 
     private val binding: DialogFragmentAccountFilterBinding by viewBinding()
 
@@ -32,25 +35,43 @@ class AccountFilterFragment : DialogFragment(R.layout.dialog_fragment_account_fi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        accountsAdapter.setOnClickListener(AccountsRVAdapter.OnClickListener {
-            viewModel.selectAccount(it)
-            dismiss()
-        })
-
         binding.listOfAccounts.apply {
             adapter = accountsAdapter
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(getDivider())
         }
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.accounts.collectLatest { newList ->
-                accountsAdapter.submitList(newList)
-            }
-        }
+        binding.allAccountsCurrency.text = viewModel.getPreferences().getString(
+            "currency",
+            requireContext().resources.getStringArray(R.array.currency_values)[0]
+        )
+
+        DrawableCompat.setTint(
+            binding.allAccountsIconColor.drawable,
+            ContextCompat.getColor(
+                requireContext(),
+                mapOfColors[activityViewModel.currentAccount.value?.color] ?: R.color.orange_red
+            )
+        )
 
         binding.allAccountsItem.setOnClickListener {
             activityViewModel.setCurrentAccount(null)
+            dismiss()
+        }
+
+        accountsAdapter.setOnClickListener(AccountsRVAdapter.OnClickListener {
+            viewModel.selectAccount(it)
+            dismiss()
+        })
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.accounts.collectLatest { newList ->
+                accountsAdapter.submitList(newList)
+                var amount = 0.0
+                newList.forEach { amount += it.amount }
+
+                binding.allAccountsAmount.text = amount.toString()
+            }
         }
 
         lifecycleScope.launchWhenStarted {

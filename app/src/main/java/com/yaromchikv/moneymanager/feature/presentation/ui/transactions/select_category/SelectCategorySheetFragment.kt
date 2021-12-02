@@ -48,6 +48,10 @@ class SelectCategorySheetFragment : BottomSheetDialogFragment() {
 
         binding.accountName.text = account.name
         binding.accountAmount.text = account.amount.toAmountFormat(withMinus = false)
+        binding.accountCurrency.text = viewModel.getPreferences().getString(
+            "currency",
+            requireContext().resources.getStringArray(R.array.currency_values)[0]
+        )
         binding.actionsContainer.setBackgroundColor(
             ContextCompat.getColor(
                 requireContext(),

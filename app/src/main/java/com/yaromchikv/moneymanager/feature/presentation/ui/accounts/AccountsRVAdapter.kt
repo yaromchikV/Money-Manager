@@ -1,6 +1,7 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.accounts
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContentProviderCompat.requireContext
@@ -19,7 +20,8 @@ import javax.inject.Singleton
 
 @Singleton
 class AccountsRVAdapter @Inject constructor(
-    private val context: Context
+    private val context: Context,
+    private val sharedPreferences: SharedPreferences
 ) : ListAdapter<Account, AccountsRVAdapter.AccountViewHolder>(DIFF_CALLBACK) {
 
     private var onClickListener: OnClickListener? = null
@@ -30,6 +32,10 @@ class AccountsRVAdapter @Inject constructor(
         fun bind(account: Account) {
             binding.name.text = account.name
             binding.amount.text = account.amount.toAmountFormat(withMinus = false)
+            binding.currency.text = sharedPreferences.getString(
+                "currency",
+                context.resources.getStringArray(R.array.currency_values)[0]
+            )
 
             DrawableCompat.setTint(
                 binding.iconBackground.drawable,

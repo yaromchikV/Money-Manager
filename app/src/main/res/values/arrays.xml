@@ -1,0 +1,27 @@
+<resources>
+    <string-array name="theme_entries">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>System Default</item>
+    </string-array>
+
+    <string-array name="theme_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="currency_entries">
+        <item>Belarussian rouble - BYN</item>
+        <item>United States Dollar - USD</item>
+        <item>Euro - EUR</item>
+        <item>Russian rouble - RUB</item>
+    </string-array>
+
+    <string-array name="currency_values">
+        <item>BYN</item>
+        <item>USD</item>
+        <item>EUR</item>
+        <item>RUB</item>
+    </string-array>
+</resources>

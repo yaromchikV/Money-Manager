@@ -2,17 +2,16 @@ package com.yaromchikv.moneymanager.feature.presentation.ui.transactions
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.ItemDayInfoBinding
 import com.yaromchikv.moneymanager.databinding.ItemTransactionBinding
-import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.domain.model.DayInfo
 import com.yaromchikv.moneymanager.feature.domain.model.TransactionView
 import com.yaromchikv.moneymanager.feature.domain.usecase.TransactionUseCases
@@ -24,7 +23,8 @@ import javax.inject.Singleton
 @Singleton
 class TransactionsRVAdapter @Inject constructor(
     private val context: Context,
-    private val transactionUseCases: TransactionUseCases
+    private val transactionUseCases: TransactionUseCases,
+    val sharedPreferences: SharedPreferences
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var transactionsWithInfoList = emptyList<Any>()
@@ -37,6 +37,10 @@ class TransactionsRVAdapter @Inject constructor(
             binding.categoryName.text = transactionView.categoryName
             binding.cardName.text = transactionView.accountName
             binding.textAmount.text = transactionView.amount.toAmountFormat(withMinus = true)
+            binding.textCurrency.text = sharedPreferences.getString(
+                "currency",
+                context.resources.getStringArray(R.array.currency_values)[0]
+            )
 
             binding.icon.setImageResource(
                 mapOfDrawables[transactionView.icon] ?: R.drawable.ic_bank
@@ -62,6 +66,11 @@ class TransactionsRVAdapter @Inject constructor(
             val monthAndYear = "${date.month} ${date.year}"
 
             binding.amount.text = amount.toAmountFormat(withMinus = true)
+            binding.currency.text = sharedPreferences.getString(
+                "currency",
+                context.resources.getStringArray(R.array.currency_values)[0]
+            )
+
             binding.day.text = date.dayOfMonth.toString()
             binding.monthAndYear.text = monthAndYear
             binding.dayOfWeek.text = date.dayOfWeek.name

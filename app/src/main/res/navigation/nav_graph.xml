@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_accounts_fragment_to_account_actions_sheet_fragment"
             app:destination="@id/account_actions_sheet_fragment" />
+        <action
+            android:id="@+id/action_accounts_fragment_to_settings_fragment"
+            app:destination="@id/settings_fragment" />
     </fragment>
 
     <fragment
@@ -29,6 +32,9 @@
         <action
             android:id="@+id/action_transactions_fragment_to_select_category_sheet_fragment"
             app:destination="@id/select_category_sheet_fragment" />
+        <action
+            android:id="@+id/action_transactions_fragment_to_settings_fragment"
+            app:destination="@id/settings_fragment" />
     </fragment>
 
     <fragment
@@ -39,6 +45,9 @@
         <action
             android:id="@+id/action_chart_fragment_to_selectDateDialogFragment"
             app:destination="@id/select_date_dialog_fragment" />
+        <action
+            android:id="@+id/action_chart_fragment_to_settings_fragment"
+            app:destination="@id/settings_fragment" />
     </fragment>
 
     <dialog
@@ -122,12 +131,16 @@
 
     <dialog
         android:id="@+id/dialog_fragment_account_filter"
-        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.account_filter.AccountFilterFragment"
+        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.account_filter.AccountFilterDialogFragment"
         android:label="dialog_fragment_account_filter"
         tools:layout="@layout/dialog_fragment_account_filter" />
 
     <action
         android:id="@+id/action_dialog_fragment_account_filter"
         app:destination="@id/dialog_fragment_account_filter" />
+    <fragment
+        android:id="@+id/settings_fragment"
+        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.settings.SettingsFragment"
+        android:label="@string/settings" />
 
 </navigation>

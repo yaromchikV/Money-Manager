@@ -34,4 +34,7 @@
     <string name="all_accounts">All accounts</string>
     <string name="color_filter">Color filter</string>
     <string name="selected_color">Selected color:</string>
+    <string name="theme">Theme</string>
+    <string name="default_currency">Default currency</string>
+    <string name="settings">Settings</string>
 </resources>

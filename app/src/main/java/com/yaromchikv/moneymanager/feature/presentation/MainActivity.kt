@@ -2,9 +2,10 @@ package com.yaromchikv.moneymanager.feature.presentation
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.TooltipCompat
+import androidx.core.view.forEach
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -14,6 +15,9 @@ import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.ActivityMainBinding
+import com.yaromchikv.moneymanager.feature.presentation.ui.accounts.AccountsFragmentDirections
+import com.yaromchikv.moneymanager.feature.presentation.ui.chart.ChartFragmentDirections
+import com.yaromchikv.moneymanager.feature.presentation.ui.transactions.TransactionsFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import java.time.format.DateTimeFormatter
@@ -37,6 +41,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        var currentDestination: Int? = null
+
         binding.buttonSettings.setOnClickListener {
             viewModel.settingsButtonClick()
         }
@@ -49,10 +55,17 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             viewModel.events.collectLatest {
                 when (it) {
                     is MainActivityViewModel.Event.OpenTheSettingsScreen -> {
-//                        navController.navigate(
-//                            TransactionsFragmentDirections.actionTransactionsFragmentToAddTransactionSheetFragment()
-//                        )
-                        Toast.makeText(applicationContext, "settings", Toast.LENGTH_SHORT).show()
+                        when (currentDestination) {
+                            R.id.accounts_fragment -> navController.navigate(
+                                AccountsFragmentDirections.actionAccountsFragmentToSettingsFragment()
+                            )
+                            R.id.transactions_fragment -> navController.navigate(
+                                TransactionsFragmentDirections.actionTransactionsFragmentToSettingsFragment()
+                            )
+                            R.id.chart_fragment -> navController.navigate(
+                                ChartFragmentDirections.actionChartFragmentToSettingsFragment()
+                            )
+                        }
                     }
                     is MainActivityViewModel.Event.OpenTheSelectAccountDialog -> {
                         navController.navigate(R.id.action_dialog_fragment_account_filter)
@@ -63,9 +76,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         lifecycleScope.launchWhenStarted {
             viewModel.currentAccount.collectLatest {
-                if (it != null) {
-                    binding.toolbarTitle.text = it.name
-                }
+                binding.toolbarTitle.text = it?.name ?: getString(R.string.all_accounts)
             }
         }
 
@@ -89,15 +100,28 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         binding.bottomNavigation.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            val isAddOrEditFragment =
-                destination.id == R.id.account_add_fragment || destination.id == R.id.account_edit_fragment
+            currentDestination = destination.id
 
-            binding.bottomNavigation.visibility = if (isAddOrEditFragment) View.GONE else View.VISIBLE
-            binding.buttonSettings.visibility = if (isAddOrEditFragment) View.GONE else View.VISIBLE
-            binding.toolbarInfoBox.visibility = if (isAddOrEditFragment) View.GONE else View.VISIBLE
-            supportActionBar?.setDisplayShowTitleEnabled(isAddOrEditFragment)
+            val isFragmentWithoutSettings = when (currentDestination) {
+                R.id.settings_fragment -> true
+                R.id.account_add_fragment -> true
+                R.id.account_edit_fragment -> true
+                else -> false
+            }
 
-            val isAccountsFragments = destination.id == R.id.accounts_fragment || destination.id == R.id.account_actions_sheet_fragment
+            binding.bottomNavigation.visibility =
+                if (isFragmentWithoutSettings) View.GONE else View.VISIBLE
+            binding.buttonSettings.visibility =
+                if (isFragmentWithoutSettings) View.GONE else View.VISIBLE
+            binding.toolbarInfoBox.visibility =
+                if (isFragmentWithoutSettings) View.GONE else View.VISIBLE
+            supportActionBar?.setDisplayShowTitleEnabled(isFragmentWithoutSettings)
+
+            val isAccountsFragments = when (currentDestination) {
+                R.id.accounts_fragment -> true
+                R.id.account_actions_sheet_fragment -> true
+                else -> false
+            }
 
             binding.moreButton.visibility = if (isAccountsFragments) View.GONE else View.VISIBLE
             binding.toolbarInfoBox.isEnabled = !isAccountsFragments

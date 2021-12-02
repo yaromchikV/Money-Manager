@@ -1,5 +1,6 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.chart
 
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.feature.domain.model.CategoryView
@@ -18,22 +19,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChartViewModel @Inject constructor(
-    private val categoryUseCases: CategoryUseCases,
-    private val transactionUseCases: TransactionUseCases
+    private val sharedPreferences: SharedPreferences,
+    private val categoryUseCases: CategoryUseCases
 ) : ViewModel() {
-
-//    private val _categories = MutableStateFlow(emptyList<Category>())
-//    val categories: StateFlow<List<Category>> = _categories
-//
-//    private val _transactions = MutableStateFlow(emptyList<Transaction>())
-//    val transactions: StateFlow<List<Transaction>> = _transactions
-//
-//    val combineFlow = _categories.combine(_transactions) { categories, transactions ->
-//        categories to transactions
-//    }.stateIn(viewModelScope, SharingStarted.Eagerly, null)
-//
-//    private var getCategoriesJob: Job? = null
-//    private var getTransactionsJob: Job? = null
 
     private val _categoriesWithAmount = MutableStateFlow(emptyList<CategoryView>())
     val categoryWithAmount = _categoriesWithAmount.asStateFlow()
@@ -44,24 +32,8 @@ class ChartViewModel @Inject constructor(
     private var getCategoriesWithAmountJob: Job? = null
 
     init {
-//        getCategories()
-//        getTransactions()
         getCategoriesWithAmount()
     }
-
-//    private fun getCategories() {
-//        getCategoriesJob?.cancel()
-//        getCategoriesJob = categoryUseCases.getCategories()
-//            .onEach { categories -> _categories.value = categories }
-//            .launchIn(viewModelScope)
-//    }
-//
-//    private fun getTransactions() {
-//        getTransactionsJob?.cancel()
-//        getTransactionsJob = transactionUseCases.getTransactions()
-//            .onEach { transactions -> _transactions.value = transactions }
-//            .launchIn(viewModelScope)
-//    }
 
     private fun getCategoriesWithAmount() {
         getCategoriesWithAmountJob?.cancel()
@@ -75,6 +47,8 @@ class ChartViewModel @Inject constructor(
             _events.emit(Event.SelectDate)
         }
     }
+
+    fun getPreferences() = sharedPreferences
 
     sealed class Event {
         object SelectDate : Event()

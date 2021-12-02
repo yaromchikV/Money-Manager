@@ -7,7 +7,7 @@
     android:background="@drawable/dialog_background_shape"
     android:minWidth="300dp"
     app:layout_constraintWidth_min="350dp"
-    tools:context=".feature.presentation.ui.account_filter.AccountFilterFragment">
+    tools:context=".feature.presentation.ui.account_filter.AccountFilterDialogFragment">
 
     <TextView
         android:id="@+id/select_account_label"
@@ -49,7 +49,7 @@
             android:padding="12dp">
 
             <ImageView
-                android:id="@+id/filter_icon_background"
+                android:id="@+id/all_accounts_icon_color"
                 android:layout_width="58dp"
                 android:layout_height="43dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -61,10 +61,10 @@
                 android:id="@+id/icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/filter_icon_background"
-                app:layout_constraintEnd_toEndOf="@+id/filter_icon_background"
-                app:layout_constraintStart_toStartOf="@+id/filter_icon_background"
-                app:layout_constraintTop_toTopOf="@+id/filter_icon_background"
+                app:layout_constraintBottom_toBottomOf="@+id/all_accounts_icon_color"
+                app:layout_constraintEnd_toEndOf="@+id/all_accounts_icon_color"
+                app:layout_constraintStart_toStartOf="@+id/all_accounts_icon_color"
+                app:layout_constraintTop_toTopOf="@+id/all_accounts_icon_color"
                 app:srcCompat="@drawable/ic_bank" />
 
             <TextView
@@ -75,8 +75,8 @@
                 android:text="@string/all_accounts"
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/filter_icon_background"
-                app:layout_constraintTop_toTopOf="@+id/filter_icon_background" />
+                app:layout_constraintStart_toEndOf="@+id/all_accounts_icon_color"
+                app:layout_constraintTop_toTopOf="@+id/all_accounts_icon_color" />
 
             <TextView
                 android:id="@+id/all_accounts_amount"
@@ -86,8 +86,8 @@
                 android:textAllCaps="true"
                 android:textColor="@color/blue_green"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/filter_icon_background"
-                app:layout_constraintStart_toEndOf="@+id/filter_icon_background"
+                app:layout_constraintBottom_toBottomOf="@+id/all_accounts_icon_color"
+                app:layout_constraintStart_toEndOf="@+id/all_accounts_icon_color"
                 app:layout_constraintTop_toBottomOf="@+id/all_accounts_label"
                 tools:text="1 817,20" />
 

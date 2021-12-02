@@ -48,6 +48,14 @@ class AccountsFragment : Fragment(R.layout.fragment_accounts) {
         lifecycleScope.launchWhenStarted {
             viewModel.accounts.collectLatest { newList ->
                 accountsAdapter.submitList(newList)
+                var amount = 0.0
+                newList.forEach { amount += it.amount }
+
+                binding.fullAmount.text = amount.toString()
+                binding.mainCurrency.text = viewModel.getPreferences().getString(
+                    "currency",
+                    requireContext().resources.getStringArray(R.array.currency_values)[0]
+                )
             }
         }
 

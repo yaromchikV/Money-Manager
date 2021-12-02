@@ -1,5 +1,6 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.transactions.select_category
 
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.feature.domain.model.Account
@@ -18,6 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SelectCategoryViewModel @Inject constructor(
+    private val sharedPreferences: SharedPreferences,
     private val categoryUseCases: CategoryUseCases
 ) : ViewModel() {
 
@@ -47,6 +49,8 @@ class SelectCategoryViewModel @Inject constructor(
             _events.emit(Event.SelectCategory(account, categoryView))
         }
     }
+
+    fun getPreferences() = sharedPreferences
 
     sealed class Event {
         data class SelectCategory(val account: Account, val category: CategoryView) : Event()

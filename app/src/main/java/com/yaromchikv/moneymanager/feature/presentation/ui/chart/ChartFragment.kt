@@ -70,7 +70,12 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
     }
 
     private fun updateChartData(categoryViews: List<CategoryView>) {
-        updateCategories(categoryViews)
+        val currency = viewModel.getPreferences().getString(
+            "currency",
+            requireContext().resources.getStringArray(R.array.currency_values)[0]
+        )
+
+        updateCategories(categoryViews, currency)
 
         var amount = 0.0
         val entries = ArrayList<PieEntry>()
@@ -92,10 +97,11 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         dataSet.colors = colors
         dataSet.setDrawValues(false)
 
+        val amountString = amount.toAmountFormat(withMinus = false) + ' ' + currency
         binding.chart.apply {
             isDrawHoleEnabled = true
             holeRadius = 78f
-            centerText = "Expenses\n${amount.toAmountFormat(withMinus = false)}"
+            centerText = "Expenses\n$amountString"
             setCenterTextSize(20f)
             description.isEnabled = false
             legend.isEnabled = false
@@ -106,26 +112,29 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         binding.chart.animateY(1000, Easing.EaseInOutQuad)
     }
 
-    private fun updateCategories(categoryViews: List<CategoryView>) {
-        binding.category1.setCategoryAttributes(categoryViews[0])
-        binding.category2.setCategoryAttributes(categoryViews[1])
-        binding.category3.setCategoryAttributes(categoryViews[2])
-        binding.category4.setCategoryAttributes(categoryViews[3])
-        binding.category5.setCategoryAttributes(categoryViews[4])
-        binding.category6.setCategoryAttributes(categoryViews[5])
-        binding.category7.setCategoryAttributes(categoryViews[6])
-        binding.category8.setCategoryAttributes(categoryViews[7])
-        binding.category9.setCategoryAttributes(categoryViews[8])
-        binding.category10.setCategoryAttributes(categoryViews[9])
-        binding.category11.setCategoryAttributes(categoryViews[10])
-        binding.category12.setCategoryAttributes(categoryViews[11])
+    private fun updateCategories(categoryViews: List<CategoryView>, currency: String?) {
+        binding.category1.setCategoryAttributes(categoryViews[0], currency)
+        binding.category2.setCategoryAttributes(categoryViews[1], currency)
+        binding.category3.setCategoryAttributes(categoryViews[2], currency)
+        binding.category4.setCategoryAttributes(categoryViews[3], currency)
+        binding.category5.setCategoryAttributes(categoryViews[4], currency)
+        binding.category6.setCategoryAttributes(categoryViews[5], currency)
+        binding.category7.setCategoryAttributes(categoryViews[6], currency)
+        binding.category8.setCategoryAttributes(categoryViews[7], currency)
+        binding.category9.setCategoryAttributes(categoryViews[8], currency)
+        binding.category10.setCategoryAttributes(categoryViews[9], currency)
+        binding.category11.setCategoryAttributes(categoryViews[10], currency)
+        binding.category12.setCategoryAttributes(categoryViews[11], currency)
     }
 
-    private fun ItemCategoryBinding.setCategoryAttributes(categoryView: CategoryView) {
-
+    private fun ItemCategoryBinding.setCategoryAttributes(
+        categoryView: CategoryView,
+        currency: String?
+    ) {
         this.name.text = categoryView.name
         this.icon.setImageResource(mapOfDrawables[categoryView.icon] ?: 0)
-        this.amount.text = categoryView.amount.toAmountFormat(withMinus = false)
+        val amount = categoryView.amount.toAmountFormat(withMinus = false) + ' ' + currency
+        this.amount.text = amount
         DrawableCompat.setTint(
             this.iconBackground.drawable,
             ContextCompat.getColor(

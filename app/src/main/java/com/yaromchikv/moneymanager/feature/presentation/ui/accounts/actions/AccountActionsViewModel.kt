@@ -1,5 +1,6 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.accounts.actions
 
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.feature.domain.model.Account
@@ -12,6 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountActionsViewModel @Inject constructor(
+    private val sharedPreferences: SharedPreferences,
     private val accountsUseCases: AccountUseCases
 ) : ViewModel() {
 
@@ -39,6 +41,8 @@ class AccountActionsViewModel @Inject constructor(
     suspend fun deleteAccount(account: Account) {
         accountsUseCases.deleteAccount(account)
     }
+
+    fun getPreferences() = sharedPreferences
 
     sealed class Event {
         data class NavigateToEditAccountScreen(val account: Account) : Event()

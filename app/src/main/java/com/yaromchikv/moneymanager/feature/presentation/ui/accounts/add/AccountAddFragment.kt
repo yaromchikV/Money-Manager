@@ -35,7 +35,7 @@ class AccountAddFragment : Fragment(R.layout.fragment_account_add) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
-        var colorId = ImageViewCompat.getImageTintList(binding.selectedColor)?.defaultColor
+        val colorId = ImageViewCompat.getImageTintList(binding.selectedColor)?.defaultColor
         colorClickListener()
 
         lifecycleScope.launchWhenStarted {
