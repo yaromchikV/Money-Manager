@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.DiffUtil

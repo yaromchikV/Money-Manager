@@ -6,17 +6,18 @@ import com.yaromchikv.moneymanager.feature.domain.model.Transaction
 import com.yaromchikv.moneymanager.feature.domain.model.TransactionView
 import com.yaromchikv.moneymanager.feature.domain.repository.TransactionsRepository
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
 class TransactionsRepositoryImpl(
     private val dao: TransactionsDao
 ) : TransactionsRepository {
 
-    override fun getTransactionAmountsPerDay(): Flow<List<DayInfo>> {
-        return dao.getTransactionAmountsPerDay()
+    override fun getTransactionViews(from: LocalDate, to: LocalDate): Flow<List<TransactionView>> {
+        return dao.getTransactionViews(from, to)
     }
 
-    override fun getTransactionViews(): Flow<List<TransactionView>> {
-        return dao.getTransactionViews()
+    override fun getTransactionAmountsPerDay(from: LocalDate, to: LocalDate): Flow<List<DayInfo>> {
+        return dao.getTransactionAmountsPerDay(from, to)
     }
 
     override suspend fun insertTransaction(transaction: Transaction) {

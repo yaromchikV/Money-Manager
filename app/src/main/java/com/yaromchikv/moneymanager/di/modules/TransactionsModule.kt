@@ -6,7 +6,7 @@ import com.yaromchikv.moneymanager.feature.domain.repository.AccountsRepository
 import com.yaromchikv.moneymanager.feature.domain.repository.TransactionsRepository
 import com.yaromchikv.moneymanager.feature.domain.usecase.AddTransaction
 import com.yaromchikv.moneymanager.feature.domain.usecase.DeleteTransaction
-import com.yaromchikv.moneymanager.feature.domain.usecase.GetTransactionListForRV
+import com.yaromchikv.moneymanager.feature.domain.usecase.GetTransactionListWithAmountsPerDay
 import com.yaromchikv.moneymanager.feature.domain.usecase.GetTransactionViews
 import com.yaromchikv.moneymanager.feature.domain.usecase.TransactionUseCases
 import dagger.Module
@@ -35,7 +35,7 @@ object TransactionsModule {
             getTransactionViews = GetTransactionViews(transactionsRepository),
             addTransaction = AddTransaction(transactionsRepository, accountsRepository),
             deleteTransaction = DeleteTransaction(transactionsRepository),
-            getTransactionListForRV = GetTransactionListForRV(transactionsRepository)
+            getTransactionListWithDayInfo = GetTransactionListWithAmountsPerDay(transactionsRepository)
         )
     }
 }

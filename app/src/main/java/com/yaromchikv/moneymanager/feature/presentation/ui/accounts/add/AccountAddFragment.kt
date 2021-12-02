@@ -1,6 +1,5 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.accounts.add
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater

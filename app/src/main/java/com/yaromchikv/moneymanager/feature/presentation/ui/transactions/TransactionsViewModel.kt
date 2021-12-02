@@ -1,11 +1,8 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.transactions
 
-import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.feature.domain.model.Account
-import com.yaromchikv.moneymanager.feature.domain.model.Transaction
-import com.yaromchikv.moneymanager.feature.domain.model.TransactionView
 import com.yaromchikv.moneymanager.feature.domain.usecase.TransactionUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -16,6 +13,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,8 +21,8 @@ class TransactionsViewModel @Inject constructor(
     private val transactionUseCases: TransactionUseCases
 ) : ViewModel() {
 
-    private val _transactions = MutableStateFlow(emptyList<TransactionView>())
-    val transactions: StateFlow<List<TransactionView>> = _transactions
+    private val _transactionsWithDayInfo = MutableStateFlow(emptyList<Any>())
+    val transactionsWithDayInfo: StateFlow<List<Any>> = _transactionsWithDayInfo
 
     private var getTransactionsJob: Job? = null
 
@@ -35,11 +33,19 @@ class TransactionsViewModel @Inject constructor(
         getTransactions()
     }
 
-    private fun getTransactions() {
+    private fun getTransactions(from: LocalDate? = null, to: LocalDate? = null) {
         getTransactionsJob?.cancel()
-        getTransactionsJob = transactionUseCases.getTransactionViews()
-            .onEach { transactions -> _transactions.value = transactions }
-            .launchIn(viewModelScope)
+        getTransactionsJob =
+            transactionUseCases.getTransactionViews(from, to)
+                .onEach { transactions ->
+                    _transactionsWithDayInfo.value =
+                        transactionUseCases.getTransactionListWithDayInfo(transactions, from, to)
+                }
+                .launchIn(viewModelScope)
+    }
+
+    fun setDateRange(from: LocalDate?, to: LocalDate?) {
+        getTransactions(from, to)
     }
 
     fun selectDateClick() {
@@ -55,7 +61,7 @@ class TransactionsViewModel @Inject constructor(
     }
 
     sealed class Event {
-        object SelectDate: Event()
+        object SelectDate : Event()
         data class OpenTheAddTransactionSheet(val account: Account) : Event()
     }
 }

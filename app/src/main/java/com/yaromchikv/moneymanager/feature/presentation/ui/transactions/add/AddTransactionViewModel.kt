@@ -13,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddTransactionViewModel @Inject constructor(
     private val transactionUseCases: TransactionUseCases
-): ViewModel() {
+) : ViewModel() {
 
     private val _events = MutableSharedFlow<Event>()
     val events = _events.asSharedFlow()
@@ -29,7 +29,7 @@ class AddTransactionViewModel @Inject constructor(
     }
 
     sealed class Event {
-        object AddTransaction: Event()
+        object AddTransaction : Event()
     }
 
 }

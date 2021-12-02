@@ -2,6 +2,8 @@ package com.yaromchikv.moneymanager.feature.data.datasource
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.yaromchikv.moneymanager.common.Converter
 import com.yaromchikv.moneymanager.feature.data.datasource.dao.AccountsDao
 import com.yaromchikv.moneymanager.feature.data.datasource.dao.CategoriesDao
 import com.yaromchikv.moneymanager.feature.data.datasource.dao.TransactionsDao
@@ -14,6 +16,7 @@ import com.yaromchikv.moneymanager.feature.domain.model.Transaction
     version = 1,
     exportSchema = true
 )
+@TypeConverters(Converter::class)
 abstract class MoneyManagerDatabase : RoomDatabase() {
 
     abstract val accountsDao: AccountsDao

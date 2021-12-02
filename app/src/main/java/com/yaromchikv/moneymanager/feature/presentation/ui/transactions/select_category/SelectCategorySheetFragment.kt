@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.DialogFragmentNavigator
@@ -15,6 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.SheetFragmentSelectCategoryBinding
+import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
 import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -27,6 +29,7 @@ class SelectCategorySheetFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
 
     private val viewModel: SelectCategoryViewModel by viewModels()
+    private val activityViewModel: MainActivityViewModel by activityViewModels()
 
     @Inject
     lateinit var categoriesRVAdapter: CategoriesRVAdapter
@@ -68,8 +71,14 @@ class SelectCategorySheetFragment : BottomSheetDialogFragment() {
         }
 
         lifecycleScope.launchWhenStarted {
-            viewModel.categories.collectLatest { newList ->
+            viewModel.categoryViews.collectLatest { newList ->
                 categoriesRVAdapter.submitList(newList)
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            activityViewModel.currentDateRange.collectLatest {
+                viewModel.setDateRange(it.first, it.second)
             }
         }
 

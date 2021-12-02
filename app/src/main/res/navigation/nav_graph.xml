@@ -140,9 +140,9 @@
         app:destination="@id/dialog_fragment_account_filter" />
 
     <activity
-        tools:layout="@layout/activity_settings"
         android:id="@+id/settingsActivity"
         android:name="com.yaromchikv.moneymanager.feature.presentation.ui.settings.SettingsActivity"
-        android:label="SettingsActivity" />
+        android:label="SettingsActivity"
+        tools:layout="@layout/activity_settings" />
 
 </navigation>

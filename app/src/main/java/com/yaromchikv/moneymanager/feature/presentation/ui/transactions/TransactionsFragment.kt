@@ -52,8 +52,14 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
         }
 
         lifecycleScope.launchWhenStarted {
-            viewModel.transactions.collectLatest {
+            viewModel.transactionsWithDayInfo.collectLatest {
                 transactionAdapter.updateData(it)
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            activityViewModel.currentDateRange.collectLatest {
+                viewModel.setDateRange(it.first, it.second)
             }
         }
 

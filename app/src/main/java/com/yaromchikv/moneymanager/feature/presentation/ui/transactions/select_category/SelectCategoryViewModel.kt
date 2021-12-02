@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.domain.model.CategoryView
 import com.yaromchikv.moneymanager.feature.domain.usecase.CategoryUseCases
+import com.yaromchikv.moneymanager.feature.presentation.ui.chart.ChartViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,25 +25,28 @@ class SelectCategoryViewModel @Inject constructor(
     private val categoryUseCases: CategoryUseCases
 ) : ViewModel() {
 
-    private var getCategoriesJob: Job? = null
+    private var getCategoryViewsJob: Job? = null
 
-    private val _categories = MutableStateFlow(emptyList<CategoryView>())
-    val categories = _categories.asStateFlow()
+    private val _categoryViews = MutableStateFlow(emptyList<CategoryView>())
+    val categoryViews = _categoryViews.asStateFlow()
 
     private val _events = MutableSharedFlow<Event>()
     val events = _events.asSharedFlow()
 
     init {
-        getCategories()
+        getCategoryViews()
     }
 
-    private fun getCategories() {
-        getCategoriesJob?.cancel()
-        getCategoriesJob = categoryUseCases.getCategoryViews()
-            .onEach { categories ->
-                _categories.value = categories
-            }
-            .launchIn(viewModelScope)
+    private fun getCategoryViews(from: LocalDate? = null, to: LocalDate? = null) {
+        getCategoryViewsJob?.cancel()
+        getCategoryViewsJob =
+            categoryUseCases.getCategoryViews(from, to)
+                .onEach { categories -> _categoryViews.value = categories }
+                .launchIn(viewModelScope)
+    }
+
+    fun setDateRange(from: LocalDate?, to: LocalDate?) {
+        getCategoryViews(from, to)
     }
 
     fun selectCategoryClick(account: Account, categoryView: CategoryView) {

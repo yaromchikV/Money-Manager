@@ -8,6 +8,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.DialogFragmentNavigator
@@ -23,6 +24,7 @@ import com.yaromchikv.moneymanager.common.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.FragmentChartBinding
 import com.yaromchikv.moneymanager.databinding.ItemCategoryBinding
 import com.yaromchikv.moneymanager.feature.domain.model.CategoryView
+import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
 import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
 import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfDrawables
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,23 +36,22 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
     private val binding: FragmentChartBinding by viewBinding()
 
     private val viewModel: ChartViewModel by viewModels()
+    private val activityViewModel: MainActivityViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
-//        lifecycleScope.launchWhenStarted {
-//            viewModel.combineFlow.collectLatest {
-//                if (it != null && it.first.isNotEmpty() && it.second.isNotEmpty()) {
-//                    updateChartData(it.first, it.second)
-//                }
-//            }
-//        }
-
         lifecycleScope.launchWhenStarted {
-            viewModel.categoryWithAmount.collectLatest {
+            viewModel.categoryViews.collectLatest {
                 if (it.isNotEmpty())
                     updateChartData(it)
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            activityViewModel.currentDateRange.collectLatest {
+                viewModel.setDateRange(it.first, it.second)
             }
         }
 
@@ -96,11 +97,12 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         val dataSet = PieDataSet(entries, "")
         dataSet.colors = colors
         dataSet.setDrawValues(false)
+        dataSet.sliceSpace = 2f
 
         val amountString = amount.toAmountFormat(withMinus = false) + ' ' + currency
         binding.chart.apply {
             isDrawHoleEnabled = true
-            holeRadius = 78f
+            holeRadius = 86f
             centerText = "Expenses\n$amountString"
             setCenterTextSize(20f)
             description.isEnabled = false
@@ -133,8 +135,8 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
     ) {
         this.name.text = categoryView.name
         this.icon.setImageResource(mapOfDrawables[categoryView.icon] ?: 0)
-        val amount = categoryView.amount.toAmountFormat(withMinus = false) + ' ' + currency
-        this.amount.text = amount
+        this.amount.text = categoryView.amount.toAmountFormat(withMinus = false)
+        this.currency.text = currency
         DrawableCompat.setTint(
             this.iconBackground.drawable,
             ContextCompat.getColor(

@@ -20,7 +20,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="48dp"
             android:drawablePadding="12dp"
             android:text="@string/select_date"
             android:textSize="24sp"
@@ -37,7 +38,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="48dp"
             android:drawablePadding="12dp"
             android:text="@string/today"
             android:textSize="24sp"
@@ -54,7 +56,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="48dp"
             android:drawablePadding="12dp"
             android:text="@string/week"
             android:textSize="24sp"
@@ -71,7 +74,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="48dp"
             android:drawablePadding="12dp"
             android:text="@string/month"
             android:textSize="24sp"
@@ -88,7 +92,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="48dp"
             android:drawablePadding="12dp"
             android:text="@string/year"
             android:textSize="24sp"
@@ -105,7 +110,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="48dp"
             android:drawablePadding="12dp"
             android:text="@string/all_time"
             android:textSize="24sp"

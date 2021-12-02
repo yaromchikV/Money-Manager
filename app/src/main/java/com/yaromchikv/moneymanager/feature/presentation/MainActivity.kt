@@ -13,6 +13,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yaromchikv.moneymanager.R
+import com.yaromchikv.moneymanager.common.getCurrentLocalDate
 import com.yaromchikv.moneymanager.databinding.ActivityMainBinding
 import com.yaromchikv.moneymanager.feature.presentation.ui.accounts.AccountsFragmentDirections
 import com.yaromchikv.moneymanager.feature.presentation.ui.chart.ChartFragmentDirections
@@ -75,6 +76,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         lifecycleScope.launchWhenStarted {
             viewModel.currentAccount.collectLatest {
+                binding.bankIcon.visibility = if (it != null) View.VISIBLE else View.GONE
                 binding.toolbarTitle.text = it?.name ?: getString(R.string.all_accounts)
             }
         }
@@ -85,10 +87,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 binding.toolbarSubtitle.text =
                     if (it.first == null && it.second == null)
                         getString(R.string.all_time)
-                    else if (it.first == it.second)
-                        it.first?.format(pattern)
+                    else if (it.second == null)
+                        "${it.first?.format(pattern)} - ${getCurrentLocalDate().format(pattern)}"
                     else
-                        "${it.first?.format(pattern)} - ${it.second?.format(pattern)}"
+                        it.first?.format(pattern)
             }
         }
 
@@ -101,28 +103,29 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             currentDestination = destination.id
 
-            val isFragmentWithoutSettings = when (currentDestination) {
+            val isFragmentWithoutSettingsButton = when (currentDestination) {
                 R.id.account_add_fragment -> true
                 R.id.account_edit_fragment -> true
                 else -> false
             }
 
             binding.bottomNavigation.visibility =
-                if (isFragmentWithoutSettings) View.GONE else View.VISIBLE
+                if (isFragmentWithoutSettingsButton) View.GONE else View.VISIBLE
             binding.buttonSettings.visibility =
-                if (isFragmentWithoutSettings) View.GONE else View.VISIBLE
+                if (isFragmentWithoutSettingsButton) View.GONE else View.VISIBLE
             binding.toolbarInfoBox.visibility =
-                if (isFragmentWithoutSettings) View.GONE else View.VISIBLE
-            supportActionBar?.setDisplayShowTitleEnabled(isFragmentWithoutSettings)
+                if (isFragmentWithoutSettingsButton) View.GONE else View.VISIBLE
+            supportActionBar?.setDisplayShowTitleEnabled(isFragmentWithoutSettingsButton)
 
-            val isAccountsFragments = when (currentDestination) {
+            val isFragmentWithoutAccountsFilter = when (currentDestination) {
                 R.id.accounts_fragment -> true
                 R.id.account_actions_sheet_fragment -> true
                 else -> false
             }
 
-            binding.moreButton.visibility = if (isAccountsFragments) View.GONE else View.VISIBLE
-            binding.toolbarInfoBox.isEnabled = !isAccountsFragments
+            binding.moreButton.visibility =
+                if (isFragmentWithoutAccountsFilter) View.GONE else View.VISIBLE
+            binding.toolbarInfoBox.isEnabled = !isFragmentWithoutAccountsFilter
         }
     }
 

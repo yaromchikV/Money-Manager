@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:padding="12dp">
+    android:padding="10dp">
 
     <ImageView
         android:id="@+id/icon_background"
@@ -62,9 +62,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="6dp"
         android:textAllCaps="true"
-        android:textStyle=""
         android:textColor="@color/red"
         android:textSize="18sp"
+        android:textStyle=""
         app:layout_constraintEnd_toStartOf="@+id/text_currency"
         app:layout_constraintTop_toTopOf="@+id/category_name"
         tools:text="–1 817,20" />
@@ -79,5 +79,15 @@
         app:layout_constraintBottom_toBottomOf="@+id/text_amount"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="BYN" />
+
+    <TextView
+        android:id="@+id/note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/text_currency"
+        app:layout_constraintTop_toTopOf="@+id/cardName"
+        tools:text="Note" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

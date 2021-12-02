@@ -23,8 +23,7 @@ import javax.inject.Singleton
 @Singleton
 class TransactionsRVAdapter @Inject constructor(
     private val context: Context,
-    private val transactionUseCases: TransactionUseCases,
-    val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var transactionsWithInfoList = emptyList<Any>()
@@ -36,6 +35,7 @@ class TransactionsRVAdapter @Inject constructor(
         fun bind(transactionView: TransactionView) {
             binding.categoryName.text = transactionView.categoryName
             binding.cardName.text = transactionView.accountName
+            binding.note.text = transactionView.note
             binding.textAmount.text = transactionView.amount.toAmountFormat(withMinus = true)
             binding.textCurrency.text = sharedPreferences.getString(
                 "currency",
@@ -115,8 +115,8 @@ class TransactionsRVAdapter @Inject constructor(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    suspend fun updateData(transactionViews: List<TransactionView>) {
-        transactionsWithInfoList = transactionUseCases.getTransactionListForRV(transactionViews)
+    fun updateData(transactionList: List<Any>) {
+        transactionsWithInfoList = transactionList
         notifyDataSetChanged()
     }
 

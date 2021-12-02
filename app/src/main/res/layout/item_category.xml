@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="106dp"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="4dp"
-    android:layout_height="96dp">
+    android:layout_width="106dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp">
 
     <TextView
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
         android:ellipsize="marquee"
         android:gravity="center"
-        tools:text="Category"
         android:textColor="@color/black"
         android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/icon_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:text="Category" />
 
     <ImageView
         android:id="@+id/icon_background"
@@ -44,17 +44,32 @@
 
     <TextView
         android:id="@+id/amount"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:gravity="center"
-        tools:text="8 BYN"
         android:textAllCaps="true"
         android:textColor="@color/red"
-        android:textSize="12sp"
+        android:textSize="13sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/currency"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/icon_background" />
+        app:layout_constraintTop_toBottomOf="@+id/icon_background"
+        tools:text="8" />
 
+    <TextView
+        android:id="@+id/currency"
+        android:layout_width="23dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="2dp"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:textColor="@color/red"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="@+id/amount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/amount"
+        tools:text="BYN" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

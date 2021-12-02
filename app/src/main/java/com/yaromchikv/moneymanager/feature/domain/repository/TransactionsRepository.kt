@@ -4,14 +4,15 @@ import com.yaromchikv.moneymanager.feature.domain.model.DayInfo
 import com.yaromchikv.moneymanager.feature.domain.model.Transaction
 import com.yaromchikv.moneymanager.feature.domain.model.TransactionView
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 
 interface TransactionsRepository {
 
-    fun getTransactionViews(): Flow<List<TransactionView>>
+    fun getTransactionViews(from: LocalDate, to: LocalDate): Flow<List<TransactionView>>
+
+    fun getTransactionAmountsPerDay(from: LocalDate, to: LocalDate): Flow<List<DayInfo>>
 
     suspend fun insertTransaction(transaction: Transaction)
 
     suspend fun deleteTransaction(transaction: Transaction)
-
-    fun getTransactionAmountsPerDay(): Flow<List<DayInfo>>
 }

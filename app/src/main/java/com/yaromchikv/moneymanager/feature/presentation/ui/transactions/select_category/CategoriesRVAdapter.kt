@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.ItemCategoryBinding
-import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.domain.model.CategoryView
 import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
 import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfDrawables
