@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 data class AccountUseCases(
     val getAccounts: GetAccounts,
-    val getAccount: GetAccount,
     val addAccount: AddAccount,
     val updateAccount: UpdateAccount,
     val deleteAccount: DeleteAccount,
@@ -15,12 +14,6 @@ data class AccountUseCases(
 class GetAccounts(private val repository: AccountsRepository) {
     operator fun invoke(): Flow<List<Account>> {
         return repository.getAccounts()
-    }
-}
-
-class GetAccount(private val repository: AccountsRepository) {
-    suspend operator fun invoke(id: Int): Account? {
-        return repository.getAccountById(id)
     }
 }
 

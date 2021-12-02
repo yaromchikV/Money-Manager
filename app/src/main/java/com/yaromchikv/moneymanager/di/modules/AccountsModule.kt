@@ -6,7 +6,6 @@ import com.yaromchikv.moneymanager.feature.domain.repository.AccountsRepository
 import com.yaromchikv.moneymanager.feature.domain.usecase.AccountUseCases
 import com.yaromchikv.moneymanager.feature.domain.usecase.AddAccount
 import com.yaromchikv.moneymanager.feature.domain.usecase.DeleteAccount
-import com.yaromchikv.moneymanager.feature.domain.usecase.GetAccount
 import com.yaromchikv.moneymanager.feature.domain.usecase.GetAccounts
 import com.yaromchikv.moneymanager.feature.domain.usecase.UpdateAccount
 import dagger.Module
@@ -30,7 +29,6 @@ object AccountsModule {
     fun provideAccountsUseCases(repository: AccountsRepository): AccountUseCases {
         return AccountUseCases(
             getAccounts = GetAccounts(repository),
-            getAccount = GetAccount(repository),
             addAccount = AddAccount(repository),
             updateAccount = UpdateAccount(repository),
             deleteAccount = DeleteAccount(repository),

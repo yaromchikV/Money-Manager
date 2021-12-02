@@ -14,12 +14,6 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TransactionsDao {
 
-//    @Query("SELECT * FROM transactions ORDER BY date ASC, time ASC")
-//    fun getTransactions(): Flow<List<Transaction>>
-
-    @Query("SELECT * FROM transactions WHERE id = :id")
-    suspend fun getTransactionById(id: Int): Transaction?
-
     @Query("SELECT date, SUM(amount) AS amount_per_day FROM transactions GROUP BY date ORDER BY date ASC")
     fun getTransactionAmountsPerDay(): Flow<List<DayInfo>>
 
@@ -28,9 +22,6 @@ interface TransactionsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTransaction(transaction: Transaction)
-
-    @Update
-    suspend fun updateTransaction(transaction: Transaction)
 
     @Delete
     suspend fun deleteTransaction(transaction: Transaction)

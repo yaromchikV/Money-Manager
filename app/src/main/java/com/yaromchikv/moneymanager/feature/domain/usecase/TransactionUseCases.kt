@@ -8,26 +8,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 
 data class TransactionUseCases(
-    //val getTransactions: GetTransactions,
-    val getTransaction: GetTransaction,
     val getTransactionViews: GetTransactionViews,
     val addTransaction: AddTransaction,
-    val updateTransaction: UpdateTransaction,
     val deleteTransaction: DeleteTransaction,
     val getTransactionListForRV: GetTransactionListForRV
 )
-
-//class GetTransactions(private val repository: TransactionsRepository) {
-//    operator fun invoke(): Flow<List<Transaction>> {
-//        return repository.getTransactions()
-//    }
-//}
-
-class GetTransaction(private val repository: TransactionsRepository) {
-    suspend operator fun invoke(id: Int): Transaction? {
-        return repository.getTransactionById(id)
-    }
-}
 
 class GetTransactionViews(private val repository: TransactionsRepository) {
     operator fun invoke(): Flow<List<TransactionView>> {
@@ -35,15 +20,13 @@ class GetTransactionViews(private val repository: TransactionsRepository) {
     }
 }
 
-class AddTransaction(private val transactionsRepository: TransactionsRepository) {
+class AddTransaction(
+    private val transactionsRepository: TransactionsRepository,
+    private val accountsRepository: AccountsRepository
+) {
     suspend operator fun invoke(transaction: Transaction) {
         transactionsRepository.insertTransaction(transaction)
-    }
-}
-
-class UpdateTransaction(private val repository: TransactionsRepository) {
-    suspend operator fun invoke(transaction: Transaction) {
-        repository.updateTransaction(transaction)
+        accountsRepository.updateAccountAmountById(transaction.accountId, transaction.amount)
     }
 }
 
