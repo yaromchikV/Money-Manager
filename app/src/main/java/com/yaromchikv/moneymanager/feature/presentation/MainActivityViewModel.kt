@@ -1,5 +1,6 @@
 package com.yaromchikv.moneymanager.feature.presentation
 
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.common.getCurrentLocalDate
@@ -19,6 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
+    private val sharedPreferences: SharedPreferences,
     private val accountUseCases: AccountUseCases
 ) : ViewModel() {
 
@@ -74,6 +76,8 @@ class MainActivityViewModel @Inject constructor(
             _currentDateRange.value = begin to end
         }
     }
+
+    fun getPreferences() = sharedPreferences
 
     sealed class Event {
         object OpenTheSettingsScreen : Event()

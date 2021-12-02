@@ -4,8 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.TooltipCompat
-import androidx.core.view.forEach
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -57,13 +56,13 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     is MainActivityViewModel.Event.OpenTheSettingsScreen -> {
                         when (currentDestination) {
                             R.id.accounts_fragment -> navController.navigate(
-                                AccountsFragmentDirections.actionAccountsFragmentToSettingsFragment()
+                                AccountsFragmentDirections.actionAccountsFragmentToSettingsActivity()
                             )
                             R.id.transactions_fragment -> navController.navigate(
-                                TransactionsFragmentDirections.actionTransactionsFragmentToSettingsFragment()
+                                TransactionsFragmentDirections.actionTransactionsFragmentToSettingsActivity()
                             )
                             R.id.chart_fragment -> navController.navigate(
-                                ChartFragmentDirections.actionChartFragmentToSettingsFragment()
+                                ChartFragmentDirections.actionChartFragmentToSettingsActivity()
                             )
                         }
                     }
@@ -103,7 +102,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             currentDestination = destination.id
 
             val isFragmentWithoutSettings = when (currentDestination) {
-                R.id.settings_fragment -> true
                 R.id.account_add_fragment -> true
                 R.id.account_edit_fragment -> true
                 else -> false
@@ -126,6 +124,23 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             binding.moreButton.visibility = if (isAccountsFragments) View.GONE else View.VISIBLE
             binding.toolbarInfoBox.isEnabled = !isAccountsFragments
         }
+    }
+
+    override fun onStart() {
+        val theme = viewModel.getPreferences().getString(
+            "theme",
+            resources.getStringArray(R.array.theme_values)[2]
+        )
+
+        AppCompatDelegate.setDefaultNightMode(
+            when (theme) {
+                "light" -> AppCompatDelegate.MODE_NIGHT_NO
+                "dark" -> AppCompatDelegate.MODE_NIGHT_YES
+                else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            }
+        )
+
+        super.onStart()
     }
 
     override fun onSupportNavigateUp(): Boolean {

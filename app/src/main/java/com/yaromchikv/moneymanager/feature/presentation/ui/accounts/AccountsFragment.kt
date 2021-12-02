@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yaromchikv.moneymanager.R
+import com.yaromchikv.moneymanager.common.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.FragmentAccountsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -51,7 +52,7 @@ class AccountsFragment : Fragment(R.layout.fragment_accounts) {
                 var amount = 0.0
                 newList.forEach { amount += it.amount }
 
-                binding.fullAmount.text = amount.toString()
+                binding.fullAmount.text = amount.toAmountFormat(withMinus = false)
                 binding.mainCurrency.text = viewModel.getPreferences().getString(
                     "currency",
                     requireContext().resources.getStringArray(R.array.currency_values)[0]

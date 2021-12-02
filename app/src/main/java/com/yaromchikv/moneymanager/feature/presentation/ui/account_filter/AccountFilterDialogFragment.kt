@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yaromchikv.moneymanager.R
+import com.yaromchikv.moneymanager.common.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.DialogFragmentAccountFilterBinding
 import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
 import com.yaromchikv.moneymanager.feature.presentation.ui.accounts.AccountsRVAdapter
@@ -70,7 +71,7 @@ class AccountFilterDialogFragment : DialogFragment(R.layout.dialog_fragment_acco
                 var amount = 0.0
                 newList.forEach { amount += it.amount }
 
-                binding.allAccountsAmount.text = amount.toString()
+                binding.allAccountsAmount.text = amount.toAmountFormat(withMinus = false)
             }
         }
 
