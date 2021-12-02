@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.ItemCategoryBinding
+import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.domain.model.CategoryView
 import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
 import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfDrawables
@@ -16,9 +19,7 @@ import javax.inject.Inject
 
 class CategoriesRVAdapter @Inject constructor(
     private val context: Context
-) : RecyclerView.Adapter<CategoriesRVAdapter.CategoryViewHolder>() {
-
-    private var categoryList = emptyList<CategoryView>()
+) : ListAdapter<CategoryView, CategoriesRVAdapter.CategoryViewHolder>(DIFF_CALLBACK) {
 
     private var onClickListener: OnClickListener? = null
 
@@ -51,16 +52,17 @@ class CategoriesRVAdapter @Inject constructor(
     }
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
-        holder.bind(categoryList[position])
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount(): Int {
-        return categoryList.size
-    }
+    companion object DIFF_CALLBACK : DiffUtil.ItemCallback<CategoryView>() {
+        override fun areItemsTheSame(oldItem: CategoryView, newItem: CategoryView): Boolean {
+            return oldItem == newItem
+        }
 
-    fun setData(newList: List<CategoryView>) {
-        this.categoryList = newList
-        notifyDataSetChanged()
+        override fun areContentsTheSame(oldItem: CategoryView, newItem: CategoryView): Boolean {
+            return oldItem.hashCode() == newItem.hashCode()
+        }
     }
 
     fun setOnClickListener(onClickListener: OnClickListener) {

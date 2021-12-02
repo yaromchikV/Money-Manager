@@ -1,15 +1,18 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.transactions
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.ItemDayInfoBinding
 import com.yaromchikv.moneymanager.databinding.ItemTransactionBinding
+import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.domain.model.DayInfo
 import com.yaromchikv.moneymanager.feature.domain.model.TransactionView
 import com.yaromchikv.moneymanager.feature.domain.usecase.TransactionUseCases
@@ -102,6 +105,7 @@ class TransactionsRVAdapter @Inject constructor(
         return if (transactionsWithInfoList[position] is TransactionView) TRANSACTION_VIEW_TYPE else DAY_INFO_VIEW_TYPE
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     suspend fun updateData(transactionViews: List<TransactionView>) {
         transactionsWithInfoList = transactionUseCases.getTransactionListForRV(transactionViews)
         notifyDataSetChanged()

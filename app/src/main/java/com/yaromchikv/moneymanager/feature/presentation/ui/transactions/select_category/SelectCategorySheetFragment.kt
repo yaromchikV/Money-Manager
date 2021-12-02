@@ -65,7 +65,7 @@ class SelectCategorySheetFragment : BottomSheetDialogFragment() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.categories.collectLatest { newList ->
-                categoriesRVAdapter.setData(newList)
+                categoriesRVAdapter.submitList(newList)
             }
         }
 
