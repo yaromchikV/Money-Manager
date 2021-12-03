@@ -137,13 +137,18 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         this.icon.setImageResource(mapOfDrawables[categoryView.icon] ?: 0)
         this.amount.text = categoryView.amount.toAmountFormat(withMinus = false)
         this.currency.text = currency
-        DrawableCompat.setTint(
-            this.iconBackground.drawable,
-            ContextCompat.getColor(
-                requireContext(),
-                mapOfColors[categoryView.iconColor] ?: R.color.orange_red
-            )
+
+        val color = ContextCompat.getColor(
+            requireContext(),
+            mapOfColors[categoryView.iconColor] ?: R.color.orange_red
         )
+
+        this.amount.setTextColor(color)
+        this.currency.setTextColor(color)
+        DrawableCompat.setTint(this.iconBackground.drawable, color)
+
+        if (categoryView.amount == 0.0)
+            this.item.alpha = 0.3f
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

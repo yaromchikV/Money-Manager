@@ -14,7 +14,7 @@ data class TransactionUseCases(
     val getTransactionViews: GetTransactionViews,
     val getTransactionListWithDayInfo: GetTransactionListWithAmountsPerDay,
     val addTransaction: AddTransaction,
-    val deleteTransaction: DeleteTransaction
+    val deleteTransactionById: DeleteTransactionById
 )
 
 class GetTransactionViews(private val repository: TransactionsRepository) {
@@ -60,12 +60,16 @@ class AddTransaction(
 ) {
     suspend operator fun invoke(transaction: Transaction) {
         transactionsRepository.insertTransaction(transaction)
-        accountsRepository.updateAccountAmountById(transaction.accountId, transaction.amount)
+        accountsRepository.updateAccountAmountById(transaction.accountId, -1 * transaction.amount)
     }
 }
 
-class DeleteTransaction(private val repository: TransactionsRepository) {
-    suspend operator fun invoke(transaction: Transaction) {
-        repository.deleteTransaction(transaction)
+class DeleteTransactionById(
+    private val repository: TransactionsRepository,
+    private val accountsRepository: AccountsRepository
+) {
+    suspend operator fun invoke(transaction: TransactionView) {
+        repository.deleteTransactionById(transaction.id)
+        accountsRepository.updateAccountAmountById(transaction.accountId, transaction.amount)
     }
 }

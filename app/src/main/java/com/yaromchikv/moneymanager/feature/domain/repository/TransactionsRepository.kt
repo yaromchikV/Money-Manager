@@ -14,5 +14,5 @@ interface TransactionsRepository {
 
     suspend fun insertTransaction(transaction: Transaction)
 
-    suspend fun deleteTransaction(transaction: Transaction)
+    suspend fun deleteTransactionById(id: Int)
 }

@@ -3,6 +3,7 @@ package com.yaromchikv.moneymanager.feature.presentation.ui.transactions
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.feature.domain.model.Account
+import com.yaromchikv.moneymanager.feature.domain.model.TransactionView
 import com.yaromchikv.moneymanager.feature.domain.usecase.TransactionUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -60,8 +61,26 @@ class TransactionsViewModel @Inject constructor(
         }
     }
 
+    fun deleteButtonClick(transaction: TransactionView) {
+        viewModelScope.launch {
+            _events.emit(Event.ShowTheDeleteTransactionDialog(transaction))
+        }
+    }
+
+    fun deleteConfirmationButtonClick(transaction: TransactionView) {
+        viewModelScope.launch {
+            _events.emit(Event.DeleteTransaction(transaction))
+        }
+    }
+
+    suspend fun deleteTransaction(transaction: TransactionView) {
+        transactionUseCases.deleteTransactionById(transaction)
+    }
+
     sealed class Event {
         object SelectDate : Event()
         data class OpenTheAddTransactionSheet(val account: Account) : Event()
+        data class ShowTheDeleteTransactionDialog(val transaction: TransactionView): Event()
+        data class DeleteTransaction(val transaction: TransactionView): Event()
     }
 }

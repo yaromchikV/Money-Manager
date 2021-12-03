@@ -12,8 +12,12 @@ data class TransactionView(
     val amount: Double,
     val date: LocalDate,
     val time: LocalTime,
+    @ColumnInfo(name = "category_id")
+    val categoryId: Int,
     @ColumnInfo(name = "category_name")
     val categoryName: String,
+    @ColumnInfo(name = "account_id")
+    val accountId: Int,
     @ColumnInfo(name = "account_name")
     val accountName: String,
     val icon: Int,

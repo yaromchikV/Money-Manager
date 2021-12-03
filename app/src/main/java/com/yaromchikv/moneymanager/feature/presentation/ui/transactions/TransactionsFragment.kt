@@ -1,10 +1,12 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.transactions
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -51,6 +53,10 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
             )
         }
 
+        transactionAdapter.setOnDeleteClickListener(TransactionsRVAdapter.OnDeleteClickListener {
+            viewModel.deleteButtonClick(it)
+        })
+
         lifecycleScope.launchWhenStarted {
             viewModel.transactionsWithDayInfo.collectLatest {
                 transactionAdapter.updateData(it)
@@ -82,9 +88,31 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
                             )
                         }
                     }
+                    is TransactionsViewModel.Event.ShowTheDeleteTransactionDialog -> {
+                        Log.d("!!!", "alert")
+
+                        val alert = AlertDialog.Builder(requireContext())
+                            .setIcon(R.drawable.ic_warning)
+                            .setTitle("Do you really to delete this transaction? ")
+                            .setMessage("From: ${it.transaction.categoryName}\nTo: ${it.transaction.accountName}\nAmount: ${it.transaction.amount}")
+                            .setPositiveButton(getString(R.string.ok)) { _, _ ->
+                                viewModel.deleteConfirmationButtonClick(it.transaction)
+                            }
+                            .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
+                            .create()
+                        alert.show()
+                    }
+                    is TransactionsViewModel.Event.DeleteTransaction -> {
+                        viewModel.deleteTransaction(it.transaction)
+                    }
                 }
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        transactionAdapter.clearSelectedPosition()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

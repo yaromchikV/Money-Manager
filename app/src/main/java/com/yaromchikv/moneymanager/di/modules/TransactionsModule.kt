@@ -5,7 +5,7 @@ import com.yaromchikv.moneymanager.feature.data.repository.TransactionsRepositor
 import com.yaromchikv.moneymanager.feature.domain.repository.AccountsRepository
 import com.yaromchikv.moneymanager.feature.domain.repository.TransactionsRepository
 import com.yaromchikv.moneymanager.feature.domain.usecase.AddTransaction
-import com.yaromchikv.moneymanager.feature.domain.usecase.DeleteTransaction
+import com.yaromchikv.moneymanager.feature.domain.usecase.DeleteTransactionById
 import com.yaromchikv.moneymanager.feature.domain.usecase.GetTransactionListWithAmountsPerDay
 import com.yaromchikv.moneymanager.feature.domain.usecase.GetTransactionViews
 import com.yaromchikv.moneymanager.feature.domain.usecase.TransactionUseCases
@@ -34,7 +34,7 @@ object TransactionsModule {
         return TransactionUseCases(
             getTransactionViews = GetTransactionViews(transactionsRepository),
             addTransaction = AddTransaction(transactionsRepository, accountsRepository),
-            deleteTransaction = DeleteTransaction(transactionsRepository),
+            deleteTransactionById = DeleteTransactionById(transactionsRepository, accountsRepository),
             getTransactionListWithDayInfo = GetTransactionListWithAmountsPerDay(transactionsRepository)
         )
     }

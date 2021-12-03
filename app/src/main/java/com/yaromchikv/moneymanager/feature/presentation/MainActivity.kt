@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         lifecycleScope.launchWhenStarted {
             viewModel.currentAccount.collectLatest {
-                binding.bankIcon.visibility = if (it != null) View.VISIBLE else View.GONE
+                binding.bankIcon.visibility = if (it != null) View.VISIBLE else View.INVISIBLE
                 binding.toolbarTitle.text = it?.name ?: getString(R.string.all_accounts)
             }
         }
@@ -137,9 +137,16 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         AppCompatDelegate.setDefaultNightMode(
             when (theme) {
-                "light" -> AppCompatDelegate.MODE_NIGHT_NO
-                "dark" -> AppCompatDelegate.MODE_NIGHT_YES
-                else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                "light" -> {
+                    AppCompatDelegate.MODE_NIGHT_NO
+                }
+                "dark" -> {
+
+                    AppCompatDelegate.MODE_NIGHT_YES
+                }
+                else -> {
+                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                }
             }
         )
 

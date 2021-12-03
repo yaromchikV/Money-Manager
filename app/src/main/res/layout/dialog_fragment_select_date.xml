@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/dialog_background_shape"
     android:minWidth="256dp"
     android:minHeight="402dp"
     android:orientation="vertical"

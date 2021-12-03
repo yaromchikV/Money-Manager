@@ -52,7 +52,6 @@
         android:id="@+id/tableLayout"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/dialog_background_shape"
         android:minWidth="260dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

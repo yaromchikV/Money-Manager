@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -14,19 +15,20 @@ import com.yaromchikv.moneymanager.databinding.ItemDayInfoBinding
 import com.yaromchikv.moneymanager.databinding.ItemTransactionBinding
 import com.yaromchikv.moneymanager.feature.domain.model.DayInfo
 import com.yaromchikv.moneymanager.feature.domain.model.TransactionView
-import com.yaromchikv.moneymanager.feature.domain.usecase.TransactionUseCases
 import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
 import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfDrawables
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class TransactionsRVAdapter @Inject constructor(
     private val context: Context,
     private val sharedPreferences: SharedPreferences
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var transactionsWithInfoList = emptyList<Any>()
+
+    private var onDeleteClickListener: OnDeleteClickListener? = null
+
+    private var selectedPosition: Int = RecyclerView.NO_POSITION
 
     inner class TransactionViewHolder(
         private val binding: ItemTransactionBinding
@@ -35,13 +37,6 @@ class TransactionsRVAdapter @Inject constructor(
         fun bind(transactionView: TransactionView) {
             binding.categoryName.text = transactionView.categoryName
             binding.cardName.text = transactionView.accountName
-            binding.note.text = transactionView.note
-            binding.textAmount.text = transactionView.amount.toAmountFormat(withMinus = true)
-            binding.textCurrency.text = sharedPreferences.getString(
-                "currency",
-                context.resources.getStringArray(R.array.currency_values)[0]
-            )
-
             binding.icon.setImageResource(
                 mapOfDrawables[transactionView.icon] ?: R.drawable.ic_bank
             )
@@ -53,6 +48,41 @@ class TransactionsRVAdapter @Inject constructor(
                     mapOfColors[transactionView.iconColor] ?: R.color.orange_red
                 )
             )
+
+            binding.note.text = transactionView.note
+            binding.textAmount.text = transactionView.amount.toAmountFormat(withMinus = true)
+            binding.textCurrency.text = sharedPreferences.getString(
+                "currency",
+                context.resources.getStringArray(R.array.currency_values)[0]
+            )
+
+            val isSelected = bindingAdapterPosition == selectedPosition
+
+            binding.note.visibility = if (isSelected) View.INVISIBLE else View.VISIBLE
+            binding.textAmount.visibility = if (isSelected) View.INVISIBLE else View.VISIBLE
+            binding.textCurrency.visibility = if (isSelected) View.INVISIBLE else View.VISIBLE
+            binding.deleteButton.visibility = if (!isSelected) View.INVISIBLE else View.VISIBLE
+
+            itemView.setOnClickListener {
+                if (bindingAdapterPosition == selectedPosition)
+                    itemSelecting(false)
+            }
+
+            itemView.setOnLongClickListener {
+                itemSelecting(bindingAdapterPosition != selectedPosition)
+                true
+            }
+
+            binding.deleteButton.setOnClickListener {
+                itemSelecting(false)
+                onDeleteClickListener?.onClick(transactionView)
+            }
+        }
+
+        private fun itemSelecting(activate: Boolean) {
+            notifyItemChanged(selectedPosition)
+            selectedPosition = if (activate) bindingAdapterPosition else RecyclerView.NO_POSITION
+            notifyItemChanged(selectedPosition)
         }
     }
 
@@ -118,6 +148,18 @@ class TransactionsRVAdapter @Inject constructor(
     fun updateData(transactionList: List<Any>) {
         transactionsWithInfoList = transactionList
         notifyDataSetChanged()
+    }
+
+    fun clearSelectedPosition() {
+        selectedPosition = RecyclerView.NO_POSITION
+    }
+
+    fun setOnDeleteClickListener(onDeleteClickListener: OnDeleteClickListener) {
+        this.onDeleteClickListener = onDeleteClickListener
+    }
+
+    class OnDeleteClickListener(val clickListener: (transaction: TransactionView) -> Unit) {
+        fun onClick(transaction: TransactionView) = clickListener(transaction)
     }
 
     companion object {
