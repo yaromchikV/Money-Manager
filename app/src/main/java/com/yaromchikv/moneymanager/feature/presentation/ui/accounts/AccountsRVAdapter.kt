@@ -2,9 +2,9 @@ package com.yaromchikv.moneymanager.feature.presentation.ui.accounts
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -13,7 +13,6 @@ import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.ItemAccountBinding
 import com.yaromchikv.moneymanager.feature.domain.model.Account
-import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -38,10 +37,7 @@ class AccountsRVAdapter @Inject constructor(
 
             DrawableCompat.setTint(
                 binding.iconBackground.drawable,
-                ContextCompat.getColor(
-                    context,
-                    mapOfColors[account.color] ?: R.color.orange_red
-                )
+                Color.parseColor(account.color)
             )
 
             itemView.setOnClickListener {

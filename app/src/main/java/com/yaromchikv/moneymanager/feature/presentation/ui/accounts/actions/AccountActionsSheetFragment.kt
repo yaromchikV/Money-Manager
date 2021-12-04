@@ -1,11 +1,11 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.accounts.actions
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.DialogFragmentNavigator
@@ -16,7 +16,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.SheetFragmentAccountActionsBinding
-import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -51,12 +50,7 @@ class AccountActionsSheetFragment : BottomSheetDialogFragment() {
             requireContext().resources.getStringArray(R.array.currency_values)[0]
         )
 
-        binding.actionsContainer.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                mapOfColors[account.color] ?: R.color.orange_red
-            )
-        )
+        binding.actionsContainer.setBackgroundColor(Color.parseColor(account.color))
 
         binding.editButton.setOnClickListener {
             viewModel.editButtonClick(account)

@@ -1,10 +1,10 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.transactions.select_category
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -17,7 +17,6 @@ import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.SheetFragmentSelectCategoryBinding
 import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
-import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
@@ -55,12 +54,7 @@ class SelectCategorySheetFragment : BottomSheetDialogFragment() {
             "currency",
             requireContext().resources.getStringArray(R.array.currency_values)[0]
         )
-        binding.actionsContainer.setBackgroundColor(
-            ContextCompat.getColor(
-                requireContext(),
-                mapOfColors[account.color] ?: R.color.orange_red
-            )
-        )
+        binding.actionsContainer.setBackgroundColor(Color.parseColor(account.color))
 
         categoriesRVAdapter.setOnClickListener(CategoriesRVAdapter.OnClickListener {
             viewModel.selectCategoryClick(account, it)

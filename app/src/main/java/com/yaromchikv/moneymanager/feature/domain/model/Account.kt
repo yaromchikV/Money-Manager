@@ -12,5 +12,5 @@ data class Account(
     val id: Int? = null,
     val name: String,
     val amount: Double = 0.0,
-    val color: Int
+    val color: String
 ) : Parcelable

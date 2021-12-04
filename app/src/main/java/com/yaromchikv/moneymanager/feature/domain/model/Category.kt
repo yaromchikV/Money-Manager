@@ -11,5 +11,5 @@ data class Category(
     val name: String,
     val icon: Int,
     @ColumnInfo(name = "icon_color")
-    val iconColor: Int
+    val iconColor: String
 )

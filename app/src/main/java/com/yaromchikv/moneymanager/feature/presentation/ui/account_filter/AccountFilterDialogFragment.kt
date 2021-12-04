@@ -1,8 +1,8 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.account_filter
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.DialogFragment
@@ -17,7 +17,7 @@ import com.yaromchikv.moneymanager.common.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.DialogFragmentAccountFilterBinding
 import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
 import com.yaromchikv.moneymanager.feature.presentation.ui.accounts.AccountsRVAdapter
-import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.PRIMARY_COLOR
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
@@ -49,10 +49,7 @@ class AccountFilterDialogFragment : DialogFragment(R.layout.dialog_fragment_acco
 
         DrawableCompat.setTint(
             binding.allAccountsIconColor.drawable,
-            ContextCompat.getColor(
-                requireContext(),
-                mapOfColors[activityViewModel.currentAccount.value?.color] ?: R.color.orange_red
-            )
+            Color.parseColor(activityViewModel.currentAccount.value?.color ?: PRIMARY_COLOR)
         )
 
         binding.allAccountsItem.setOnClickListener {

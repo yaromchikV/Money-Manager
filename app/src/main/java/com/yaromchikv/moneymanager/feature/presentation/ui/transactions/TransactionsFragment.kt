@@ -1,7 +1,6 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.transactions
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -19,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.FragmentTransactionsBinding
+import com.yaromchikv.moneymanager.feature.domain.model.TransactionView
 import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -89,18 +89,9 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
                         }
                     }
                     is TransactionsViewModel.Event.ShowTheDeleteTransactionDialog -> {
-                        Log.d("!!!", "alert")
-
-                        val alert = AlertDialog.Builder(requireContext())
-                            .setIcon(R.drawable.ic_warning)
-                            .setTitle("Do you really to delete this transaction? ")
-                            .setMessage("From: ${it.transaction.categoryName}\nTo: ${it.transaction.accountName}\nAmount: ${it.transaction.amount}")
-                            .setPositiveButton(getString(R.string.ok)) { _, _ ->
-                                viewModel.deleteConfirmationButtonClick(it.transaction)
-                            }
-                            .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
-                            .create()
-                        alert.show()
+                        if (!alertIsShowing) {
+                            showAlertDialog(it.transaction)
+                        }
                     }
                     is TransactionsViewModel.Event.DeleteTransaction -> {
                         viewModel.deleteTransaction(it.transaction)
@@ -108,6 +99,28 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
                 }
             }
         }
+    }
+
+    private var alertIsShowing = false
+
+    private fun showAlertDialog(transaction: TransactionView) {
+        alertIsShowing = true
+
+        val alert = AlertDialog.Builder(requireContext())
+            .setIcon(R.drawable.ic_warning)
+            .setTitle("Do you really to delete this transaction? ")
+            .setMessage("From: ${transaction.categoryName}\nTo: ${transaction.accountName}\nAmount: ${transaction.amount}")
+            .setPositiveButton(getString(R.string.ok)) { _, _ ->
+                viewModel.deleteConfirmationButtonClick(transaction)
+                transactionAdapter.clearSelectedPosition()
+                alertIsShowing = false
+            }
+            .setNegativeButton(getString(R.string.cancel)) { _, _ ->
+                alertIsShowing = false
+            }
+            .setOnCancelListener { alertIsShowing = false }
+            .create()
+        alert.show()
     }
 
     override fun onPause() {
@@ -129,4 +142,5 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
     private fun getCurrentDestination() =
         (findNavController().currentDestination as? FragmentNavigator.Destination)?.className
             ?: (findNavController().currentDestination as? DialogFragmentNavigator.Destination)?.className
+
 }

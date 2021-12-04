@@ -1,14 +1,13 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.accounts.edit
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -19,7 +18,7 @@ import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.FragmentAccountEditBinding
-import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.PRIMARY_COLOR
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -36,7 +35,6 @@ class AccountEditFragment : Fragment(R.layout.fragment_account_edit) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
-        val colorId = ImageViewCompat.getImageTintList(binding.selectedColor)?.defaultColor
         colorClickListener()
 
         val account = args.editableAccount
@@ -44,12 +42,11 @@ class AccountEditFragment : Fragment(R.layout.fragment_account_edit) {
         binding.nameTextField.editText?.setText(account.name)
         binding.amountTextField.editText?.setText(account.amount.toString())
 
+        var color = account.color
+
         DrawableCompat.setTint(
             binding.selectedColor.drawable,
-            ContextCompat.getColor(
-                requireContext(),
-                mapOfColors[account.color] ?: R.color.orange_red
-            )
+            Color.parseColor(color)
         )
 
         lifecycleScope.launchWhenStarted {
@@ -60,7 +57,7 @@ class AccountEditFragment : Fragment(R.layout.fragment_account_edit) {
                             name = binding.nameTextField.editText?.text.toString(),
                             amount = binding.amountTextField.editText?.text.toString()
                                 .toDoubleOrNull() ?: account.amount,
-                            color = mapOfColors[colorId] ?: account.color
+                            color = color
                         )
 
                         viewModel.updateAccount(newAccount)
@@ -70,11 +67,9 @@ class AccountEditFragment : Fragment(R.layout.fragment_account_edit) {
                     is AccountEditViewModel.Event.SelectColor -> {
                         DrawableCompat.setTint(
                             binding.selectedColor.drawable,
-                            ContextCompat.getColor(
-                                requireContext(),
-                                mapOfColors[it.id] ?: R.color.orange_red
-                            )
+                            Color.parseColor(it.color)
                         )
+                        color = it.color
                     }
                 }
             }

@@ -1,14 +1,14 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.accounts.add
 
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -19,7 +19,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.FragmentAccountAddBinding
 import com.yaromchikv.moneymanager.feature.domain.model.Account
-import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.PRIMARY_COLOR
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -34,7 +34,8 @@ class AccountAddFragment : Fragment(R.layout.fragment_account_add) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
-        val colorId = ImageViewCompat.getImageTintList(binding.selectedColor)?.defaultColor
+        var color = PRIMARY_COLOR
+
         colorClickListener()
 
         lifecycleScope.launchWhenStarted {
@@ -45,9 +46,8 @@ class AccountAddFragment : Fragment(R.layout.fragment_account_add) {
                             name = binding.nameTextField.editText?.text.toString(),
                             amount = binding.amountTextField.editText?.text.toString()
                                 .toDoubleOrNull() ?: 0.0,
-                            color = mapOfColors[colorId] ?: R.color.orange_red
+                            color = color
                         )
-
                         viewModel.addAccount(account)
 
                         if (getCurrentDestination() == this@AccountAddFragment.javaClass.name)
@@ -56,11 +56,9 @@ class AccountAddFragment : Fragment(R.layout.fragment_account_add) {
                     is AccountAddViewModel.Event.SelectColor -> {
                         DrawableCompat.setTint(
                             binding.selectedColor.drawable,
-                            ContextCompat.getColor(
-                                requireContext(),
-                                mapOfColors[it.id] ?: R.color.orange_red
-                            )
+                            Color.parseColor(it.color)
                         )
+                        color = it.color
                     }
                 }
             }
@@ -68,6 +66,8 @@ class AccountAddFragment : Fragment(R.layout.fragment_account_add) {
     }
 
     private fun colorClickListener() {
+        Log.d("!!!", "clickListener")
+
         binding.color0.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
         binding.color1.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
         binding.color2.setOnClickListener { viewModel.selectColorClick(it as ImageView) }

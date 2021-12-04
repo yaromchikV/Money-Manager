@@ -1,11 +1,11 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.chart
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -25,8 +25,7 @@ import com.yaromchikv.moneymanager.databinding.FragmentChartBinding
 import com.yaromchikv.moneymanager.databinding.ItemCategoryBinding
 import com.yaromchikv.moneymanager.feature.domain.model.CategoryView
 import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
-import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
-import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfDrawables
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.mapOfDrawables
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -83,12 +82,7 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         val colors = ArrayList<Int>()
 
         categoryViews.forEach { category ->
-            colors.add(
-                ContextCompat.getColor(
-                    requireContext(),
-                    mapOfColors[category.iconColor] ?: R.color.orange_red
-                )
-            )
+            colors.add(Color.parseColor(category.iconColor))
 
             entries.add(PieEntry(category.amount.toFloat()))
             amount += category.amount
@@ -138,17 +132,13 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         this.amount.text = categoryView.amount.toAmountFormat(withMinus = false)
         this.currency.text = currency
 
-        val color = ContextCompat.getColor(
-            requireContext(),
-            mapOfColors[categoryView.iconColor] ?: R.color.orange_red
-        )
+        val color = Color.parseColor(categoryView.iconColor)
 
         this.amount.setTextColor(color)
         this.currency.setTextColor(color)
         DrawableCompat.setTint(this.iconBackground.drawable, color)
 
-        if (categoryView.amount == 0.0)
-            this.item.alpha = 0.3f
+        this.item.alpha = if (categoryView.amount == 0.0) 0.3f else 1f
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

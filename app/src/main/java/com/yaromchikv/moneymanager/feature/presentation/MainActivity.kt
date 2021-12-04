@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             }
 
             binding.moreButton.visibility =
-                if (isFragmentWithoutAccountsFilter) View.GONE else View.VISIBLE
+                if (isFragmentWithoutAccountsFilter) View.INVISIBLE else View.VISIBLE
             binding.toolbarInfoBox.isEnabled = !isFragmentWithoutAccountsFilter
         }
     }

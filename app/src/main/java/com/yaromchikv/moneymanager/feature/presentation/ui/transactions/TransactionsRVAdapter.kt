@@ -3,10 +3,10 @@ package com.yaromchikv.moneymanager.feature.presentation.ui.transactions
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.yaromchikv.moneymanager.R
@@ -15,8 +15,7 @@ import com.yaromchikv.moneymanager.databinding.ItemDayInfoBinding
 import com.yaromchikv.moneymanager.databinding.ItemTransactionBinding
 import com.yaromchikv.moneymanager.feature.domain.model.DayInfo
 import com.yaromchikv.moneymanager.feature.domain.model.TransactionView
-import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfColors
-import com.yaromchikv.moneymanager.feature.presentation.utils.mapOfDrawables
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.mapOfDrawables
 import javax.inject.Inject
 
 class TransactionsRVAdapter @Inject constructor(
@@ -43,10 +42,7 @@ class TransactionsRVAdapter @Inject constructor(
 
             DrawableCompat.setTint(
                 binding.iconBackground.drawable,
-                ContextCompat.getColor(
-                    context,
-                    mapOfColors[transactionView.iconColor] ?: R.color.orange_red
-                )
+                Color.parseColor(transactionView.iconColor)
             )
 
             binding.note.text = transactionView.note
@@ -74,7 +70,6 @@ class TransactionsRVAdapter @Inject constructor(
             }
 
             binding.deleteButton.setOnClickListener {
-                itemSelecting(false)
                 onDeleteClickListener?.onClick(transactionView)
             }
         }
