@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,7 +19,6 @@ import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.FragmentAccountEditBinding
-import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.PRIMARY_COLOR
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -53,16 +53,25 @@ class AccountEditFragment : Fragment(R.layout.fragment_account_edit) {
             viewModel.events.collectLatest {
                 when (it) {
                     is AccountEditViewModel.Event.UpdateAccount -> {
-                        val newAccount = account.copy(
-                            name = binding.nameTextField.editText?.text.toString(),
-                            amount = binding.amountTextField.editText?.text.toString()
-                                .toDoubleOrNull() ?: account.amount,
-                            color = color
-                        )
+                        val name = binding.nameTextField.editText?.text.toString().trim()
+                        if (name.isEmpty()) {
+                            Toast.makeText(
+                                context,
+                                "The field with the account name is empty",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        } else {
+                            val newAccount = account.copy(
+                                name = name,
+                                amount = binding.amountTextField.editText?.text.toString()
+                                    .toDoubleOrNull() ?: account.amount,
+                                color = color
+                            )
 
-                        viewModel.updateAccount(newAccount)
-                        if (getCurrentDestination() == this@AccountEditFragment.javaClass.name)
-                            findNavController().navigate(AccountEditFragmentDirections.actionAccountEditFragmentToAccountsFragment())
+                            viewModel.updateAccount(newAccount)
+                            if (getCurrentDestination() == this@AccountEditFragment.javaClass.name)
+                                findNavController().navigate(AccountEditFragmentDirections.actionAccountEditFragmentToAccountsFragment())
+                        }
                     }
                     is AccountEditViewModel.Event.SelectColor -> {
                         DrawableCompat.setTint(
