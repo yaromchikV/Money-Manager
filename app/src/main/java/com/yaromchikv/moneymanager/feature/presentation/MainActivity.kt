@@ -130,9 +130,16 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     override fun onStart() {
-        val nightMode = viewModel.getPreferences().getBoolean("night_mode", false)
+        val theme = viewModel.getPreferences().getString(
+            "theme",
+            resources.getStringArray(R.array.theme_values)[0]
+        )
         AppCompatDelegate.setDefaultNightMode(
-            if (nightMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+            when (theme) {
+                "light" -> AppCompatDelegate.MODE_NIGHT_NO
+                "dark" -> AppCompatDelegate.MODE_NIGHT_YES
+                else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            }
         )
         super.onStart()
     }

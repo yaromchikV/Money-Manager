@@ -1,10 +1,12 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <SwitchPreferenceCompat
-        app:defaultValue="false"
-        app:icon="@drawable/ic_moon"
-        app:key="night_mode"
-        app:title="Night mode"
+    <ListPreference
+        app:defaultValue="default"
+        app:entries="@array/theme_entries"
+        app:entryValues="@array/theme_values"
+        app:icon="@drawable/ic_theme"
+        app:key="theme"
+        app:title="@string/theme"
         app:useSimpleSummaryProvider="true" />
 
     <ListPreference
