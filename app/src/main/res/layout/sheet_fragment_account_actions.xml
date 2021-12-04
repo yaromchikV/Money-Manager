@@ -19,11 +19,13 @@
 
     <TextView
         android:id="@+id/account_name"
-        android:layout_width="wrap_content"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textColor="@color/white"
         android:textSize="18sp"
+        android:ellipsize="start"
+        android:singleLine="true"
         app:layout_constraintBottom_toBottomOf="@+id/bank_icon"
         app:layout_constraintStart_toEndOf="@+id/bank_icon"
         app:layout_constraintTop_toTopOf="@+id/bank_icon"

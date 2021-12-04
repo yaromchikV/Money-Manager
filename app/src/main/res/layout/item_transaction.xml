@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?selectableItemBackgroundBorderless"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:foreground="?selectableItemBackgroundBorderless">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -33,9 +33,11 @@
 
         <TextView
             android:id="@+id/category_name"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
+            android:ellipsize="start"
+            android:singleLine="true"
             android:textColor="?attr/colorOnSecondary"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/icon_background"
@@ -53,9 +55,11 @@
 
         <TextView
             android:id="@+id/cardName"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:ellipsize="start"
+            android:singleLine="true"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/icon_background"
             app:layout_constraintStart_toEndOf="@+id/cardIcon"
@@ -87,13 +91,17 @@
 
         <TextView
             android:id="@+id/note"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
+            android:ellipsize="marquee"
+            android:gravity="end"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/text_currency"
             app:layout_constraintTop_toTopOf="@+id/cardName"
-            tools:text="Note" />
+            tools:text="abcdef" />
 
         <ImageView
             android:id="@+id/delete_button"

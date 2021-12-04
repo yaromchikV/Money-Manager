@@ -26,6 +26,8 @@ class CategoriesRVAdapter :
             binding.icon.setImageResource(mapOfDrawables[categoryView.icon] ?: R.drawable.ic_other)
             binding.amount.visibility = View.GONE
 
+            binding.name.isSelected = true
+
             DrawableCompat.setTint(
                 binding.iconBackground.drawable,
                 Color.parseColor(categoryView.iconColor)
