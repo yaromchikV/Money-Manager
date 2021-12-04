@@ -9,10 +9,10 @@ import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.yaromchikv.moneymanager.R
-import com.yaromchikv.moneymanager.common.DAY_IN_MS
-import com.yaromchikv.moneymanager.common.getCurrentLocalDate
-import com.yaromchikv.moneymanager.common.toLocalDate
-import com.yaromchikv.moneymanager.common.toMilliseconds
+import com.yaromchikv.moneymanager.common.DateUtils.DAY_IN_MS
+import com.yaromchikv.moneymanager.common.DateUtils.getCurrentLocalDate
+import com.yaromchikv.moneymanager.common.DateUtils.toLocalDate
+import com.yaromchikv.moneymanager.common.DateUtils.toMilliseconds
 import com.yaromchikv.moneymanager.databinding.DialogFragmentSelectDateBinding
 import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint

@@ -20,11 +20,12 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.yaromchikv.moneymanager.R
-import com.yaromchikv.moneymanager.common.toAmountFormat
+import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.FragmentChartBinding
 import com.yaromchikv.moneymanager.databinding.ItemCategoryBinding
 import com.yaromchikv.moneymanager.feature.domain.model.CategoryView
 import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.PRIMARY_COLOR
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.mapOfDrawables
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -82,11 +83,18 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         val colors = ArrayList<Int>()
 
         categoryViews.forEach { category ->
-            colors.add(Color.parseColor(category.iconColor))
-
-            entries.add(PieEntry(category.amount.toFloat()))
-            amount += category.amount
+            if (category.amount != 0.0) {
+                entries.add(PieEntry(category.amount.toFloat()))
+                colors.add(Color.parseColor(category.iconColor))
+                amount += category.amount
+            }
         }
+
+        if (amount == 0.0) {
+            entries.add(PieEntry(1f))
+            colors.add(Color.parseColor(PRIMARY_COLOR))
+            binding.chart.alpha = 0.3f
+        } else binding.chart.alpha = 1f
 
         val dataSet = PieDataSet(entries, "")
         dataSet.colors = colors
@@ -101,6 +109,7 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
             setCenterTextSize(20f)
             description.isEnabled = false
             legend.isEnabled = false
+
             data = PieData(dataSet)
         }
 

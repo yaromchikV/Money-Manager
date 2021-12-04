@@ -1,7 +1,7 @@
 package com.yaromchikv.moneymanager.feature.domain.usecase
 
-import com.yaromchikv.moneymanager.common.asLocalDate
-import com.yaromchikv.moneymanager.common.getCurrentLocalDate
+import com.yaromchikv.moneymanager.common.DateUtils.asLocalDate
+import com.yaromchikv.moneymanager.common.DateUtils.getCurrentLocalDate
 import com.yaromchikv.moneymanager.feature.domain.model.CategoryView
 import com.yaromchikv.moneymanager.feature.domain.repository.CategoriesRepository
 import kotlinx.coroutines.flow.Flow

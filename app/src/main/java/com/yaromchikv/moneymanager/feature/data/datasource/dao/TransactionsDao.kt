@@ -1,14 +1,9 @@
 package com.yaromchikv.moneymanager.feature.data.datasource.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.TypeConverters
-import com.yaromchikv.moneymanager.common.Converter
-import com.yaromchikv.moneymanager.common.asLocalDate
-import com.yaromchikv.moneymanager.common.getCurrentLocalDate
 import com.yaromchikv.moneymanager.feature.domain.model.DayInfo
 import com.yaromchikv.moneymanager.feature.domain.model.Transaction
 import com.yaromchikv.moneymanager.feature.domain.model.TransactionView

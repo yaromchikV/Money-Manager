@@ -13,7 +13,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yaromchikv.moneymanager.R
-import com.yaromchikv.moneymanager.common.getCurrentLocalDate
+import com.yaromchikv.moneymanager.common.DateUtils.getCurrentLocalDate
 import com.yaromchikv.moneymanager.databinding.ActivityMainBinding
 import com.yaromchikv.moneymanager.feature.presentation.ui.accounts.AccountsFragmentDirections
 import com.yaromchikv.moneymanager.feature.presentation.ui.chart.ChartFragmentDirections
@@ -130,26 +130,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     }
 
     override fun onStart() {
-        val theme = viewModel.getPreferences().getString(
-            "theme",
-            resources.getStringArray(R.array.theme_values)[2]
-        )
-
+        val nightMode = viewModel.getPreferences().getBoolean("night_mode", false)
         AppCompatDelegate.setDefaultNightMode(
-            when (theme) {
-                "light" -> {
-                    AppCompatDelegate.MODE_NIGHT_NO
-                }
-                "dark" -> {
-
-                    AppCompatDelegate.MODE_NIGHT_YES
-                }
-                else -> {
-                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-                }
-            }
+            if (nightMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
         )
-
         super.onStart()
     }
 

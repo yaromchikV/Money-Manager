@@ -5,10 +5,8 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
-import com.yaromchikv.moneymanager.common.Converter
-import com.yaromchikv.moneymanager.common.getCurrentLocalDate
-import com.yaromchikv.moneymanager.common.getCurrentLocalTime
+import com.yaromchikv.moneymanager.common.DateUtils.getCurrentLocalDate
+import com.yaromchikv.moneymanager.common.DateUtils.getCurrentLocalTime
 import java.time.LocalDate
 import java.time.LocalTime
 

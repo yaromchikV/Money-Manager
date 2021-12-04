@@ -3,7 +3,7 @@ package com.yaromchikv.moneymanager.feature.presentation
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.yaromchikv.moneymanager.common.getCurrentLocalDate
+import com.yaromchikv.moneymanager.common.DateUtils.getCurrentLocalDate
 import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.domain.usecase.AccountUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
