@@ -49,7 +49,7 @@ class CategoriesRVAdapter :
 
     companion object DIFF_CALLBACK : DiffUtil.ItemCallback<CategoryView>() {
         override fun areItemsTheSame(oldItem: CategoryView, newItem: CategoryView): Boolean {
-            return oldItem == newItem
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: CategoryView, newItem: CategoryView): Boolean {

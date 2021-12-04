@@ -58,7 +58,7 @@ class AccountsRVAdapter @Inject constructor(
 
     companion object DIFF_CALLBACK : DiffUtil.ItemCallback<Account>() {
         override fun areItemsTheSame(oldItem: Account, newItem: Account): Boolean {
-            return oldItem == newItem
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Account, newItem: Account): Boolean {

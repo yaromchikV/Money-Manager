@@ -1,6 +1,5 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.transactions
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
@@ -8,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.toAmountFormat
@@ -21,19 +22,58 @@ import javax.inject.Inject
 class TransactionsRVAdapter @Inject constructor(
     private val context: Context,
     private val sharedPreferences: SharedPreferences
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-    private var transactionsWithInfoList = emptyList<Any>()
+) : ListAdapter<Any, TransactionsRVAdapter.ItemViewHolder>(DIFF_CALLBACK) {
 
     private var onDeleteClickListener: OnDeleteClickListener? = null
 
+    abstract class ItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        abstract fun bind(item: Any)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            TRANSACTION_VIEW_TYPE -> {
+                val binding = ItemTransactionBinding.inflate(layoutInflater, parent, false)
+                TransactionViewHolder(binding)
+            }
+            else -> {
+                val binding = ItemDayInfoBinding.inflate(layoutInflater, parent, false)
+                DayInfoViewHolder(binding)
+            }
+        }
+    }
+
+    override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+        when (holder.itemViewType) {
+            TRANSACTION_VIEW_TYPE -> {
+                val viewHolder = holder as TransactionViewHolder
+                viewHolder.bind(getItem(position))
+            }
+            else -> {
+                val viewHolder = holder as DayInfoViewHolder
+                viewHolder.bind(getItem(position))
+            }
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (getItem(position) is TransactionView) TRANSACTION_VIEW_TYPE else DAY_INFO_VIEW_TYPE
+    }
+
     private var selectedPosition: Int = RecyclerView.NO_POSITION
+
+    fun clearSelectedPosition() {
+        selectedPosition = RecyclerView.NO_POSITION
+    }
 
     inner class TransactionViewHolder(
         private val binding: ItemTransactionBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
+    ) : ItemViewHolder(binding.root) {
 
-        fun bind(transactionView: TransactionView) {
+        override fun bind(item: Any) {
+            val transactionView = item as TransactionView
+
             binding.categoryName.text = transactionView.categoryName
             binding.cardName.text = transactionView.accountName
             binding.icon.setImageResource(
@@ -83,9 +123,11 @@ class TransactionsRVAdapter @Inject constructor(
 
     inner class DayInfoViewHolder(
         private val binding: ItemDayInfoBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
+    ) : ItemViewHolder(binding.root) {
 
-        fun bind(dayInfo: DayInfo) {
+        override fun bind(item: Any) {
+            val dayInfo = item as DayInfo
+
             val date = dayInfo.transactionDate
             val amount = dayInfo.amountPerDay
             val monthAndYear = "${date.month} ${date.year}"
@@ -102,53 +144,6 @@ class TransactionsRVAdapter @Inject constructor(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        return when (viewType) {
-            TRANSACTION_VIEW_TYPE -> {
-                val binding = ItemTransactionBinding.inflate(layoutInflater, parent, false)
-                TransactionViewHolder(binding)
-            }
-            else -> {
-                val binding = ItemDayInfoBinding.inflate(layoutInflater, parent, false)
-                DayInfoViewHolder(binding)
-            }
-        }
-    }
-
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder.itemViewType) {
-            TRANSACTION_VIEW_TYPE -> {
-                val viewHolder = holder as TransactionViewHolder
-                val transactionView = transactionsWithInfoList[position] as TransactionView
-                viewHolder.bind(transactionView)
-            }
-            else -> {
-                val viewHolder = holder as DayInfoViewHolder
-                val dayInfo = transactionsWithInfoList[position] as DayInfo
-                viewHolder.bind(dayInfo)
-            }
-        }
-    }
-
-    override fun getItemCount(): Int {
-        return transactionsWithInfoList.size
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        return if (transactionsWithInfoList[position] is TransactionView) TRANSACTION_VIEW_TYPE else DAY_INFO_VIEW_TYPE
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun updateData(transactionList: List<Any>) {
-        transactionsWithInfoList = transactionList
-        notifyDataSetChanged()
-    }
-
-    fun clearSelectedPosition() {
-        selectedPosition = RecyclerView.NO_POSITION
-    }
-
     fun setOnDeleteClickListener(onDeleteClickListener: OnDeleteClickListener) {
         this.onDeleteClickListener = onDeleteClickListener
     }
@@ -160,5 +155,23 @@ class TransactionsRVAdapter @Inject constructor(
     companion object {
         private const val TRANSACTION_VIEW_TYPE = 1
         private const val DAY_INFO_VIEW_TYPE = 0
+
+        object DIFF_CALLBACK : DiffUtil.ItemCallback<Any>() {
+            override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
+                return if (oldItem is DayInfo && newItem is DayInfo)
+                    oldItem.transactionDate == newItem.transactionDate
+                else if (oldItem is TransactionView && newItem is TransactionView)
+                    oldItem.id == newItem.id
+                else false
+            }
+
+            override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
+                return if (oldItem is DayInfo && newItem is DayInfo)
+                    oldItem.hashCode() == newItem.hashCode()
+                else if (oldItem is TransactionView && newItem is TransactionView)
+                    oldItem.hashCode() == newItem.hashCode()
+                else false
+            }
+        }
     }
 }
