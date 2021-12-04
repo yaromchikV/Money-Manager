@@ -1,5 +1,6 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.chart
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
@@ -29,6 +30,10 @@ import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.PRIMARY_COLO
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.mapOfDrawables
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import android.util.TypedValue
+
+
+
 
 @AndroidEntryPoint
 class ChartFragment : Fragment(R.layout.fragment_chart) {
@@ -70,7 +75,15 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         }
     }
 
+    private fun getThemeColor(color: Int): Int {
+        val value = TypedValue()
+        requireContext().theme.resolveAttribute(color, value, true)
+        return value.data
+    }
+
     private fun updateChartData(categoryViews: List<CategoryView>) {
+
+
         val currency = viewModel.getPreferences().getString(
             "currency",
             requireContext().resources.getStringArray(R.array.currency_values)[0]
@@ -105,6 +118,8 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         binding.chart.apply {
             isDrawHoleEnabled = true
             holeRadius = 86f
+            setHoleColor(getThemeColor(R.attr.colorOnPrimary))
+            setCenterTextColor(getThemeColor(R.attr.colorOnSecondary))
             centerText = "Expenses\n$amountString"
             setCenterTextSize(20f)
             description.isEnabled = false

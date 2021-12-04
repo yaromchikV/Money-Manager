@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_gray"
+    android:background="?attr/colorOnPrimary"
     tools:context=".feature.presentation.ui.transactions.TransactionsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add"
+        app:tint="?attr/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
