@@ -30,4 +30,29 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <ImageView
+        android:id="@+id/no_transaction_image"
+        android:layout_width="300dp"
+        android:layout_height="230dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="72dp"
+        android:src="@drawable/ic_no_transaction"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/no_transaction_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_transaction"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/no_transaction_image"
+        app:layout_constraintStart_toStartOf="@+id/no_transaction_image"
+        app:layout_constraintTop_toBottomOf="@+id/no_transaction_image" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

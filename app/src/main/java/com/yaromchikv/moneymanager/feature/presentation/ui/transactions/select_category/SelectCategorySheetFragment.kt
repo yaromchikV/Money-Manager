@@ -19,7 +19,6 @@ import com.yaromchikv.moneymanager.databinding.SheetFragmentSelectCategoryBindin
 import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class SelectCategorySheetFragment : BottomSheetDialogFragment() {
@@ -30,8 +29,9 @@ class SelectCategorySheetFragment : BottomSheetDialogFragment() {
     private val viewModel: SelectCategoryViewModel by viewModels()
     private val activityViewModel: MainActivityViewModel by activityViewModels()
 
-    @Inject
-    lateinit var categoriesRVAdapter: CategoriesRVAdapter
+    private val categoriesRVAdapter by lazy {
+        CategoriesRVAdapter()
+    }
 
     private val args by navArgs<SelectCategorySheetFragmentArgs>()
 

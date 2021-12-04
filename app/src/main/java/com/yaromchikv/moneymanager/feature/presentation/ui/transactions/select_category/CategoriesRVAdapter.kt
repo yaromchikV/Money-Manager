@@ -1,6 +1,5 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.transactions.select_category
 
-import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -13,11 +12,9 @@ import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.ItemCategoryBinding
 import com.yaromchikv.moneymanager.feature.domain.model.CategoryView
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.mapOfDrawables
-import javax.inject.Inject
 
-class CategoriesRVAdapter @Inject constructor(
-    private val context: Context
-) : ListAdapter<CategoryView, CategoriesRVAdapter.CategoryViewHolder>(DIFF_CALLBACK) {
+class CategoriesRVAdapter :
+    ListAdapter<CategoryView, CategoriesRVAdapter.CategoryViewHolder>(DIFF_CALLBACK) {
 
     private var onClickListener: OnClickListener? = null
 
