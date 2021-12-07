@@ -1,6 +1,7 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.transactions
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.feature.domain.model.Account
@@ -93,6 +94,7 @@ class TransactionsViewModel @Inject constructor(
     }
 
     suspend fun deleteTransaction(transaction: TransactionView) {
+        Log.d("!!!", transaction.amount.toString())
         transactionUseCases.deleteTransactionById(transaction)
     }
 

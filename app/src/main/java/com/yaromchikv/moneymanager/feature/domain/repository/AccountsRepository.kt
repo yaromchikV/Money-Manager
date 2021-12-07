@@ -7,11 +7,13 @@ interface AccountsRepository {
 
     fun getAccounts(): Flow<List<Account>>
 
+    suspend fun getAccountById(id: Int): Account?
+
     suspend fun insertAccount(account: Account)
 
     suspend fun updateAccount(account: Account)
 
-    suspend fun updateAccountAmountById(id: Int, amount: Double)
+    suspend fun updateAccountAmount(id: Int, amount: Double)
 
     suspend fun deleteAccount(account: Account)
 }

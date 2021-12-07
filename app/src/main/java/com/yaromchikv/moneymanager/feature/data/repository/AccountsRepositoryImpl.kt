@@ -13,6 +13,10 @@ class AccountsRepositoryImpl(
         return dao.getAccounts()
     }
 
+    override suspend fun getAccountById(id: Int): Account? {
+        return dao.getAccountById(id)
+    }
+
     override suspend fun insertAccount(account: Account) {
         dao.insertAccount(account)
     }
@@ -21,8 +25,8 @@ class AccountsRepositoryImpl(
         dao.updateAccount(account)
     }
 
-    override suspend fun updateAccountAmountById(id: Int, amount: Double) {
-        dao.updateAccountAmountById(id, amount)
+    override suspend fun updateAccountAmount(id: Int, amount: Double) {
+        dao.updateAccountAmount(id, amount)
     }
 
     override suspend fun deleteAccount(account: Account) {
