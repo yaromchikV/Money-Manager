@@ -130,7 +130,7 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
             binding.chart.apply {
                 isDrawHoleEnabled = true
                 holeRadius = 86f
-                setHoleColor(getThemeColor(R.attr.colorOnPrimary))
+                setHoleColor(Color.TRANSPARENT)
                 setCenterTextColor(getThemeColor(R.attr.colorOnSecondary))
                 centerText = "Expenses\n$amountString"
                 setCenterTextSize(20f)

@@ -60,6 +60,7 @@ class SelectCategorySheetFragment : BottomSheetDialogFragment() {
 
         binding.gridOfCategories.apply {
             adapter = categoriesRVAdapter
+            itemAnimator = null
         }
 
         lifecycleScope.launchWhenStarted {
