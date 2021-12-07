@@ -1,14 +1,11 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.accounts.edit
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +16,8 @@ import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.FragmentAccountEditBinding
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setTint
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -44,10 +43,7 @@ class AccountEditFragment : Fragment(R.layout.fragment_account_edit) {
 
         var color = account.color
 
-        DrawableCompat.setTint(
-            binding.selectedColor.drawable,
-            Color.parseColor(color)
-        )
+        binding.selectedColor.setTint(color)
 
         lifecycleScope.launchWhenStarted {
             viewModel.events.collectLatest {
@@ -55,18 +51,13 @@ class AccountEditFragment : Fragment(R.layout.fragment_account_edit) {
                     is AccountEditViewModel.Event.UpdateAccount -> {
                         val name = binding.nameTextField.editText?.text.toString().trim()
                         if (name.isEmpty()) {
-                            Toast.makeText(
-                                context,
-                                "The field with the account name is empty",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            showToast(context, getString(R.string.account_empty_name_error))
                         } else {
-                            val newAccount = account.copy(
-                                name = name,
-                                amount = binding.amountTextField.editText?.text.toString()
-                                    .toDoubleOrNull() ?: account.amount,
-                                color = color
-                            )
+                            val amount = binding.amountTextField.editText?.text.toString()
+                                .toDoubleOrNull() ?: account.amount
+
+                            val newAccount =
+                                account.copy(name = name, amount = amount, color = color)
 
                             viewModel.updateAccount(newAccount)
                             if (getCurrentDestination() == this@AccountEditFragment.javaClass.name)
@@ -74,10 +65,7 @@ class AccountEditFragment : Fragment(R.layout.fragment_account_edit) {
                         }
                     }
                     is AccountEditViewModel.Event.SelectColor -> {
-                        DrawableCompat.setTint(
-                            binding.selectedColor.drawable,
-                            Color.parseColor(it.color)
-                        )
+                        binding.selectedColor.setTint(it.color)
                         color = it.color
                     }
                 }

@@ -1,14 +1,11 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.accounts.add
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -19,7 +16,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.FragmentAccountAddBinding
 import com.yaromchikv.moneymanager.feature.domain.model.Account
-import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.PRIMARY_COLOR
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.MAIN_COLOR
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setTint
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -34,7 +33,7 @@ class AccountAddFragment : Fragment(R.layout.fragment_account_add) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
-        var color = PRIMARY_COLOR
+        var color = MAIN_COLOR
 
         colorClickListener()
 
@@ -44,18 +43,12 @@ class AccountAddFragment : Fragment(R.layout.fragment_account_add) {
                     is AccountAddViewModel.Event.AddAccount -> {
                         val name = binding.nameTextField.editText?.text.toString().trim()
                         if (name.isEmpty()) {
-                            Toast.makeText(
-                                context,
-                                "The field with the account name is empty",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            showToast(context, getString(R.string.account_empty_name_error))
                         } else {
-                            val account = Account(
-                                name = name,
-                                amount = binding.amountTextField.editText?.text.toString()
-                                    .toDoubleOrNull() ?: 0.0,
-                                color = color
-                            )
+                            val amount = binding.amountTextField.editText?.text.toString()
+                                .toDoubleOrNull() ?: 0.0
+
+                            val account = Account(name = name, amount = amount, color = color)
                             viewModel.addAccount(account)
 
                             if (getCurrentDestination() == this@AccountAddFragment.javaClass.name)
@@ -63,10 +56,7 @@ class AccountAddFragment : Fragment(R.layout.fragment_account_add) {
                         }
                     }
                     is AccountAddViewModel.Event.SelectColor -> {
-                        DrawableCompat.setTint(
-                            binding.selectedColor.drawable,
-                            Color.parseColor(it.color)
-                        )
+                        binding.selectedColor.setTint(it.color)
                         color = it.color
                     }
                 }

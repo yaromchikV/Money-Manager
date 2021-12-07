@@ -27,13 +27,13 @@ class MainActivityViewModel @Inject constructor(
     private val _accounts = MutableStateFlow(emptyList<Account>())
     val accounts = _accounts.asStateFlow()
 
-    private val _currentAccount = MutableStateFlow<Account?>(null)
-    val currentAccount = _currentAccount.asStateFlow()
+    private val _selectedAccount = MutableStateFlow<Account?>(null)
+    val selectedAccount = _selectedAccount.asStateFlow()
 
-    private val _currentDateRange = MutableStateFlow<Pair<LocalDate?, LocalDate?>>(
+    private val _selectedDateRange = MutableStateFlow<Pair<LocalDate?, LocalDate?>>(
         getCurrentLocalDate() to getCurrentLocalDate()
     )
-    val currentDateRange = _currentDateRange.asStateFlow()
+    val selectedDateRange = _selectedDateRange.asStateFlow()
 
     private val _events = MutableSharedFlow<Event>()
     val events = _events.asSharedFlow()
@@ -67,13 +67,13 @@ class MainActivityViewModel @Inject constructor(
 
     fun setCurrentAccount(account: Account?) {
         viewModelScope.launch {
-            _currentAccount.value = account
+            _selectedAccount.value = account
         }
     }
 
     fun setCurrentDateRange(begin: LocalDate?, end: LocalDate?) {
         viewModelScope.launch {
-            _currentDateRange.value = begin to end
+            _selectedDateRange.value = begin to end
         }
     }
 

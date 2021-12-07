@@ -17,8 +17,10 @@ import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.SheetFragmentSelectCategoryBinding
 import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.CURRENCY_PREFERENCE_KEY
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SelectCategorySheetFragment : BottomSheetDialogFragment() {
@@ -29,9 +31,8 @@ class SelectCategorySheetFragment : BottomSheetDialogFragment() {
     private val viewModel: SelectCategoryViewModel by viewModels()
     private val activityViewModel: MainActivityViewModel by activityViewModels()
 
-    private val categoriesRVAdapter by lazy {
-        CategoriesRVAdapter()
-    }
+    @Inject
+    lateinit var categoriesRVAdapter: CategoriesRVAdapter
 
     private val args by navArgs<SelectCategorySheetFragmentArgs>()
 
@@ -51,7 +52,7 @@ class SelectCategorySheetFragment : BottomSheetDialogFragment() {
         binding.accountName.text = account.name
         binding.accountAmount.text = account.amount.toAmountFormat(withMinus = false)
         binding.accountCurrency.text = viewModel.getPreferences().getString(
-            "currency",
+            CURRENCY_PREFERENCE_KEY,
             requireContext().resources.getStringArray(R.array.currency_values)[0]
         )
         binding.actionsContainer.setBackgroundColor(Color.parseColor(account.color))
@@ -71,8 +72,14 @@ class SelectCategorySheetFragment : BottomSheetDialogFragment() {
         }
 
         lifecycleScope.launchWhenStarted {
-            activityViewModel.currentDateRange.collectLatest {
+            activityViewModel.selectedDateRange.collectLatest {
                 viewModel.setDateRange(it.first, it.second)
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            activityViewModel.selectedAccount.collectLatest {
+                viewModel.setSelectedAccount(it)
             }
         }
 

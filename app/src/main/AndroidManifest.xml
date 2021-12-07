@@ -14,19 +14,18 @@
         android:theme="@style/Theme.MoneyManager"
         tools:ignore="AllowBackup">
         <activity
-            android:name=".feature.presentation.ui.settings.SettingsActivity"
-            android:exported="false"
-            android:label="@string/title_activity_settings" />
-        <activity
             android:name=".feature.presentation.MainActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".feature.presentation.ui.settings.SettingsActivity"
+            android:exported="true"
+            android:label="@string/settings" />
     </application>
 
 </manifest>

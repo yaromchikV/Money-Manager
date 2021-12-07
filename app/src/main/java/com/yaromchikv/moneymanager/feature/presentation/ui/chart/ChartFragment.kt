@@ -1,13 +1,12 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.chart
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -26,13 +25,12 @@ import com.yaromchikv.moneymanager.databinding.FragmentChartBinding
 import com.yaromchikv.moneymanager.databinding.ItemCategoryBinding
 import com.yaromchikv.moneymanager.feature.domain.model.CategoryView
 import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
-import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.PRIMARY_COLOR
-import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.mapOfDrawables
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.CURRENCY_PREFERENCE_KEY
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.MAIN_COLOR
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setIcon
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setTint
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import android.util.TypedValue
-
-
 
 
 @AndroidEntryPoint
@@ -55,8 +53,14 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         }
 
         lifecycleScope.launchWhenStarted {
-            activityViewModel.currentDateRange.collectLatest {
+            activityViewModel.selectedDateRange.collectLatest {
                 viewModel.setDateRange(it.first, it.second)
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            activityViewModel.selectedAccount.collectLatest {
+                viewModel.setSelectedAccount(it)
             }
         }
 
@@ -83,9 +87,8 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
 
     private fun updateChartData(categoryViews: List<CategoryView>) {
 
-
         val currency = viewModel.getPreferences().getString(
-            "currency",
+            CURRENCY_PREFERENCE_KEY,
             requireContext().resources.getStringArray(R.array.currency_values)[0]
         )
 
@@ -105,7 +108,7 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
 
         if (amount == 0.0) {
             entries.add(PieEntry(1f))
-            colors.add(Color.parseColor(PRIMARY_COLOR))
+            colors.add(Color.parseColor(MAIN_COLOR))
             binding.chart.alpha = 0.3f
         } else binding.chart.alpha = 1f
 
@@ -152,7 +155,8 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         currency: String?
     ) {
         this.name.text = categoryView.name
-        this.icon.setImageResource(mapOfDrawables[categoryView.icon] ?: 0)
+        this.icon.setIcon(categoryView.icon)
+        this.iconBackground.setTint(categoryView.iconColor)
         this.amount.text = categoryView.amount.toAmountFormat(withMinus = false)
         this.currency.text = currency
 
@@ -160,7 +164,6 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
 
         this.amount.setTextColor(color)
         this.currency.setTextColor(color)
-        DrawableCompat.setTint(this.iconBackground.drawable, color)
 
         this.item.alpha = if (categoryView.amount == 0.0) 0.3f else 1f
     }

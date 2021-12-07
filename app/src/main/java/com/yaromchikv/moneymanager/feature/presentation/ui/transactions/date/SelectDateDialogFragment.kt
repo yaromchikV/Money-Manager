@@ -9,10 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.yaromchikv.moneymanager.R
-import com.yaromchikv.moneymanager.common.DateUtils.DAY_IN_MS
-import com.yaromchikv.moneymanager.common.DateUtils.getCurrentLocalDate
 import com.yaromchikv.moneymanager.common.DateUtils.toLocalDate
-import com.yaromchikv.moneymanager.common.DateUtils.toMilliseconds
 import com.yaromchikv.moneymanager.databinding.DialogFragmentSelectDateBinding
 import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,7 +50,7 @@ class SelectDateDialogFragment : DialogFragment(R.layout.dialog_fragment_select_
                 when (it) {
                     is SelectDateViewModel.Event.SelectDate -> {
                         val datePicker = MaterialDatePicker.Builder.datePicker()
-                            .setTitleText("Select date")
+                            .setTitleText(getString(R.string.select_date))
                             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                             .build()
 
@@ -65,25 +62,22 @@ class SelectDateDialogFragment : DialogFragment(R.layout.dialog_fragment_select_
                         datePicker.show(childFragmentManager, DATE_PICKER_TAG)
                     }
                     is SelectDateViewModel.Event.SelectToday -> {
-                        val date = getCurrentLocalDate()
+                        val date = viewModel.getTheDate()
                         activityViewModel.setCurrentDateRange(date, date)
                         dismiss()
                     }
                     is SelectDateViewModel.Event.SelectWeek -> {
-                        val from = (getCurrentLocalDate().toMilliseconds() - (7 * DAY_IN_MS))
-                            .toLocalDate()
+                        val from = viewModel.getTheDate(7)
                         activityViewModel.setCurrentDateRange(from, null)
                         dismiss()
                     }
                     is SelectDateViewModel.Event.SelectMonth -> {
-                        val from = (getCurrentLocalDate().toMilliseconds() - (30 * DAY_IN_MS))
-                            .toLocalDate()
+                        val from = viewModel.getTheDate(30)
                         activityViewModel.setCurrentDateRange(from, null)
                         dismiss()
                     }
                     is SelectDateViewModel.Event.SelectYear -> {
-                        val from = (getCurrentLocalDate().toMilliseconds() - (365 * DAY_IN_MS))
-                            .toLocalDate()
+                        val from = viewModel.getTheDate(365)
                         activityViewModel.setCurrentDateRange(from, null)
                         dismiss()
                     }

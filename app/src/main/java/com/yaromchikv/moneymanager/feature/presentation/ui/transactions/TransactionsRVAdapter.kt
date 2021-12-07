@@ -2,11 +2,9 @@ package com.yaromchikv.moneymanager.feature.presentation.ui.transactions
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,9 +14,13 @@ import com.yaromchikv.moneymanager.databinding.ItemDayInfoBinding
 import com.yaromchikv.moneymanager.databinding.ItemTransactionBinding
 import com.yaromchikv.moneymanager.feature.domain.model.DayInfo
 import com.yaromchikv.moneymanager.feature.domain.model.TransactionView
-import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.mapOfDrawables
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.CURRENCY_PREFERENCE_KEY
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setIcon
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setTint
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class TransactionsRVAdapter @Inject constructor(
     private val context: Context,
     private val sharedPreferences: SharedPreferences
@@ -74,21 +76,14 @@ class TransactionsRVAdapter @Inject constructor(
         override fun bind(item: Any) {
             val transactionView = item as TransactionView
 
+            binding.iconBackground.setTint(transactionView.iconColor)
+            binding.icon.setIcon(transactionView.icon)
             binding.categoryName.text = transactionView.categoryName
             binding.cardName.text = transactionView.accountName
-            binding.icon.setImageResource(
-                mapOfDrawables[transactionView.icon] ?: R.drawable.ic_bank
-            )
-
-            DrawableCompat.setTint(
-                binding.iconBackground.drawable,
-                Color.parseColor(transactionView.iconColor)
-            )
-
             binding.note.text = transactionView.note
             binding.textAmount.text = transactionView.amount.toAmountFormat(withMinus = true)
             binding.textCurrency.text = sharedPreferences.getString(
-                "currency",
+                CURRENCY_PREFERENCE_KEY,
                 context.resources.getStringArray(R.array.currency_values)[0]
             )
 
@@ -138,7 +133,7 @@ class TransactionsRVAdapter @Inject constructor(
 
             binding.amount.text = amount.toAmountFormat(withMinus = true)
             binding.currency.text = sharedPreferences.getString(
-                "currency",
+                CURRENCY_PREFERENCE_KEY,
                 context.resources.getStringArray(R.array.currency_values)[0]
             )
 

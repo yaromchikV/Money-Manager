@@ -2,10 +2,8 @@ package com.yaromchikv.moneymanager.feature.presentation.ui.accounts
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +11,8 @@ import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.ItemAccountBinding
 import com.yaromchikv.moneymanager.feature.domain.model.Account
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.CURRENCY_PREFERENCE_KEY
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setTint
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -31,14 +31,11 @@ class AccountsRVAdapter @Inject constructor(
             binding.name.text = account.name
             binding.amount.text = account.amount.toAmountFormat(withMinus = false)
             binding.currency.text = sharedPreferences.getString(
-                "currency",
+                CURRENCY_PREFERENCE_KEY,
                 context.resources.getStringArray(R.array.currency_values)[0]
             )
 
-            DrawableCompat.setTint(
-                binding.iconBackground.drawable,
-                Color.parseColor(account.color)
-            )
+            binding.iconBackground.setTint(account.color)
 
             itemView.setOnClickListener {
                 onClickListener?.onClick(account)

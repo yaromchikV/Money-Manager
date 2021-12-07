@@ -2,6 +2,7 @@ package com.yaromchikv.moneymanager.feature.domain.usecase
 
 import com.yaromchikv.moneymanager.common.DateUtils.asLocalDate
 import com.yaromchikv.moneymanager.common.DateUtils.getCurrentLocalDate
+import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.domain.model.Transaction
 import com.yaromchikv.moneymanager.feature.domain.model.TransactionView
 import com.yaromchikv.moneymanager.feature.domain.repository.AccountsRepository
@@ -18,25 +19,36 @@ data class TransactionUseCases(
 )
 
 class GetTransactionViews(private val repository: TransactionsRepository) {
-    operator fun invoke(from: LocalDate?, to: LocalDate?): Flow<List<TransactionView>> {
-        val minDate: LocalDate = from ?: "2000-01-01".asLocalDate()
-        val maxDate: LocalDate = to ?: getCurrentLocalDate()
-
-        return repository.getTransactionViews(minDate, maxDate)
+    operator fun invoke(
+        dateRange: Pair<LocalDate?, LocalDate?>,
+        account: Account?
+    ): Flow<List<TransactionView>> {
+        val minDate: LocalDate = dateRange.first ?: "2000-01-01".asLocalDate()
+        val maxDate: LocalDate = dateRange.second ?: getCurrentLocalDate()
+        return if (account == null)
+            repository.getTransactionViews(minDate, maxDate)
+        else {
+            repository.getTransactionViewsForAccount(minDate, maxDate, account.id ?: 0)
+        }
     }
 }
 
 class GetTransactionListWithAmountsPerDay(private val repository: TransactionsRepository) {
     suspend operator fun invoke(
         transactions: List<TransactionView>,
-        from: LocalDate?,
-        to: LocalDate?
+        dateRange: Pair<LocalDate?, LocalDate?>,
+        account: Account?
     ): List<Any> {
-        val minDate: LocalDate = from ?: "2000-01-01".asLocalDate()
-        val maxDate: LocalDate = to ?: getCurrentLocalDate()
+        val minDate: LocalDate = dateRange.first ?: "2000-01-01".asLocalDate()
+        val maxDate: LocalDate = dateRange.second ?: getCurrentLocalDate()
 
         val result = mutableListOf<Any>()
-        val amountsPerDay = repository.getTransactionAmountsPerDay(minDate, maxDate).first()
+
+        val amountsPerDay = if (account == null)
+            repository.getTransactionAmountsPerDay(minDate, maxDate).first()
+        else {
+            repository.getTransactionAmountsPerDayForAccount(minDate, maxDate, account.id ?: 0).first()
+        }
 
         if (amountsPerDay.isNotEmpty()) {
             var i = 0

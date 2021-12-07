@@ -18,6 +18,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.FragmentAccountsBinding
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.CURRENCY_PREFERENCE_KEY
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.getDivider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
@@ -43,18 +46,15 @@ class AccountsFragment : Fragment(R.layout.fragment_accounts) {
         binding.listOfAccounts.apply {
             adapter = accountsAdapter
             layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(getDivider())
+            addItemDecoration(getDivider(context))
         }
 
         lifecycleScope.launchWhenStarted {
             viewModel.accounts.collectLatest { newList ->
                 accountsAdapter.submitList(newList)
-                var amount = 0.0
-                newList.forEach { amount += it.amount }
-
-                binding.fullAmount.text = amount.toAmountFormat(withMinus = false)
+                binding.fullAmount.text = viewModel.getFullAmount().toAmountFormat(withMinus = false)
                 binding.mainCurrency.text = viewModel.getPreferences().getString(
-                    "currency",
+                    CURRENCY_PREFERENCE_KEY,
                     requireContext().resources.getStringArray(R.array.currency_values)[0]
                 )
             }
@@ -91,20 +91,6 @@ class AccountsFragment : Fragment(R.layout.fragment_accounts) {
             viewModel.addButtonClick()
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun getDivider() = DividerItemDecoration(
-        requireContext(),
-        DividerItemDecoration.VERTICAL
-    ).apply {
-        setDrawable(
-            requireNotNull(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.divider_layer
-                )
-            )
-        )
     }
 
     private fun getCurrentDestination() =

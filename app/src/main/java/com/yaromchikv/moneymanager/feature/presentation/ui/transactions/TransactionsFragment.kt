@@ -49,7 +49,7 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
 
         binding.newTransactionButton.setOnClickListener {
             viewModel.addTransactionClick(
-                activityViewModel.currentAccount.value ?: activityViewModel.accounts.value[0]
+                activityViewModel.selectedAccount.value ?: activityViewModel.accounts.value[0]
             )
         }
 
@@ -69,8 +69,14 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
         }
 
         lifecycleScope.launchWhenStarted {
-            activityViewModel.currentDateRange.collectLatest {
+            activityViewModel.selectedDateRange.collectLatest {
                 viewModel.setDateRange(it.first, it.second)
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            activityViewModel.selectedAccount.collectLatest {
+                viewModel.setSelectedAccount(it)
             }
         }
 
@@ -113,7 +119,7 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
 
         val alert = AlertDialog.Builder(requireContext())
             .setIcon(R.drawable.ic_warning)
-            .setTitle("Do you really to delete this transaction? ")
+            .setTitle(getString(R.string.alert_transaction_title))
             .setMessage("From: ${transaction.categoryName}\nTo: ${transaction.accountName}\nAmount: ${transaction.amount}")
             .setPositiveButton(getString(R.string.ok)) { _, _ ->
                 viewModel.deleteConfirmationButtonClick(transaction)

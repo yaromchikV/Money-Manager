@@ -3,6 +3,7 @@ package com.yaromchikv.moneymanager.feature.presentation.ui.chart
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.domain.model.CategoryView
 import com.yaromchikv.moneymanager.feature.domain.usecase.CategoryUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,22 +30,31 @@ class ChartViewModel @Inject constructor(
     private val _events = MutableSharedFlow<Event>()
     val events = _events.asSharedFlow()
 
-    private var getCategoriesWithAmountJob: Job? = null
+    private val _selectedAccount = MutableStateFlow<Account?>(null)
+    private val _selectedDateRange = MutableStateFlow<Pair<LocalDate?, LocalDate?>>(null to null)
+
+    private var getCategoryViewsJob: Job? = null
 
     init {
         getCategoryViews()
     }
 
-    private fun getCategoryViews(from: LocalDate? = null, to: LocalDate? = null) {
-        getCategoriesWithAmountJob?.cancel()
-        getCategoriesWithAmountJob =
-            categoryUseCases.getCategoryViews(from, to)
+    private fun getCategoryViews() {
+        getCategoryViewsJob?.cancel()
+        getCategoryViewsJob =
+            categoryUseCases.getCategoryViews(_selectedDateRange.value, _selectedAccount.value)
                 .onEach { categories -> _categoryViews.value = categories }
                 .launchIn(viewModelScope)
     }
 
-    fun setDateRange(from: LocalDate?, to: LocalDate?) {
-        getCategoryViews(from, to)
+    fun setDateRange(from: LocalDate? = null, to: LocalDate? = null) {
+        _selectedDateRange.value = from to to
+        getCategoryViews()
+    }
+
+    fun setSelectedAccount(account: Account? = null) {
+        _selectedAccount.value = account
+        getCategoryViews()
     }
 
     fun selectDateClick() {

@@ -55,6 +55,10 @@ class AccountsViewModel @Inject constructor(
         }
     }
 
+    fun getFullAmount(): Double {
+        return _accounts.value.sumOf { it.amount }
+    }
+
     fun getPreferences() = sharedPreferences
 
     sealed class Event {

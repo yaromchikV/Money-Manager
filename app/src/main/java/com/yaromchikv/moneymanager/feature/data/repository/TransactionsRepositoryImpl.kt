@@ -16,8 +16,24 @@ class TransactionsRepositoryImpl(
         return dao.getTransactionViews(from, to)
     }
 
+    override fun getTransactionViewsForAccount(
+        from: LocalDate,
+        to: LocalDate,
+        id: Int
+    ): Flow<List<TransactionView>> {
+        return dao.getTransactionViewsForAccount(from, to, id)
+    }
+
     override fun getTransactionAmountsPerDay(from: LocalDate, to: LocalDate): Flow<List<DayInfo>> {
         return dao.getTransactionAmountsPerDay(from, to)
+    }
+
+    override fun getTransactionAmountsPerDayForAccount(
+        from: LocalDate,
+        to: LocalDate,
+        id: Int
+    ): Flow<List<DayInfo>> {
+        return dao.getTransactionAmountsPerDayForAccount(from, to, id)
     }
 
     override suspend fun insertTransaction(transaction: Transaction) {

@@ -2,9 +2,14 @@ package com.yaromchikv.moneymanager.feature.presentation.ui.transactions.date
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.yaromchikv.moneymanager.common.DateUtils.DAY_IN_MS
+import com.yaromchikv.moneymanager.common.DateUtils.getCurrentLocalDate
+import com.yaromchikv.moneymanager.common.DateUtils.toLocalDate
+import com.yaromchikv.moneymanager.common.DateUtils.toMilliseconds
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class SelectDateViewModel : ViewModel() {
 
@@ -45,6 +50,12 @@ class SelectDateViewModel : ViewModel() {
         viewModelScope.launch {
             _events.emit(Event.SelectAllTime)
         }
+    }
+
+    fun getTheDate(daysAgo: Int = 0): LocalDate {
+        return if (daysAgo != 0)
+            (getCurrentLocalDate().toMilliseconds() - (daysAgo * DAY_IN_MS)).toLocalDate()
+        else getCurrentLocalDate()
     }
 
     sealed class Event {

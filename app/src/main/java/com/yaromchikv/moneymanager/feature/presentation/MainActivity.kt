@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -75,7 +74,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
 
         lifecycleScope.launchWhenStarted {
-            viewModel.currentAccount.collectLatest {
+            viewModel.selectedAccount.collectLatest {
                 binding.bankIcon.visibility = if (it != null) View.VISIBLE else View.INVISIBLE
                 binding.toolbarTitle.text = it?.name ?: getString(R.string.all_accounts)
             }
@@ -83,7 +82,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
         val pattern = DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
         lifecycleScope.launchWhenStarted {
-            viewModel.currentDateRange.collectLatest {
+            viewModel.selectedDateRange.collectLatest {
                 binding.toolbarSubtitle.text =
                     if (it.first == null && it.second == null)
                         getString(R.string.all_time)
@@ -127,21 +126,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 if (isFragmentWithoutAccountsFilter) View.INVISIBLE else View.VISIBLE
             binding.toolbarInfoBox.isEnabled = !isFragmentWithoutAccountsFilter
         }
-    }
-
-    override fun onStart() {
-        val theme = viewModel.getPreferences().getString(
-            "theme",
-            resources.getStringArray(R.array.theme_values)[0]
-        )
-        AppCompatDelegate.setDefaultNightMode(
-            when (theme) {
-                "light" -> AppCompatDelegate.MODE_NIGHT_NO
-                "dark" -> AppCompatDelegate.MODE_NIGHT_YES
-                else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-            }
-        )
-        super.onStart()
     }
 
     override fun onSupportNavigateUp(): Boolean {

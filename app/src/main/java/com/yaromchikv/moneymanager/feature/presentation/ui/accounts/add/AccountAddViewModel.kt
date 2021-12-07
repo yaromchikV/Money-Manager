@@ -5,7 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.domain.usecase.AccountUseCases
-import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.PRIMARY_COLOR
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.MAIN_COLOR
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.getImageViewTint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -32,11 +33,7 @@ class AccountAddViewModel @Inject constructor(
 
     fun selectColorClick(image: ImageView) {
         viewModelScope.launch {
-            val colorInt = image.imageTintList?.defaultColor
-            val color = if (colorInt != null) String.format(
-                "#%06X",
-                0xFFFFFF and colorInt
-            ) else PRIMARY_COLOR
+            val color = getImageViewTint(image)
             _events.emit(Event.SelectColor(color))
         }
     }

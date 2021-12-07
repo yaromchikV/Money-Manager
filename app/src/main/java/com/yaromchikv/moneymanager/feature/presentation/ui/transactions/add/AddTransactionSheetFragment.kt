@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.DialogFragmentNavigator
@@ -13,8 +12,10 @@ import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.SheetFragmentAddTransactionBinding
 import com.yaromchikv.moneymanager.feature.domain.model.Transaction
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -60,20 +61,19 @@ class AddTransactionSheetFragment : BottomSheetDialogFragment() {
                             val amount =
                                 binding.expenseTextField.editText?.text.toString().toDoubleOrNull()
                             if (amount == null)
-                                Toast.makeText(
-                                    context,
-                                    "The expense is entered incorrectly or not entered at all",
-                                    Toast.LENGTH_LONG
-                                ).show()
+                                showToast(context, getString(R.string.enter_expense_error))
                             else {
+                                val note = binding.noteTextField.editText?.text.toString()
+
                                 val transaction = Transaction(
-                                    note = binding.noteTextField.editText?.text.toString(),
+                                    note = note,
                                     amount = amount,
                                     accountId = account.id,
                                     categoryId = category.id
                                 )
 
                                 viewModel.addTransaction(transaction)
+
                                 if (getCurrentDestination() == this@AddTransactionSheetFragment.javaClass.name) {
                                     findNavController().navigate(
                                         AddTransactionSheetFragmentDirections
