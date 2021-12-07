@@ -1,5 +1,6 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.transactions
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -20,6 +21,7 @@ import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.FragmentTransactionsBinding
 import com.yaromchikv.moneymanager.feature.domain.model.TransactionView
 import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.CURRENCY_PREFERENCE_KEY
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
@@ -110,6 +112,20 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
                 }
             }
         }
+    }
+
+    private var currentCurrency: String = ""
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onStart() {
+        super.onStart()
+        if (currentCurrency != activityViewModel.getCurrency())
+            transactionAdapter.notifyDataSetChanged()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        currentCurrency = activityViewModel.getCurrency()
     }
 
     private var alertIsShowing = false

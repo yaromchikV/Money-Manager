@@ -18,7 +18,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountsViewModel @Inject constructor(
-    private val sharedPreferences: SharedPreferences,
     private val accountUseCase: AccountUseCases
 ) : ViewModel() {
 
@@ -58,8 +57,6 @@ class AccountsViewModel @Inject constructor(
     fun getFullAmount(): Double {
         return _accounts.value.sumOf { it.amount }
     }
-
-    fun getPreferences() = sharedPreferences
 
     sealed class Event {
         object NavigateToAddAccountScreen : Event()

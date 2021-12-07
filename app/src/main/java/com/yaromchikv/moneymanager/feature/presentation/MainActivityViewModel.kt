@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.common.DateUtils.getCurrentLocalDate
 import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.domain.usecase.AccountUseCases
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.CURRENCY_PREFERENCE_KEY
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.MAIN_CURRENCY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -77,7 +79,8 @@ class MainActivityViewModel @Inject constructor(
         }
     }
 
-    fun getPreferences() = sharedPreferences
+    fun getCurrency() =
+        sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY) ?: MAIN_CURRENCY
 
     sealed class Event {
         object OpenTheSettingsScreen : Event()

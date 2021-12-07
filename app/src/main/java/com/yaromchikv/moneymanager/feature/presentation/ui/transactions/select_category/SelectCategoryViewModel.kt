@@ -68,8 +68,6 @@ class SelectCategoryViewModel @Inject constructor(
         }
     }
 
-    fun getPreferences() = sharedPreferences
-
     sealed class Event {
         data class SelectCategory(val account: Account, val category: CategoryView) : Event()
     }

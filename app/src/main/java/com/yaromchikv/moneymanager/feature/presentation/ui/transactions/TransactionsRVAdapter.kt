@@ -2,6 +2,7 @@ package com.yaromchikv.moneymanager.feature.presentation.ui.transactions
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.yaromchikv.moneymanager.databinding.ItemTransactionBinding
 import com.yaromchikv.moneymanager.feature.domain.model.DayInfo
 import com.yaromchikv.moneymanager.feature.domain.model.TransactionView
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.CURRENCY_PREFERENCE_KEY
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.MAIN_CURRENCY
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setIcon
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setTint
 import javax.inject.Inject
@@ -22,7 +24,6 @@ import javax.inject.Singleton
 
 @Singleton
 class TransactionsRVAdapter @Inject constructor(
-    private val context: Context,
     private val sharedPreferences: SharedPreferences
 ) : ListAdapter<Any, TransactionsRVAdapter.ItemViewHolder>(DIFF_CALLBACK) {
 
@@ -82,10 +83,7 @@ class TransactionsRVAdapter @Inject constructor(
             binding.cardName.text = transactionView.accountName
             binding.note.text = transactionView.note
             binding.textAmount.text = transactionView.amount.toAmountFormat(withMinus = true)
-            binding.textCurrency.text = sharedPreferences.getString(
-                CURRENCY_PREFERENCE_KEY,
-                context.resources.getStringArray(R.array.currency_values)[0]
-            )
+            binding.textCurrency.text = sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
 
             binding.note.isSelected = true
             binding.categoryName.isSelected = true
@@ -132,10 +130,7 @@ class TransactionsRVAdapter @Inject constructor(
             val monthAndYear = "${date.month} ${date.year}"
 
             binding.amount.text = amount.toAmountFormat(withMinus = true)
-            binding.currency.text = sharedPreferences.getString(
-                CURRENCY_PREFERENCE_KEY,
-                context.resources.getStringArray(R.array.currency_values)[0]
-            )
+            binding.currency.text = sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
 
             binding.day.text = date.dayOfMonth.toString()
             binding.monthAndYear.text = monthAndYear

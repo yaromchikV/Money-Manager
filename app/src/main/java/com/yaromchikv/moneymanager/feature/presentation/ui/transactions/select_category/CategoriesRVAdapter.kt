@@ -1,18 +1,15 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.transactions.select_category
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.ItemCategoryBinding
 import com.yaromchikv.moneymanager.feature.domain.model.CategoryView
-import com.yaromchikv.moneymanager.feature.presentation.utils.Utils
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.CURRENCY_PREFERENCE_KEY
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setIcon
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setTint
 import javax.inject.Inject
@@ -20,7 +17,6 @@ import javax.inject.Singleton
 
 @Singleton
 class CategoriesRVAdapter @Inject constructor(
-    private val context: Context,
     private val sharedPreferences: SharedPreferences
 ) :
     ListAdapter<CategoryView, CategoriesRVAdapter.CategoryViewHolder>(DIFF_CALLBACK) {
@@ -36,10 +32,7 @@ class CategoriesRVAdapter @Inject constructor(
             binding.iconBackground.setTint(categoryView.iconColor)
 
             binding.amount.text = categoryView.amount.toAmountFormat(withMinus = false)
-            binding.currency.text = sharedPreferences.getString(
-                Utils.CURRENCY_PREFERENCE_KEY,
-                context.resources.getStringArray(R.array.currency_values)[0]
-            )
+            binding.currency.text = sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, "BYN")
 
             binding.name.isSelected = true
 

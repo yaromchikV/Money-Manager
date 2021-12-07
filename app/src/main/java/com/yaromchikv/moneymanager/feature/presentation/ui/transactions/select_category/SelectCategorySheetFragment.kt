@@ -51,10 +51,7 @@ class SelectCategorySheetFragment : BottomSheetDialogFragment() {
 
         binding.accountName.text = account.name
         binding.accountAmount.text = account.amount.toAmountFormat(withMinus = false)
-        binding.accountCurrency.text = viewModel.getPreferences().getString(
-            CURRENCY_PREFERENCE_KEY,
-            requireContext().resources.getStringArray(R.array.currency_values)[0]
-        )
+        binding.accountCurrency.text = activityViewModel.getCurrency()
         binding.actionsContainer.setBackgroundColor(Color.parseColor(account.color))
 
         categoriesRVAdapter.setOnClickListener(CategoriesRVAdapter.OnClickListener {

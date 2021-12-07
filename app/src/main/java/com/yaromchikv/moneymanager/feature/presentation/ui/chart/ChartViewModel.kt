@@ -1,6 +1,5 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.chart
 
-import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.feature.domain.model.Account
@@ -20,7 +19,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChartViewModel @Inject constructor(
-    private val sharedPreferences: SharedPreferences,
     private val categoryUseCases: CategoryUseCases
 ) : ViewModel() {
 
@@ -62,8 +60,6 @@ class ChartViewModel @Inject constructor(
             _events.emit(Event.SelectDate)
         }
     }
-
-    fun getPreferences() = sharedPreferences
 
     sealed class Event {
         object SelectDate : Event()

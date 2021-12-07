@@ -13,7 +13,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountActionsViewModel @Inject constructor(
-    private val sharedPreferences: SharedPreferences,
     private val accountsUseCases: AccountUseCases
 ) : ViewModel() {
 
@@ -41,8 +40,6 @@ class AccountActionsViewModel @Inject constructor(
     suspend fun deleteAccount(account: Account) {
         accountsUseCases.deleteAccount(account)
     }
-
-    fun getPreferences() = sharedPreferences
 
     sealed class Event {
         data class NavigateToEditAccountScreen(val account: Account) : Event()
