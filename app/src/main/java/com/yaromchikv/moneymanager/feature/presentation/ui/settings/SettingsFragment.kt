@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.SwitchPreferenceCompat
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.THEME_DARK
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.THEME_LIGHT
