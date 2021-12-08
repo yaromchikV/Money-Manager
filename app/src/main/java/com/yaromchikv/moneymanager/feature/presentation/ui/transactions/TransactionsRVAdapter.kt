@@ -1,15 +1,12 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.transactions
 
-import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.ItemDayInfoBinding
 import com.yaromchikv.moneymanager.databinding.ItemTransactionBinding
@@ -83,7 +80,8 @@ class TransactionsRVAdapter @Inject constructor(
             binding.cardName.text = transactionView.accountName
             binding.note.text = transactionView.note
             binding.textAmount.text = transactionView.amount.toAmountFormat(withMinus = true)
-            binding.textCurrency.text = sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
+            binding.textCurrency.text =
+                sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
 
             binding.note.isSelected = true
             binding.categoryName.isSelected = true
@@ -130,7 +128,8 @@ class TransactionsRVAdapter @Inject constructor(
             val monthAndYear = "${date.month} ${date.year}"
 
             binding.amount.text = amount.toAmountFormat(withMinus = true)
-            binding.currency.text = sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
+            binding.currency.text =
+                sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
 
             binding.day.text = date.dayOfMonth.toString()
             binding.monthAndYear.text = monthAndYear

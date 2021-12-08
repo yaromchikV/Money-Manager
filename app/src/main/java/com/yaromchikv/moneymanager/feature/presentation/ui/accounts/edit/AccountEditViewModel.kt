@@ -30,7 +30,6 @@ class AccountEditViewModel @Inject constructor(
         }
     }
 
-
     fun selectColorClick(image: ImageView) {
         viewModelScope.launch {
             val color = getImageViewTint(image)

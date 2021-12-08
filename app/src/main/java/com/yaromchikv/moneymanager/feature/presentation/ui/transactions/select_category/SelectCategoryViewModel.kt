@@ -22,8 +22,6 @@ class SelectCategoryViewModel @Inject constructor(
     private val getCategoryViewsUseCase: GetCategoryViewsUseCase
 ) : ViewModel() {
 
-    private var getCategoryViewsJob: Job? = null
-
     private val _categoryViews = MutableStateFlow(emptyList<CategoryView>())
     val categoryViews = _categoryViews.asStateFlow()
 
@@ -32,6 +30,8 @@ class SelectCategoryViewModel @Inject constructor(
 
     private val _selectedAccount = MutableStateFlow<Account?>(null)
     private val _selectedDateRange = MutableStateFlow<Pair<LocalDate?, LocalDate?>>(null to null)
+
+    private var getCategoryViewsJob: Job? = null
 
     init {
         getCategoryViews()
