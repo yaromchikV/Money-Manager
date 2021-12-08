@@ -1,5 +1,6 @@
 package com.yaromchikv.moneymanager.feature.domain.usecase
 
+import android.util.Log
 import com.yaromchikv.moneymanager.common.DateUtils.asLocalDate
 import com.yaromchikv.moneymanager.common.DateUtils.getCurrentLocalDate
 import com.yaromchikv.moneymanager.feature.domain.model.Account
@@ -73,7 +74,7 @@ class AddTransaction(
     suspend operator fun invoke(transaction: Transaction) {
         val account = accountsRepository.getAccountById(transaction.accountId)
         if (account != null) {
-            val amount = transaction.amount + account.amount
+            val amount = account.amount - transaction.amount
             accountsRepository.updateAccountAmount(transaction.accountId, amount)
 
             transactionsRepository.insertTransaction(transaction)
@@ -88,7 +89,7 @@ class DeleteTransactionById(
     suspend operator fun invoke(transaction: TransactionView) {
         val account = accountsRepository.getAccountById(transaction.accountId)
         if (account != null) {
-            val amount = account.amount - transaction.amount
+            val amount = account.amount + transaction.amount
             accountsRepository.updateAccountAmount(transaction.accountId, amount)
 
             repository.deleteTransactionById(transaction.id)

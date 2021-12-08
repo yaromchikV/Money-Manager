@@ -61,6 +61,10 @@
         <argument
             android:name="selectedAccount"
             app:argType="com.yaromchikv.moneymanager.feature.domain.model.Account" />
+        <argument
+            android:name="numberOfAccounts"
+            app:argType="integer"
+            />
         <action
             android:id="@+id/action_account_actions_sheet_fragment_to_account_edit_fragment"
             app:destination="@id/account_edit_fragment"

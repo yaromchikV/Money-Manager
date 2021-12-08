@@ -71,7 +71,7 @@ class AccountsFragment : Fragment(R.layout.fragment_accounts) {
                         if (getCurrentDestination() == this@AccountsFragment.javaClass.name) {
                             findNavController().navigate(
                                 AccountsFragmentDirections.actionAccountsFragmentToAccountActionsSheetFragment(
-                                    it.account
+                                    it.account, viewModel.accounts.value.size
                                 )
                             )
                         }
