@@ -63,7 +63,10 @@ class AccountsViewModelTest {
     fun eventsTest() = coroutineRule.testDispatcher.runBlockingTest {
         viewModel.events.test {
             viewModel.selectAccount(mockAccounts[0])
-            assertEquals(AccountsViewModel.Event.OpenTheAccountActionsSheet(mockAccounts[0]), awaitItem())
+            assertEquals(
+                AccountsViewModel.Event.OpenTheAccountActionsSheet(mockAccounts[0]),
+                awaitItem()
+            )
 
             viewModel.addButtonClick()
             assertEquals(AccountsViewModel.Event.NavigateToAddAccountScreen, awaitItem())

@@ -9,7 +9,6 @@ import com.yaromchikv.moneymanager.feature.presentation.ui.account_filter.Accoun
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule

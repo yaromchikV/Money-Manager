@@ -9,7 +9,6 @@ import com.yaromchikv.moneymanager.feature.domain.usecases.DeleteTransactionById
 import com.yaromchikv.moneymanager.feature.domain.usecases.GetTransactionViewsUseCase
 import com.yaromchikv.moneymanager.feature.domain.usecases.GetTransactionsWithDayInfoUseCase
 import com.yaromchikv.moneymanager.feature.presentation.ui.transactions.TransactionsViewModel
-import com.yaromchikv.moneymanager.feature.presentation.ui.transactions.date.SelectDateViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
@@ -69,13 +68,22 @@ class TransactionsViewModelTest {
             assertEquals(TransactionsViewModel.Event.SelectDate, awaitItem())
 
             viewModel.addTransactionClick(mockAccount)
-            assertEquals(TransactionsViewModel.Event.OpenTheAddTransactionSheet(mockAccount), awaitItem())
+            assertEquals(
+                TransactionsViewModel.Event.OpenTheAddTransactionSheet(mockAccount),
+                awaitItem()
+            )
 
             viewModel.deleteButtonClick(mockTransaction)
-            assertEquals(TransactionsViewModel.Event.ShowTheDeleteTransactionDialog(mockTransaction), awaitItem())
+            assertEquals(
+                TransactionsViewModel.Event.ShowTheDeleteTransactionDialog(mockTransaction),
+                awaitItem()
+            )
 
             viewModel.deleteConfirmationButtonClick(mockTransaction)
-            assertEquals(TransactionsViewModel.Event.DeleteTransaction(mockTransaction), awaitItem())
+            assertEquals(
+                TransactionsViewModel.Event.DeleteTransaction(mockTransaction),
+                awaitItem()
+            )
 
             cancelAndIgnoreRemainingEvents()
         }
