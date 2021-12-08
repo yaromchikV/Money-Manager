@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.THEME_DARK
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.THEME_DEFAULT
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.THEME_LIGHT
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.THEME_PREFERENCE_KEY
 import dagger.hilt.android.HiltAndroidApp
@@ -14,7 +15,7 @@ class MoneyManagerApp : Application() {
         super.onCreate()
 
         val theme = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-            .getString(THEME_PREFERENCE_KEY, "default")
+            .getString(THEME_PREFERENCE_KEY, THEME_DEFAULT)
 
         AppCompatDelegate.setDefaultNightMode(
             when (theme) {

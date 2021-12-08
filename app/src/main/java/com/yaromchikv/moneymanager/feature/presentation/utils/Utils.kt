@@ -16,6 +16,7 @@ object Utils {
     const val THEME_PREFERENCE_KEY = "theme"
     const val THEME_DARK = "dark"
     const val THEME_LIGHT = "light"
+    const val THEME_DEFAULT = "default"
 
     const val CURRENCY_PREFERENCE_KEY = "currency"
 

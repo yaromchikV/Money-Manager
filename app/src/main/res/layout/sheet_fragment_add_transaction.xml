@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/from_to_container"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -39,7 +39,7 @@
         android:layout_marginTop="12dp"
         android:text="@string/from_account"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,7 +62,7 @@
         android:gravity="start"
         android:singleLine="true"
         android:textColor="@color/white"
-        android:textSize="22sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/account_icon"
         app:layout_constraintTop_toBottomOf="@id/from_account"
         tools:text="Account name" />
@@ -75,7 +75,7 @@
         android:layout_marginEnd="12dp"
         android:text="@string/to_category"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -88,7 +88,7 @@
         android:gravity="end"
         android:singleLine="true"
         android:textColor="@color/white"
-        android:textSize="22sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@id/category_icon"
         app:layout_constraintTop_toBottomOf="@id/to_category"
         tools:text="Category name" />
