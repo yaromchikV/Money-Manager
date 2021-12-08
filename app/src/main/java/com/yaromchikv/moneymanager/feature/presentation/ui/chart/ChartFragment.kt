@@ -1,6 +1,5 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.chart
 
-import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue

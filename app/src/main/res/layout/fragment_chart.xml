@@ -78,7 +78,9 @@
         app:layout_constraintBottom_toBottomOf="@id/guideline_bottom"
         app:layout_constraintEnd_toEndOf="@id/guideline_end"
         app:layout_constraintStart_toStartOf="@id/guideline_start"
-        app:layout_constraintTop_toTopOf="@id/guideline_top" />
+        app:layout_constraintTop_toTopOf="@id/guideline_top">
+
+    </com.github.mikephil.charting.charts.PieChart>
 
     <include
         android:id="@+id/category6"
@@ -176,6 +178,5 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_end="8dp"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -43,17 +43,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/account_icon"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="3dp"
+        app:layout_constraintBottom_toBottomOf="@+id/account_name"
+        app:layout_constraintStart_toStartOf="@id/from_account"
+        app:layout_constraintTop_toTopOf="@+id/account_name"
+        app:srcCompat="@drawable/ic_bank" />
+
     <TextView
         android:id="@+id/account_name"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="6dp"
         android:ellipsize="start"
         android:gravity="start"
         android:singleLine="true"
         android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="22sp"
+        app:layout_constraintStart_toEndOf="@+id/account_icon"
         app:layout_constraintTop_toBottomOf="@id/from_account"
         tools:text="Account name" />
 
@@ -71,18 +81,27 @@
 
     <TextView
         android:id="@+id/category_name"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="6dp"
         android:ellipsize="start"
         android:gravity="end"
         android:singleLine="true"
         android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toStartOf="@id/category_icon"
         app:layout_constraintTop_toBottomOf="@id/to_category"
         tools:text="Category name" />
+
+    <ImageView
+        android:id="@+id/category_icon"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="3dp"
+        app:layout_constraintBottom_toBottomOf="@+id/category_name"
+        app:layout_constraintEnd_toEndOf="@id/to_category"
+        app:layout_constraintTop_toTopOf="@+id/category_name"
+        tools:srcCompat="@drawable/ic_bank" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/expense_text_field"
@@ -98,8 +117,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLength="12"
-            android:inputType="number" />
+            android:inputType="number"
+            android:maxLength="12" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -115,9 +134,9 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:inputType="text"
-            android:maxLength="20"
-            android:layout_height="wrap_content" />
+            android:maxLength="20" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView

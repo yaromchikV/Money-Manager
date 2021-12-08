@@ -8,7 +8,7 @@
     tools:context=".feature.presentation.ui.transactions.TransactionsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_of_transactions"
+        android:id="@+id/transactions_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
@@ -27,33 +27,42 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add"
-        app:tint="?attr/colorOnPrimarySurface"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="?attr/colorOnPrimarySurface" />
 
-    <ImageView
-        android:id="@+id/no_transaction_image"
-        android:layout_width="300dp"
-        android:layout_height="230dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginBottom="72dp"
-        android:src="@drawable/ic_no_transaction"
+    <LinearLayout
+        android:id="@+id/no_transaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/no_transaction_text"
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="230dp"
+            android:src="@drawable/ic_no_transaction" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/no_transaction"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/no_transaction"
-        android:textSize="18sp"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="@+id/no_transaction_image"
-        app:layout_constraintStart_toStartOf="@+id/no_transaction_image"
-        app:layout_constraintTop_toBottomOf="@+id/no_transaction_image" />
-
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

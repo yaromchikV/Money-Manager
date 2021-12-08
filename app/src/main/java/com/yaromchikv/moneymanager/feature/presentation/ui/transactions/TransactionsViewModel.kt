@@ -1,19 +1,16 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.transactions
 
-import android.content.SharedPreferences
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.domain.model.TransactionView
 import com.yaromchikv.moneymanager.feature.domain.usecase.TransactionUseCases
-import com.yaromchikv.moneymanager.feature.presentation.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -25,8 +22,8 @@ class TransactionsViewModel @Inject constructor(
     private val transactionUseCases: TransactionUseCases
 ) : ViewModel() {
 
-    private val _transactionsWithDayInfo = MutableStateFlow(emptyList<Any>())
-    val transactionsWithDayInfo: StateFlow<List<Any>> = _transactionsWithDayInfo
+    private val _transactionsUiState = MutableStateFlow<UiState>(UiState.Idle)
+    val transactionsUiState = _transactionsUiState.asStateFlow()
 
     private var getTransactionsJob: Job? = null
 
@@ -41,6 +38,8 @@ class TransactionsViewModel @Inject constructor(
     }
 
     private fun getTransactions() {
+        _transactionsUiState.value = UiState.Loading
+
         getTransactionsJob?.cancel()
 
         val range = _selectedDateRange.value
@@ -49,12 +48,12 @@ class TransactionsViewModel @Inject constructor(
         getTransactionsJob =
             transactionUseCases.getTransactionViews(range, account)
                 .onEach { transactions ->
-                    _transactionsWithDayInfo.value =
-                        transactionUseCases.getTransactionListWithDayInfo(
-                            transactions,
-                            range,
-                            account
-                        )
+                    val data = transactionUseCases.getTransactionListWithDayInfo(
+                        transactions,
+                        range,
+                        account
+                    )
+                    _transactionsUiState.value = UiState.Ready(data)
                 }
                 .launchIn(viewModelScope)
     }
@@ -94,8 +93,13 @@ class TransactionsViewModel @Inject constructor(
     }
 
     suspend fun deleteTransaction(transaction: TransactionView) {
-        Log.d("!!!", transaction.amount.toString())
         transactionUseCases.deleteTransactionById(transaction)
+    }
+
+    sealed class UiState {
+        data class Ready(val transactions: List<Any>) : UiState()
+        object Loading : UiState()
+        object Idle : UiState()
     }
 
     sealed class Event {

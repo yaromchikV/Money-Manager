@@ -15,6 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.SheetFragmentAddTransactionBinding
 import com.yaromchikv.moneymanager.feature.domain.model.Transaction
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setIcon
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -45,6 +46,7 @@ class AddTransactionSheetFragment : BottomSheetDialogFragment() {
 
         binding.accountName.text = account.name
         binding.categoryName.text = category.name
+        binding.categoryIcon.setIcon(category.icon)
 
         binding.accountBackground.setBackgroundColor(Color.parseColor(account.color))
         binding.categoryBackground.setBackgroundColor(Color.parseColor(category.iconColor))

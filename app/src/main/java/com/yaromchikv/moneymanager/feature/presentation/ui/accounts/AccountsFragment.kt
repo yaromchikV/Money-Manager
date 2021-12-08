@@ -47,6 +47,7 @@ class AccountsFragment : Fragment(R.layout.fragment_accounts) {
             adapter = accountsAdapter
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(getDivider(requireContext()))
+            itemAnimator = null
         }
 
         lifecycleScope.launchWhenStarted {
