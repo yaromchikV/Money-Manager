@@ -1,12 +1,10 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.transactions.select_category
 
-import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.domain.model.CategoryView
-import com.yaromchikv.moneymanager.feature.domain.usecase.CategoryUseCases
-import com.yaromchikv.moneymanager.feature.presentation.ui.chart.ChartViewModel
+import com.yaromchikv.moneymanager.feature.domain.usecases.GetCategoryViewsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -21,8 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SelectCategoryViewModel @Inject constructor(
-    private val sharedPreferences: SharedPreferences,
-    private val categoryUseCases: CategoryUseCases
+    private val getCategoryViewsUseCase: GetCategoryViewsUseCase
 ) : ViewModel() {
 
     private var getCategoryViewsJob: Job? = null
@@ -47,7 +44,7 @@ class SelectCategoryViewModel @Inject constructor(
     private fun getCategoryViews() {
         getCategoryViewsJob?.cancel()
         getCategoryViewsJob =
-            categoryUseCases.getCategoryViews(_selectedDateRange.value, _selectedAccount.value)
+            getCategoryViewsUseCase(_selectedDateRange.value, _selectedAccount.value)
                 .onEach { categories -> _categoryViews.value = categories }
                 .launchIn(viewModelScope)
     }

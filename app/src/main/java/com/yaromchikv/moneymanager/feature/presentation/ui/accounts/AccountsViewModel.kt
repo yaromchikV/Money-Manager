@@ -3,7 +3,7 @@ package com.yaromchikv.moneymanager.feature.presentation.ui.accounts
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.feature.domain.model.Account
-import com.yaromchikv.moneymanager.feature.domain.usecase.AccountUseCases
+import com.yaromchikv.moneymanager.feature.domain.usecases.GetAccountsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountsViewModel @Inject constructor(
-    private val accountUseCase: AccountUseCases
+    private val getAccountsUseCase: GetAccountsUseCase
 ) : ViewModel() {
 
     private val _accounts = MutableStateFlow(emptyList<Account>())
@@ -34,7 +34,7 @@ class AccountsViewModel @Inject constructor(
 
     private fun getAccounts() {
         getAccountsJob?.cancel()
-        getAccountsJob = accountUseCase.getAccounts()
+        getAccountsJob = getAccountsUseCase()
             .onEach { accounts ->
                 _accounts.value = accounts
             }

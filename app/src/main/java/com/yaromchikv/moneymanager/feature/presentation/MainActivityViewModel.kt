@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.common.DateUtils.getCurrentLocalDate
 import com.yaromchikv.moneymanager.feature.domain.model.Account
-import com.yaromchikv.moneymanager.feature.domain.usecase.AccountUseCases
+import com.yaromchikv.moneymanager.feature.domain.usecases.GetAccountsUseCase
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.CURRENCY_PREFERENCE_KEY
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.MAIN_CURRENCY
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
     private val sharedPreferences: SharedPreferences,
-    private val accountUseCases: AccountUseCases
+    private val getAccountsUseCase: GetAccountsUseCase
 ) : ViewModel() {
 
     private val _accounts = MutableStateFlow(emptyList<Account>())
@@ -48,10 +48,8 @@ class MainActivityViewModel @Inject constructor(
 
     private fun getAccounts() {
         getAccountsJob?.cancel()
-        getAccountsJob = accountUseCases.getAccounts()
-            .onEach { accounts ->
-                _accounts.value = accounts
-            }
+        getAccountsJob = getAccountsUseCase()
+            .onEach { accounts -> _accounts.value = accounts }
             .launchIn(viewModelScope)
     }
 

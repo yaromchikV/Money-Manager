@@ -12,13 +12,13 @@ import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.ItemAccountBinding
 import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.CURRENCY_PREFERENCE_KEY
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.MAIN_CURRENCY
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setTint
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class AccountsRVAdapter @Inject constructor(
-    private val context: Context,
     private val sharedPreferences: SharedPreferences
 ) : ListAdapter<Account, AccountsRVAdapter.AccountViewHolder>(DIFF_CALLBACK) {
 
@@ -30,10 +30,7 @@ class AccountsRVAdapter @Inject constructor(
         fun bind(account: Account) {
             binding.name.text = account.name
             binding.amount.text = account.amount.toAmountFormat(withMinus = false)
-            binding.currency.text = sharedPreferences.getString(
-                CURRENCY_PREFERENCE_KEY,
-                context.resources.getStringArray(R.array.currency_values)[0]
-            )
+            binding.currency.text = sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
 
             binding.iconBackground.setTint(account.color)
 

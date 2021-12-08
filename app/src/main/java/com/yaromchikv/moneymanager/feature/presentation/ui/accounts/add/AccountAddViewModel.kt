@@ -4,8 +4,7 @@ import android.widget.ImageView
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.feature.domain.model.Account
-import com.yaromchikv.moneymanager.feature.domain.usecase.AccountUseCases
-import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.MAIN_COLOR
+import com.yaromchikv.moneymanager.feature.domain.usecases.AddAccountUseCase
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.getImageViewTint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -15,14 +14,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountAddViewModel @Inject constructor(
-    private val accountsUseCases: AccountUseCases
+    private val addAccountUseCase: AddAccountUseCase
 ) : ViewModel() {
 
     private val _events = MutableSharedFlow<Event>()
     val events = _events.asSharedFlow()
 
     suspend fun addAccount(account: Account) {
-        accountsUseCases.addAccount(account)
+        addAccountUseCase(account)
     }
 
     fun applyButtonClick() {

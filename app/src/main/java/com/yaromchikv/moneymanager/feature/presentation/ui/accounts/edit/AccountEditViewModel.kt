@@ -4,8 +4,7 @@ import android.widget.ImageView
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.feature.domain.model.Account
-import com.yaromchikv.moneymanager.feature.domain.usecase.AccountUseCases
-import com.yaromchikv.moneymanager.feature.presentation.utils.Utils
+import com.yaromchikv.moneymanager.feature.domain.usecases.UpdateAccountUseCase
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.getImageViewTint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -15,14 +14,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountEditViewModel @Inject constructor(
-    private val accountsUseCases: AccountUseCases
+    private val updateAccountUseCase: UpdateAccountUseCase
 ) : ViewModel() {
 
     private val _events = MutableSharedFlow<Event>()
     val events = _events.asSharedFlow()
 
     suspend fun updateAccount(account: Account) {
-        accountsUseCases.updateAccount(account)
+        updateAccountUseCase(account)
     }
 
     fun applyButtonClick() {

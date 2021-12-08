@@ -1,10 +1,9 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.account_filter
 
-import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.feature.domain.model.Account
-import com.yaromchikv.moneymanager.feature.domain.usecase.AccountUseCases
+import com.yaromchikv.moneymanager.feature.domain.usecases.GetAccountsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -18,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountFilterViewModel @Inject constructor(
-    private val accountUseCases: AccountUseCases
+    private val getAccountsUseCase: GetAccountsUseCase
 ) : ViewModel() {
 
     private var getAccountsJob: Job? = null
@@ -35,7 +34,7 @@ class AccountFilterViewModel @Inject constructor(
 
     private fun getAccounts() {
         getAccountsJob?.cancel()
-        getAccountsJob = accountUseCases.getAccounts()
+        getAccountsJob = getAccountsUseCase()
             .onEach { accounts ->
                 _accounts.value = accounts
             }

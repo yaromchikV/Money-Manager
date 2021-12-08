@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.domain.model.TransactionView
-import com.yaromchikv.moneymanager.feature.domain.usecase.TransactionUseCases
+import com.yaromchikv.moneymanager.feature.domain.usecases.DeleteTransactionByIdUseCase
+import com.yaromchikv.moneymanager.feature.domain.usecases.GetTransactionViewsUseCase
+import com.yaromchikv.moneymanager.feature.domain.usecases.GetTransactionsWithDayInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -19,7 +21,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TransactionsViewModel @Inject constructor(
-    private val transactionUseCases: TransactionUseCases
+    private val getTransactionViewsUseCase: GetTransactionViewsUseCase,
+    private val getTransactionsWithDayInfoUseCase: GetTransactionsWithDayInfoUseCase,
+    private val deleteTransactionByIdUseCase: DeleteTransactionByIdUseCase
 ) : ViewModel() {
 
     private val _transactionsUiState = MutableStateFlow<UiState>(UiState.Idle)
@@ -46,13 +50,9 @@ class TransactionsViewModel @Inject constructor(
         val account = _selectedAccount.value
 
         getTransactionsJob =
-            transactionUseCases.getTransactionViews(range, account)
+            getTransactionViewsUseCase(range, account)
                 .onEach { transactions ->
-                    val data = transactionUseCases.getTransactionListWithDayInfo(
-                        transactions,
-                        range,
-                        account
-                    )
+                    val data = getTransactionsWithDayInfoUseCase(transactions, range, account)
                     _transactionsUiState.value = UiState.Ready(data)
                 }
                 .launchIn(viewModelScope)
@@ -93,7 +93,7 @@ class TransactionsViewModel @Inject constructor(
     }
 
     suspend fun deleteTransaction(transaction: TransactionView) {
-        transactionUseCases.deleteTransactionById(transaction)
+        deleteTransactionByIdUseCase(transaction)
     }
 
     sealed class UiState {

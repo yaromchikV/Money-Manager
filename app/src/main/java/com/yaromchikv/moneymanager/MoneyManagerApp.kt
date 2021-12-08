@@ -2,7 +2,6 @@ package com.yaromchikv.moneymanager
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.preference.ListPreference
 import androidx.preference.PreferenceManager
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.THEME_DARK
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.THEME_LIGHT

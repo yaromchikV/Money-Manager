@@ -4,11 +4,10 @@ import com.yaromchikv.moneymanager.feature.data.datasource.MoneyManagerDatabase
 import com.yaromchikv.moneymanager.feature.data.repository.TransactionsRepositoryImpl
 import com.yaromchikv.moneymanager.feature.domain.repository.AccountsRepository
 import com.yaromchikv.moneymanager.feature.domain.repository.TransactionsRepository
-import com.yaromchikv.moneymanager.feature.domain.usecase.AddTransaction
-import com.yaromchikv.moneymanager.feature.domain.usecase.DeleteTransactionById
-import com.yaromchikv.moneymanager.feature.domain.usecase.GetTransactionListWithAmountsPerDay
-import com.yaromchikv.moneymanager.feature.domain.usecase.GetTransactionViews
-import com.yaromchikv.moneymanager.feature.domain.usecase.TransactionUseCases
+import com.yaromchikv.moneymanager.feature.domain.usecases.AddTransactionUseCase
+import com.yaromchikv.moneymanager.feature.domain.usecases.DeleteTransactionByIdUseCase
+import com.yaromchikv.moneymanager.feature.domain.usecases.GetTransactionViewsUseCase
+import com.yaromchikv.moneymanager.feature.domain.usecases.GetTransactionsWithDayInfoUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,21 +20,33 @@ object TransactionsModule {
 
     @Provides
     @Singleton
-    fun provideTransactionsRepository(db: MoneyManagerDatabase): TransactionsRepository {
-        return TransactionsRepositoryImpl(db.transactionsDao)
-    }
+    fun provideTransactionsRepository(db: MoneyManagerDatabase): TransactionsRepository =
+        TransactionsRepositoryImpl(db.transactionsDao)
 
     @Provides
     @Singleton
-    fun provideTransactionsUseCases(
+    fun provideGetTransactionViewsUseCase(transactionsRepository: TransactionsRepository): GetTransactionViewsUseCase =
+        GetTransactionViewsUseCase(transactionsRepository)
+
+
+    @Provides
+    @Singleton
+    fun provideGetTransactionListWithDayInfoUseCase(transactionsRepository: TransactionsRepository): GetTransactionsWithDayInfoUseCase =
+        GetTransactionsWithDayInfoUseCase(transactionsRepository)
+
+    @Provides
+    @Singleton
+    fun provideAddTransactionUseCase(
         transactionsRepository: TransactionsRepository,
         accountsRepository: AccountsRepository
-    ): TransactionUseCases {
-        return TransactionUseCases(
-            getTransactionViews = GetTransactionViews(transactionsRepository),
-            addTransaction = AddTransaction(transactionsRepository, accountsRepository),
-            deleteTransactionById = DeleteTransactionById(transactionsRepository, accountsRepository),
-            getTransactionListWithDayInfo = GetTransactionListWithAmountsPerDay(transactionsRepository)
-        )
-    }
+    ): AddTransactionUseCase = AddTransactionUseCase(transactionsRepository, accountsRepository)
+
+    @Provides
+    @Singleton
+    fun provideDeleteTransactionByIdUseCase(
+        transactionsRepository: TransactionsRepository,
+        accountsRepository: AccountsRepository
+    ): DeleteTransactionByIdUseCase =
+        DeleteTransactionByIdUseCase(transactionsRepository, accountsRepository)
+
 }
