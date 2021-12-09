@@ -29,31 +29,23 @@
         android:src="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tint="?attr/colorOnPrimarySurface" />
+        app:tint="?attr/colorOnPrimarySurface"
+        android:contentDescription="@string/add_transaction_button" />
 
-    <LinearLayout
+    <TextView
         android:id="@+id/no_transaction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_width="300dp"
+        android:layout_height="230dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/no_transaction"
+        android:textSize="18sp"
         android:visibility="invisible"
+        app:drawableTopCompat="@drawable/ic_no_transaction"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:layout_width="300dp"
-            android:layout_height="230dp"
-            android:src="@drawable/ic_no_transaction" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/no_transaction"
-            android:textSize="18sp" />
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/progress_bar"

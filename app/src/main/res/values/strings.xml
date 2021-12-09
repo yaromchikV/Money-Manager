@@ -41,4 +41,5 @@
     <string name="alert_transaction_title">\"Do you really want to delete this transaction? \"</string>
     <string name="enter_expense_error">The expense is entered incorrectly or not entered at all</string>
     <string name="account_empty_name_error">The field with the account name is empty</string>
+    <string name="add_transaction_button">Add transaction button</string>
 </resources>

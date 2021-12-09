@@ -90,6 +90,7 @@
             app:destination="@id/accounts_fragment"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@id/transactions_fragment"
             app:popUpToInclusive="false" />
         <argument
             android:name="editableAccount"
@@ -106,6 +107,7 @@
             app:destination="@id/accounts_fragment"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right"
+            app:popUpTo="@id/transactions_fragment"
             app:popUpToInclusive="false" />
     </fragment>
 
