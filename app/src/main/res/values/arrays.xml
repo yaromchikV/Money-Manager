@@ -12,10 +12,12 @@
     </string-array>
 
     <string-array name="currency_entries">
-        <item>Belarussian rouble - BYN</item>
+        <item>Belarussian Ruble - BYN</item>
         <item>United States Dollar - USD</item>
         <item>Euro - EUR</item>
-        <item>Russian rouble - RUB</item>
+        <item>Russian Ruble - RUB</item>
+        <item>Ukrainian Hryvnia - UAH</item>
+        <item>Polish Zloty - PLN</item>
     </string-array>
 
     <string-array name="currency_values">
@@ -23,5 +25,7 @@
         <item>USD</item>
         <item>EUR</item>
         <item>RUB</item>
+        <item>UAH</item>
+        <item>PLN</item>
     </string-array>
 </resources>

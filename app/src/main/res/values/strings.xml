@@ -42,4 +42,11 @@
     <string name="enter_expense_error">The expense is entered incorrectly or not entered at all</string>
     <string name="account_empty_name_error">The field with the account name is empty</string>
     <string name="add_transaction_button">Add transaction button</string>
+    <string name="convert">Convert</string>
+    <string name="from">From:</string>
+    <string name="to">To:</string>
+    <string name="converter">Converter</string>
+    <string name="currency_converter">Currency Converter</string>
+    <string name="enter_amount_error">The amount is entered incorrectly or not entered at all</string>
+    <string name="connection_error">Check your internet connection</string>
 </resources>

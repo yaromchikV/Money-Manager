@@ -165,5 +165,14 @@
         android:name="com.yaromchikv.moneymanager.feature.presentation.ui.settings.SettingsActivity"
         android:label="SettingsActivity"
         tools:layout="@layout/activity_settings" />
+    <fragment
+        android:id="@+id/currency_converter_fragment"
+        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.converter.CurrencyConverterFragment"
+        android:label="Currencies"
+        tools:layout="@layout/fragment_currency_converter" >
+        <action
+            android:id="@+id/action_currency_converter_fragment_to_settingsActivity"
+            app:destination="@id/settingsActivity" />
+    </fragment>
 
 </navigation>

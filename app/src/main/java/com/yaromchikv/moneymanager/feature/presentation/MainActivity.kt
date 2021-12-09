@@ -16,6 +16,7 @@ import com.yaromchikv.moneymanager.common.DateUtils.getCurrentLocalDate
 import com.yaromchikv.moneymanager.databinding.ActivityMainBinding
 import com.yaromchikv.moneymanager.feature.presentation.ui.accounts.AccountsFragmentDirections
 import com.yaromchikv.moneymanager.feature.presentation.ui.chart.ChartFragmentDirections
+import com.yaromchikv.moneymanager.feature.presentation.ui.converter.CurrencyConverterFragmentDirections
 import com.yaromchikv.moneymanager.feature.presentation.ui.transactions.TransactionsFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -55,6 +56,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 when (it) {
                     is MainActivityViewModel.Event.OpenTheSettingsScreen -> {
                         when (currentDestination) {
+                            R.id.currency_converter_fragment -> navController.navigate(
+                                CurrencyConverterFragmentDirections.actionCurrencyConverterFragmentToSettingsActivity()
+                            )
                             R.id.accounts_fragment -> navController.navigate(
                                 AccountsFragmentDirections.actionAccountsFragmentToSettingsActivity()
                             )
@@ -94,7 +98,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
 
         val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.accounts_fragment, R.id.transactions_fragment, R.id.chart_fragment)
+            setOf(
+                R.id.currency_converter_fragment,
+                R.id.accounts_fragment,
+                R.id.transactions_fragment,
+                R.id.chart_fragment
+            )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.bottomNavigation.setupWithNavController(navController)
@@ -112,11 +121,14 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                 if (isFragmentWithoutSettingsButton) View.GONE else View.VISIBLE
             binding.buttonSettings.visibility =
                 if (isFragmentWithoutSettingsButton) View.GONE else View.VISIBLE
+
             binding.toolbarInfoBox.visibility =
                 if (isFragmentWithoutSettingsButton) View.GONE else View.VISIBLE
+
             supportActionBar?.setDisplayShowTitleEnabled(isFragmentWithoutSettingsButton)
 
             val isFragmentWithoutAccountsFilter = when (currentDestination) {
+                R.id.currency_converter_fragment -> true
                 R.id.accounts_fragment -> true
                 R.id.account_actions_sheet_fragment -> true
                 else -> false

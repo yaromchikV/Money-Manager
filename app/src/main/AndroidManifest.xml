@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.yaromchikv.moneymanager">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".MoneyManagerApp"
         android:allowBackup="true"
