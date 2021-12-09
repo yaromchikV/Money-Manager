@@ -24,14 +24,7 @@ class CurrencyConverterFragment : Fragment(R.layout.fragment_currency_converter)
         super.onViewCreated(view, savedInstanceState)
 
         binding.convertButton.setOnClickListener {
-            val amount = binding.amountTextField.editText?.text.toString().toDoubleOrNull()
-            if (amount != null) {
-                viewModel.convert(
-                    amount,
-                    binding.fromCurrency.selectedItem.toString(),
-                    binding.toCurrency.selectedItem.toString()
-                )
-            } else showToast(requireContext(), getString(R.string.enter_amount_error))
+            viewModel.convertButtonClick()
         }
 
         lifecycleScope.launchWhenStarted {
@@ -50,6 +43,18 @@ class CurrencyConverterFragment : Fragment(R.layout.fragment_currency_converter)
                     }
                     else -> Unit
                 }
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.events.collectLatest {
+                val amount = binding.amountTextField.editText?.text.toString().toDoubleOrNull()
+                val from = binding.fromCurrency.selectedItem.toString()
+                val to = binding.toCurrency.selectedItem.toString()
+
+                if (amount != null) {
+                    viewModel.convert(amount, from, to)
+                } else showToast(requireContext(), getString(R.string.enter_amount_error))
             }
         }
     }

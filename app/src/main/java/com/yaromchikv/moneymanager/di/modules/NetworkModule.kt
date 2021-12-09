@@ -7,6 +7,7 @@ import com.yaromchikv.moneymanager.feature.data.api.BynApi
 import com.yaromchikv.moneymanager.feature.data.api.CurrencyApi
 import com.yaromchikv.moneymanager.feature.data.repository.ConverterRepositoryImpl
 import com.yaromchikv.moneymanager.feature.domain.repository.ConverterRepository
+import com.yaromchikv.moneymanager.feature.domain.usecases.ConvertCurrencyUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -52,4 +53,9 @@ object NetworkModule {
         currencyApi: CurrencyApi,
         bynApi: BynApi
     ): ConverterRepository = ConverterRepositoryImpl(context, currencyApi, bynApi)
+
+    @Provides
+    @Singleton
+    fun provideConvertCurrencyUseCase(repository: ConverterRepository): ConvertCurrencyUseCase =
+        ConvertCurrencyUseCase(repository)
 }

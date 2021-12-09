@@ -11,7 +11,6 @@
         android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:layout_marginTop="18dp"
-        android:layout_marginBottom="9dp"
         android:entries="@array/currency_values"
         app:layout_constraintBottom_toBottomOf="@+id/amount_text_field"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
@@ -25,8 +24,7 @@
         android:entries="@array/currency_values"
         app:layout_constraintBottom_toBottomOf="@+id/result_text"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-        app:layout_constraintStart_toEndOf="@+id/result_text"
-        app:layout_constraintTop_toTopOf="@+id/result_text" />
+        app:layout_constraintStart_toEndOf="@+id/result_text" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_start"
@@ -47,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="180dp" />
+        app:layout_constraintGuide_begin="227dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/amount_text_field"
@@ -61,7 +59,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
+            android:inputType="number"
             android:maxLength="12" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -69,12 +67,12 @@
     <TextView
         android:id="@+id/result_text"
         android:layout_width="200dp"
-        android:padding="16dp"
-        android:textSize="18sp"
-        android:textColor="?attr/colorOnSecondary"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_weight="1"
+        android:padding="16dp"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/guideline_start"
         app:layout_constraintTop_toBottomOf="@+id/amount_text_field"
         tools:text="Result" />
@@ -84,19 +82,21 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:visibility="gone"
-        android:layout_marginStart="32dp"
         app:layout_constraintBottom_toBottomOf="@+id/result_text"
         app:layout_constraintStart_toStartOf="@+id/result_text"
         app:layout_constraintTop_toTopOf="@+id/result_text" />
 
-    <Button
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/convert_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:textColor="?attr/colorOnPrimarySurface"
+        android:layout_marginTop="48dp"
         android:text="@string/convert"
+        android:textColor="?attr/colorOnPrimarySurface"
+        app:icon="@drawable/ic_currency_converter"
+        app:iconTint="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
         app:layout_constraintStart_toStartOf="@+id/guideline_start"
         app:layout_constraintTop_toBottomOf="@+id/result_text" />
@@ -104,16 +104,16 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/from"
         android:layout_marginBottom="4dp"
+        android:text="@string/from"
         app:layout_constraintBottom_toTopOf="@+id/from_currency"
         app:layout_constraintStart_toStartOf="@+id/from_currency" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/to"
         android:layout_marginBottom="4dp"
+        android:text="@string/to"
         app:layout_constraintBottom_toTopOf="@+id/to_currency"
         app:layout_constraintStart_toStartOf="@+id/to_currency" />
 
@@ -121,13 +121,14 @@
         style="@style/Widget.AppCompat.TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="28sp"
-        android:textColor="?attr/colorOnSecondary"
+        android:layout_marginBottom="48dp"
         android:text="@string/currency_converter"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="28sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline_top"
         app:layout_constraintEnd_toStartOf="@+id/guideline_end"
-        app:layout_constraintStart_toStartOf="@+id/guideline_start"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/guideline_start" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

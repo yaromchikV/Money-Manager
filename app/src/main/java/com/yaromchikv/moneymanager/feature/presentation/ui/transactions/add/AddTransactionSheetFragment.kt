@@ -62,7 +62,7 @@ class AddTransactionSheetFragment : BottomSheetDialogFragment() {
                         if (account.id != null) {
                             val amount =
                                 binding.expenseTextField.editText?.text.toString().toDoubleOrNull()
-                            if (amount == null)
+                            if (amount == null || amount <= 0)
                                 showToast(context, getString(R.string.enter_expense_error))
                             else {
                                 val note = binding.noteTextField.editText?.text.toString()
