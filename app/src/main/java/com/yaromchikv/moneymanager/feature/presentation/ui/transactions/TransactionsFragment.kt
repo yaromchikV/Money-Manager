@@ -56,9 +56,11 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
             )
         }
 
-        transactionAdapter.setOnDeleteClickListener(TransactionsRVAdapter.OnDeleteClickListener {
-            viewModel.deleteButtonClick(it)
-        })
+        transactionAdapter.setOnDeleteClickListener(
+            TransactionsRVAdapter.OnDeleteClickListener {
+                viewModel.deleteButtonClick(it)
+            }
+        )
 
         lifecycleScope.launchWhenStarted {
             viewModel.transactionsUiState.collectLatest {
@@ -177,5 +179,4 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
     private fun getCurrentDestination() =
         (findNavController().currentDestination as? FragmentNavigator.Destination)?.className
             ?: (findNavController().currentDestination as? DialogFragmentNavigator.Destination)?.className
-
 }

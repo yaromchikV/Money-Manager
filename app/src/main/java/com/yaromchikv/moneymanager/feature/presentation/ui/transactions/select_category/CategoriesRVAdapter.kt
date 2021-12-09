@@ -1,7 +1,6 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.transactions.select_category
 
 import android.content.SharedPreferences
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -34,7 +33,8 @@ class CategoriesRVAdapter @Inject constructor(
             binding.iconBackground.setTint(categoryView.iconColor)
 
             binding.amount.text = categoryView.amount.toAmountFormat(withMinus = false)
-            binding.currency.text = sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
+            binding.currency.text =
+                sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
 
             binding.name.isSelected = true
 

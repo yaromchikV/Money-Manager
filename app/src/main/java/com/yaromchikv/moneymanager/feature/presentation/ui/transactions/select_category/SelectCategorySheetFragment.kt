@@ -13,11 +13,9 @@ import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.SheetFragmentSelectCategoryBinding
 import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
-import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.CURRENCY_PREFERENCE_KEY
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
@@ -37,7 +35,8 @@ class SelectCategorySheetFragment : BottomSheetDialogFragment() {
     private val args by navArgs<SelectCategorySheetFragmentArgs>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = SheetFragmentSelectCategoryBinding.inflate(inflater, container, false)
@@ -54,9 +53,11 @@ class SelectCategorySheetFragment : BottomSheetDialogFragment() {
         binding.accountCurrency.text = activityViewModel.getCurrency()
         binding.actionsContainer.setBackgroundColor(Color.parseColor(account.color))
 
-        categoriesRVAdapter.setOnClickListener(CategoriesRVAdapter.OnClickListener {
-            viewModel.selectCategoryClick(account, it)
-        })
+        categoriesRVAdapter.setOnClickListener(
+            CategoriesRVAdapter.OnClickListener {
+                viewModel.selectCategoryClick(account, it)
+            }
+        )
 
         binding.gridOfCategories.apply {
             adapter = categoriesRVAdapter

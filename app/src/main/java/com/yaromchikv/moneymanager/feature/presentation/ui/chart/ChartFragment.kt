@@ -31,7 +31,6 @@ import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setTint
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
-
 @AndroidEntryPoint
 class ChartFragment : Fragment(R.layout.fragment_chart) {
 
@@ -191,5 +190,4 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
     private fun getCurrentDestination() =
         (findNavController().currentDestination as? FragmentNavigator.Destination)?.className
             ?: (findNavController().currentDestination as? DialogFragmentNavigator.Destination)?.className
-
 }

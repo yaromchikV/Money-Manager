@@ -1,13 +1,11 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.accounts
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.ItemAccountBinding
 import com.yaromchikv.moneymanager.feature.domain.model.Account
@@ -30,7 +28,8 @@ class AccountsRVAdapter @Inject constructor(
         fun bind(account: Account) {
             binding.name.text = account.name
             binding.amount.text = account.amount.toAmountFormat(withMinus = false)
-            binding.currency.text = sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
+            binding.currency.text =
+                sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
 
             binding.iconBackground.setTint(account.color)
 
@@ -61,7 +60,7 @@ class AccountsRVAdapter @Inject constructor(
     }
 
     fun setOnClickListener(onClickListener: OnClickListener) {
-        this.onClickListener = onClickListener;
+        this.onClickListener = onClickListener
     }
 
     class OnClickListener(val clickListener: (account: Account) -> Unit) {

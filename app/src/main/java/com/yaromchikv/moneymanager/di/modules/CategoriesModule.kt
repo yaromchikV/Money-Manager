@@ -19,10 +19,8 @@ object CategoriesModule {
     fun provideCategoriesRepository(db: MoneyManagerDatabase): CategoriesRepository =
         CategoriesRepositoryImpl(db.categoriesDao)
 
-
     @Provides
     @Singleton
     fun provideGetCategoryViewsUseCase(repository: CategoriesRepository): GetCategoryViewsUseCase =
         GetCategoryViewsUseCase(repository)
-
 }

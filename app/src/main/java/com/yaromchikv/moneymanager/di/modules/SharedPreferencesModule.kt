@@ -18,5 +18,4 @@ object SharedPreferencesModule {
     @Provides
     fun provideSharedPreference(@ApplicationContext context: Context): SharedPreferences =
         PreferenceManager.getDefaultSharedPreferences(context)
-
 }

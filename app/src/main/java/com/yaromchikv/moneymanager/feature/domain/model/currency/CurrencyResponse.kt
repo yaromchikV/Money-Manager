@@ -16,5 +16,5 @@ data class Rates(
 )
 
 data class Query(
-    @Json(name ="base_currency") val base: String
+    @Json(name = "base_currency") val base: String
 )

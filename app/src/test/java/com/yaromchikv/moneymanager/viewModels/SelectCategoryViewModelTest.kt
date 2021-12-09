@@ -64,10 +64,10 @@ class SelectCategoryViewModelTest {
                 SelectCategoryViewModel.Event.SelectCategory(
                     mockAccount,
                     mockCategories[0]
-                ), awaitItem()
+                ),
+                awaitItem()
             )
             cancelAndIgnoreRemainingEvents()
         }
     }
-
 }

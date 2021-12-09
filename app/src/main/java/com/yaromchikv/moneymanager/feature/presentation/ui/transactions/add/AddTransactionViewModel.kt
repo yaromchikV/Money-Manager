@@ -31,5 +31,4 @@ class AddTransactionViewModel @Inject constructor(
     sealed class Event {
         object AddTransaction : Event()
     }
-
 }

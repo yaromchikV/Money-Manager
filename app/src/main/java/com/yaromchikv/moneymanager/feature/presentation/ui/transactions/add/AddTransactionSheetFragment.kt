@@ -31,7 +31,8 @@ class AddTransactionSheetFragment : BottomSheetDialogFragment() {
     private val args by navArgs<AddTransactionSheetFragmentArgs>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = SheetFragmentAddTransactionBinding.inflate(inflater, container, false)

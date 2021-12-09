@@ -29,5 +29,4 @@ interface AccountsDao {
 
     @Delete
     suspend fun deleteAccount(account: Account)
-
 }

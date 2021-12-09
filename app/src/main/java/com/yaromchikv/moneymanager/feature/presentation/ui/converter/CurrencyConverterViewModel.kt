@@ -40,14 +40,14 @@ class CurrencyConverterViewModel @Inject constructor(
         }
     }
 
-    sealed class Event {
-        object Convert : Event()
-    }
-
     sealed class ConversionState {
         class Ready(val result: String) : ConversionState()
         class Error(val error: String) : ConversionState()
         object Loading : ConversionState()
         object Idle : ConversionState()
+    }
+
+    sealed class Event {
+        object Convert : Event()
     }
 }

@@ -39,9 +39,11 @@ class AccountsFragment : Fragment(R.layout.fragment_accounts) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
-        accountsAdapter.setOnClickListener(AccountsRVAdapter.OnClickListener {
-            viewModel.selectAccount(it)
-        })
+        accountsAdapter.setOnClickListener(
+            AccountsRVAdapter.OnClickListener {
+                viewModel.selectAccount(it)
+            }
+        )
 
         binding.listOfAccounts.apply {
             adapter = accountsAdapter

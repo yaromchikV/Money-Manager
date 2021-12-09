@@ -16,8 +16,8 @@ import com.yaromchikv.moneymanager.feature.presentation.ui.accounts.AccountsRVAd
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.getDivider
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setTint
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class AccountFilterDialogFragment : DialogFragment(R.layout.dialog_fragment_account_filter) {
@@ -43,16 +43,17 @@ class AccountFilterDialogFragment : DialogFragment(R.layout.dialog_fragment_acco
 
         binding.allAccountsIconColor.setTint(activityViewModel.selectedAccount.value?.color)
 
-
         binding.allAccountsItem.setOnClickListener {
             activityViewModel.setCurrentAccount(null)
             dismiss()
         }
 
-        accountsAdapter.setOnClickListener(AccountsRVAdapter.OnClickListener {
-            viewModel.selectAccount(it)
-            dismiss()
-        })
+        accountsAdapter.setOnClickListener(
+            AccountsRVAdapter.OnClickListener {
+                viewModel.selectAccount(it)
+                dismiss()
+            }
+        )
 
         lifecycleScope.launchWhenStarted {
             viewModel.accounts.collectLatest { newList ->
@@ -71,6 +72,5 @@ class AccountFilterDialogFragment : DialogFragment(R.layout.dialog_fragment_acco
                 }
             }
         }
-
     }
 }

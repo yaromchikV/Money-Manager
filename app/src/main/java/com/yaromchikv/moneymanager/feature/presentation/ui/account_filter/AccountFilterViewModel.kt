@@ -54,5 +54,4 @@ class AccountFilterViewModel @Inject constructor(
     sealed class Event {
         data class SelectAccount(val account: Account) : Event()
     }
-
 }

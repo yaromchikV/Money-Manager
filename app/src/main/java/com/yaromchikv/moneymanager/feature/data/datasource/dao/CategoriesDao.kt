@@ -14,5 +14,4 @@ interface CategoriesDao {
 
     @Query("SELECT id, name, icon, icon_color, ifnull((SELECT SUM(amount) FROM transactions WHERE categories.id = category_id AND date >= :from AND date <= :to AND account_id = :id), 0) AS category_amount FROM categories GROUP BY id")
     fun getCategoryViewsForAccount(from: LocalDate, to: LocalDate, id: Int): Flow<List<CategoryView>>
-
 }

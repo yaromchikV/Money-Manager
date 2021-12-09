@@ -32,16 +32,13 @@ object AccountsModule {
     fun provideAddAccountUseCase(repository: AccountsRepository): AddAccountUseCase =
         AddAccountUseCase(repository)
 
-
     @Provides
     @Singleton
     fun provideUpdateAccountUseCase(repository: AccountsRepository): UpdateAccountUseCase =
         UpdateAccountUseCase(repository)
 
-
     @Provides
     @Singleton
     fun provideDeleteAccountUseCase(repository: AccountsRepository): DeleteAccountUseCase =
         DeleteAccountUseCase(repository)
-
 }

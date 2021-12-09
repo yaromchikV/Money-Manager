@@ -15,7 +15,8 @@ import org.junit.Test
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.ZoneOffset
-import java.util.*
+import java.util.Locale
+import java.util.Date
 
 @ExperimentalCoroutinesApi
 class SelectDateViewModelTest {
@@ -79,5 +80,4 @@ class SelectDateViewModelTest {
             cancelAndIgnoreRemainingEvents()
         }
     }
-
 }

@@ -49,7 +49,6 @@ class AccountsViewModelTest {
 
     @Test
     fun getAccountsTest() = coroutineRule.testDispatcher.runBlockingTest {
-        advanceTimeBy(10)
         assertEquals(mockAccounts, viewModel.accounts.value)
     }
 

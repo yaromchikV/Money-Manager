@@ -16,7 +16,6 @@ import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.SheetFragmentAccountActionsBinding
 import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
-import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.CURRENCY_PREFERENCE_KEY
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -104,6 +103,4 @@ class AccountActionsSheetFragment : BottomSheetDialogFragment() {
         super.onDestroy()
         _binding = null
     }
-
-
 }

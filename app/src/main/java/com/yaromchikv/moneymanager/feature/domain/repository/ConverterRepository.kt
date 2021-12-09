@@ -8,5 +8,4 @@ interface ConverterRepository {
 
     suspend fun getCurrencyRates(base: String): Resource<CurrencyResponse>
     suspend fun getBynRate(base: String): Resource<BynResponse>
-
 }

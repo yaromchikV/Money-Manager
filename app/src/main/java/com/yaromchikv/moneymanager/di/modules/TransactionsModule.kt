@@ -28,7 +28,6 @@ object TransactionsModule {
     fun provideGetTransactionViewsUseCase(transactionsRepository: TransactionsRepository): GetTransactionViewsUseCase =
         GetTransactionViewsUseCase(transactionsRepository)
 
-
     @Provides
     @Singleton
     fun provideGetTransactionListWithDayInfoUseCase(transactionsRepository: TransactionsRepository): GetTransactionsWithDayInfoUseCase =
@@ -48,5 +47,4 @@ object TransactionsModule {
         accountsRepository: AccountsRepository
     ): DeleteTransactionByIdUseCase =
         DeleteTransactionByIdUseCase(transactionsRepository, accountsRepository)
-
 }

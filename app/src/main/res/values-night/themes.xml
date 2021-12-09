@@ -2,11 +2,11 @@
     <!-- Base application theme. -->
     <style name="Theme.MoneyManager" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/dark_blue_light</item>
+        <item name="colorPrimary">@color/dark_blue</item>
         <item name="colorPrimaryVariant">@color/dark_blue</item>
         <item name="colorOnPrimary">@color/darker_gray</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/dark_blue_light</item>
+        <item name="colorSecondary">@color/dark_blue</item>
         <item name="colorSecondaryVariant">@color/dark_blue</item>
         <item name="colorOnSecondary">@color/light_gray</item>
         <item name="colorOnPrimarySurface">@color/light_gray</item>

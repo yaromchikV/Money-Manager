@@ -38,5 +38,4 @@ class AddTransactionViewModelTest {
             cancelAndIgnoreRemainingEvents()
         }
     }
-
 }

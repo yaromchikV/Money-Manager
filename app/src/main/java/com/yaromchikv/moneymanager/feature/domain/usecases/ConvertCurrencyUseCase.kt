@@ -24,8 +24,11 @@ class ConvertCurrencyUseCase(private val repository: ConverterRepository) {
             }
         } else {
             val fromIsByn = from == "BYN"
-            return when (val response =
-                repository.getBynRate(if (!fromIsByn) from else to)) {
+            return when (
+                val response = repository.getBynRate(
+                    if (!fromIsByn) from else to
+                )
+            ) {
                 is Resource.Success -> {
                     val data = response.data ?: return -1.0
 

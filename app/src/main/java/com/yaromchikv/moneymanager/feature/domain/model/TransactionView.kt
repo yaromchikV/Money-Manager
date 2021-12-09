@@ -1,8 +1,6 @@
 package com.yaromchikv.moneymanager.feature.domain.model
 
 import androidx.room.ColumnInfo
-import androidx.room.TypeConverters
-import com.yaromchikv.moneymanager.common.Converter
 import java.time.LocalDate
 import java.time.LocalTime
 

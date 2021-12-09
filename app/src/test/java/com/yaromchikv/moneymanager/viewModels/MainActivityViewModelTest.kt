@@ -32,7 +32,6 @@ class MainActivityViewModelTest {
     @Mock
     private lateinit var sharedPreferences: SharedPreferences
 
-
     private val mockAccounts = listOf(
         Account(1, "first", 100.0, "#FFFFFF"),
         Account(2, "second", 55.5, "#000000"),
