@@ -15,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yaromchikv.moneymanager.R
+import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.FragmentAccountEditBinding
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setTint
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.showToast
@@ -39,7 +40,7 @@ class AccountEditFragment : Fragment(R.layout.fragment_account_edit) {
         val account = args.editableAccount
 
         binding.nameTextField.editText?.setText(account.name)
-        binding.amountTextField.editText?.setText(account.amount.toString())
+        binding.amountTextField.editText?.setText(account.amount.toAmountFormat(withMinus = false))
 
         var color = account.color
 
