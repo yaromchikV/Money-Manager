@@ -33,9 +33,12 @@ class AccountAddFragment : Fragment(R.layout.fragment_account_add) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
-        var color = MAIN_COLOR
+        setupOnClickListeners()
+        setupEventCollector()
+    }
 
-        colorClickListener()
+    private fun setupEventCollector() {
+        var color = MAIN_COLOR
 
         lifecycleScope.launchWhenStarted {
             viewModel.events.collectLatest {
@@ -43,7 +46,7 @@ class AccountAddFragment : Fragment(R.layout.fragment_account_add) {
                     is AccountAddViewModel.Event.AddAccount -> {
                         val name = binding.nameTextField.editText?.text.toString().trim()
                         if (name.isEmpty()) {
-                            showToast(context, getString(R.string.account_empty_name_error))
+                            showToast(requireContext(), getString(R.string.account_empty_name_error))
                         } else {
                             val amount = binding.amountTextField.editText?.text.toString()
                                 .toDoubleOrNull() ?: 0.0
@@ -64,23 +67,25 @@ class AccountAddFragment : Fragment(R.layout.fragment_account_add) {
         }
     }
 
-    private fun colorClickListener() {
-        binding.color0.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
-        binding.color1.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
-        binding.color2.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
-        binding.color3.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
-        binding.color4.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
-        binding.color5.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
-        binding.color6.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
-        binding.color7.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
-        binding.color8.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
-        binding.color9.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
-        binding.color10.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
-        binding.color11.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
-        binding.color12.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
-        binding.color13.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
-        binding.color14.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
-        binding.color15.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
+    private fun setupOnClickListeners() {
+        with(binding) {
+            color0.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
+            color1.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
+            color2.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
+            color3.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
+            color4.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
+            color5.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
+            color6.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
+            color7.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
+            color8.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
+            color9.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
+            color10.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
+            color11.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
+            color12.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
+            color13.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
+            color14.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
+            color15.setOnClickListener { viewModel.selectColorClick(it as ImageView) }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

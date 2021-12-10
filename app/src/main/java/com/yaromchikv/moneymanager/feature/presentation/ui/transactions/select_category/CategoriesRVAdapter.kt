@@ -19,8 +19,7 @@ import javax.inject.Singleton
 @Singleton
 class CategoriesRVAdapter @Inject constructor(
     private val sharedPreferences: SharedPreferences
-) :
-    ListAdapter<CategoryView, CategoriesRVAdapter.CategoryViewHolder>(DIFF_CALLBACK) {
+) : ListAdapter<CategoryView, CategoriesRVAdapter.CategoryViewHolder>(DIFF_CALLBACK) {
 
     private var onClickListener: OnClickListener? = null
 
@@ -28,18 +27,18 @@ class CategoriesRVAdapter @Inject constructor(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(categoryView: CategoryView) {
-            binding.name.text = categoryView.name
-            binding.icon.setIcon(categoryView.icon)
-            binding.iconBackground.setTint(categoryView.iconColor)
+            with(binding) {
+                icon.setIcon(categoryView.icon)
+                iconBackground.setTint(categoryView.iconColor)
 
-            binding.amount.text = categoryView.amount.toAmountFormat(withMinus = false)
-            binding.currency.text =
-                sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
+                name.text = categoryView.name
+                amount.text = categoryView.amount.toAmountFormat(withMinus = false)
+                currency.text = sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
 
-            binding.name.isSelected = true
+                name.isSelected = true
+            }
 
             itemView.alpha = if (categoryView.amount == 0.0) 0.3f else 1f
-
             itemView.setOnClickListener {
                 onClickListener?.onClick(categoryView)
             }
@@ -56,6 +55,14 @@ class CategoriesRVAdapter @Inject constructor(
         holder.bind(getItem(position))
     }
 
+    fun setOnClickListener(onClickListener: OnClickListener) {
+        this.onClickListener = onClickListener
+    }
+
+    class OnClickListener(val clickListener: (category: CategoryView) -> Unit) {
+        fun onClick(category: CategoryView) = clickListener(category)
+    }
+
     companion object DIFF_CALLBACK : DiffUtil.ItemCallback<CategoryView>() {
         override fun areItemsTheSame(oldItem: CategoryView, newItem: CategoryView): Boolean {
             return oldItem.id == newItem.id
@@ -64,13 +71,5 @@ class CategoriesRVAdapter @Inject constructor(
         override fun areContentsTheSame(oldItem: CategoryView, newItem: CategoryView): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
-    }
-
-    fun setOnClickListener(onClickListener: OnClickListener) {
-        this.onClickListener = onClickListener
-    }
-
-    class OnClickListener(val clickListener: (category: CategoryView) -> Unit) {
-        fun onClick(category: CategoryView) = clickListener(category)
     }
 }

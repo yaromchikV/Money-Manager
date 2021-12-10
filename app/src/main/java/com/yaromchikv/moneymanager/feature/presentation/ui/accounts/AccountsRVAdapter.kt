@@ -26,12 +26,12 @@ class AccountsRVAdapter @Inject constructor(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(account: Account) {
-            binding.name.text = account.name
-            binding.amount.text = account.amount.toAmountFormat(withMinus = false)
-            binding.currency.text =
-                sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
-
-            binding.iconBackground.setTint(account.color)
+            with(binding) {
+                name.text = account.name
+                amount.text = account.amount.toAmountFormat(withMinus = false)
+                currency.text = sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
+                iconBackground.setTint(account.color)
+            }
 
             itemView.setOnClickListener {
                 onClickListener?.onClick(account)
@@ -49,6 +49,14 @@ class AccountsRVAdapter @Inject constructor(
         holder.bind(getItem(position))
     }
 
+    fun setOnClickListener(onClickListener: OnClickListener) {
+        this.onClickListener = onClickListener
+    }
+
+    class OnClickListener(val clickListener: (account: Account) -> Unit) {
+        fun onClick(account: Account) = clickListener(account)
+    }
+
     companion object DIFF_CALLBACK : DiffUtil.ItemCallback<Account>() {
         override fun areItemsTheSame(oldItem: Account, newItem: Account): Boolean {
             return oldItem.id == newItem.id
@@ -57,13 +65,5 @@ class AccountsRVAdapter @Inject constructor(
         override fun areContentsTheSame(oldItem: Account, newItem: Account): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
-    }
-
-    fun setOnClickListener(onClickListener: OnClickListener) {
-        this.onClickListener = onClickListener
-    }
-
-    class OnClickListener(val clickListener: (account: Account) -> Unit) {
-        fun onClick(account: Account) = clickListener(account)
     }
 }

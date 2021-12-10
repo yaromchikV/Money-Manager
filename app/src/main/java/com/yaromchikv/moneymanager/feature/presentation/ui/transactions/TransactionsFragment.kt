@@ -23,8 +23,8 @@ import com.yaromchikv.moneymanager.databinding.FragmentTransactionsBinding
 import com.yaromchikv.moneymanager.feature.domain.model.TransactionView
 import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
@@ -41,6 +41,17 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
+        setupRecyclerView()
+        setupCollectors()
+
+        binding.newTransactionButton.setOnClickListener {
+            viewModel.addTransactionClick(
+                activityViewModel.selectedAccount.value ?: activityViewModel.accounts.value[0]
+            )
+        }
+    }
+
+    private fun setupRecyclerView() {
         binding.transactionsRecyclerView.apply {
             adapter = transactionAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -50,26 +61,23 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
             itemAnimator = null
         }
 
-        binding.newTransactionButton.setOnClickListener {
-            viewModel.addTransactionClick(
-                activityViewModel.selectedAccount.value ?: activityViewModel.accounts.value[0]
-            )
-        }
-
         transactionAdapter.setOnDeleteClickListener(
             TransactionsRVAdapter.OnDeleteClickListener {
                 viewModel.deleteButtonClick(it)
             }
         )
+    }
 
+    private fun setupCollectors() {
         lifecycleScope.launchWhenStarted {
             viewModel.transactionsUiState.collectLatest {
                 when (it) {
                     is TransactionsViewModel.UiState.Ready -> {
-                        binding.progressBar.isVisible = false
-                        binding.noTransaction.visibility =
-                            if (it.transactions.isEmpty()) View.VISIBLE else View.INVISIBLE
-
+                        with(binding) {
+                            progressBar.isVisible = false
+                            noTransaction.visibility =
+                                if (it.transactions.isEmpty()) View.VISIBLE else View.INVISIBLE
+                        }
                         transactionAdapter.submitList(it.transactions)
                     }
                     is TransactionsViewModel.UiState.Loading -> {
@@ -124,20 +132,6 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
         }
     }
 
-    private var currentCurrency: String = ""
-
-    @SuppressLint("NotifyDataSetChanged")
-    override fun onStart() {
-        super.onStart()
-        if (currentCurrency != activityViewModel.getCurrency())
-            transactionAdapter.notifyDataSetChanged()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        currentCurrency = activityViewModel.getCurrency()
-    }
-
     private var alertIsShowing = false
 
     private fun showAlertDialog(transaction: TransactionView) {
@@ -160,9 +154,23 @@ class TransactionsFragment : Fragment(R.layout.fragment_transactions) {
         alert.show()
     }
 
+    private var currentCurrency: String = ""
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onStart() {
+        super.onStart()
+        if (currentCurrency != activityViewModel.getCurrency())
+            transactionAdapter.notifyDataSetChanged()
+    }
+
     override fun onPause() {
         super.onPause()
         transactionAdapter.clearSelectedPosition()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        currentCurrency = activityViewModel.getCurrency()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -5,12 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
 import com.yaromchikv.moneymanager.feature.domain.usecases.ConvertCurrencyUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class CurrencyConverterViewModel @Inject constructor(
@@ -27,10 +27,12 @@ class CurrencyConverterViewModel @Inject constructor(
         viewModelScope.launch {
             _conversion.value = ConversionState.Loading
             val value = convertCurrencyUseCase(amount, from, to)
-            _conversion.value = if (value != -1.0)
-                ConversionState.Ready(value.toAmountFormat(withMinus = false))
-            else
-                ConversionState.Error("Unexpected error")
+            _conversion.value =
+                when (value) {
+                    -1.0 -> ConversionState.Error("Unexpected error")
+                    -2.0 -> ConversionState.Error("Check your internet connection")
+                    else -> ConversionState.Ready(value.toAmountFormat(withMinus = false))
+                }
         }
     }
 

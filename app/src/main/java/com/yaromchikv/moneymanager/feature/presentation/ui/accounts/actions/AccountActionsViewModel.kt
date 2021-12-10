@@ -18,6 +18,10 @@ class AccountActionsViewModel @Inject constructor(
     private val _events = MutableSharedFlow<Event>()
     val events = _events.asSharedFlow()
 
+    suspend fun deleteAccount(account: Account) {
+        deleteAccountUseCase(account)
+    }
+
     fun editButtonClick(account: Account) {
         viewModelScope.launch {
             _events.emit(Event.NavigateToEditAccountScreen(account))
@@ -34,10 +38,6 @@ class AccountActionsViewModel @Inject constructor(
         viewModelScope.launch {
             _events.emit(Event.DeleteAccount)
         }
-    }
-
-    suspend fun deleteAccount(account: Account) {
-        deleteAccountUseCase(account)
     }
 
     sealed class Event {

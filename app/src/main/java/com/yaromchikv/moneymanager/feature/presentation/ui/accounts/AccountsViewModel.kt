@@ -41,6 +41,10 @@ class AccountsViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    fun getFullAmount(): Double {
+        return _accounts.value.sumOf { it.amount }
+    }
+
     fun selectAccount(account: Account) {
         viewModelScope.launch {
             _events.emit(Event.OpenTheAccountActionsSheet(account))
@@ -51,10 +55,6 @@ class AccountsViewModel @Inject constructor(
         viewModelScope.launch {
             _events.emit(Event.NavigateToAddAccountScreen)
         }
-    }
-
-    fun getFullAmount(): Double {
-        return _accounts.value.sumOf { it.amount }
     }
 
     sealed class Event {

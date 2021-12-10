@@ -16,6 +16,12 @@ class SelectDateViewModel : ViewModel() {
     private val _events = MutableSharedFlow<Event>()
     val events = _events.asSharedFlow()
 
+    fun getTheDate(daysAgo: Int = 0): LocalDate {
+        return if (daysAgo != 0)
+            (getCurrentLocalDate().toMilliseconds() - (daysAgo * DAY_IN_MS)).toLocalDate()
+        else getCurrentLocalDate()
+    }
+
     fun selectDateClick() {
         viewModelScope.launch {
             _events.emit(Event.SelectDate)
@@ -50,12 +56,6 @@ class SelectDateViewModel : ViewModel() {
         viewModelScope.launch {
             _events.emit(Event.SelectAllTime)
         }
-    }
-
-    fun getTheDate(daysAgo: Int = 0): LocalDate {
-        return if (daysAgo != 0)
-            (getCurrentLocalDate().toMilliseconds() - (daysAgo * DAY_IN_MS)).toLocalDate()
-        else getCurrentLocalDate()
     }
 
     sealed class Event {

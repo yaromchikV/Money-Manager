@@ -53,6 +53,9 @@ class MainActivityViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    fun getCurrency() =
+        sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY) ?: MAIN_CURRENCY
+
     fun settingsButtonClick() {
         viewModelScope.launch {
             _events.emit(Event.OpenTheSettingsScreen)
@@ -76,9 +79,6 @@ class MainActivityViewModel @Inject constructor(
             _selectedDateRange.value = begin to end
         }
     }
-
-    fun getCurrency() =
-        sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY) ?: MAIN_CURRENCY
 
     sealed class Event {
         object OpenTheSettingsScreen : Event()

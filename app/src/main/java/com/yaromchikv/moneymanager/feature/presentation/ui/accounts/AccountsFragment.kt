@@ -21,8 +21,8 @@ import com.yaromchikv.moneymanager.databinding.FragmentAccountsBinding
 import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.getDivider
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class AccountsFragment : Fragment(R.layout.fragment_accounts) {
@@ -39,12 +39,11 @@ class AccountsFragment : Fragment(R.layout.fragment_accounts) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
-        accountsAdapter.setOnClickListener(
-            AccountsRVAdapter.OnClickListener {
-                viewModel.selectAccount(it)
-            }
-        )
+        setupRecyclerView()
+        setupCollectors()
+    }
 
+    private fun setupRecyclerView() {
         binding.listOfAccounts.apply {
             adapter = accountsAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -52,12 +51,21 @@ class AccountsFragment : Fragment(R.layout.fragment_accounts) {
             itemAnimator = null
         }
 
+        accountsAdapter.setOnClickListener(
+            AccountsRVAdapter.OnClickListener {
+                viewModel.selectAccount(it)
+            }
+        )
+    }
+
+    private fun setupCollectors() {
         lifecycleScope.launchWhenStarted {
             viewModel.accounts.collectLatest { newList ->
                 accountsAdapter.submitList(newList)
-                binding.fullAmount.text =
-                    viewModel.getFullAmount().toAmountFormat(withMinus = false)
-                binding.mainCurrency.text = activityViewModel.getCurrency()
+                with(binding) {
+                    fullAmount.text = viewModel.getFullAmount().toAmountFormat(withMinus = false)
+                    mainCurrency.text = activityViewModel.getCurrency()
+                }
             }
         }
 

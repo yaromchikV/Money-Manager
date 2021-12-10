@@ -42,62 +42,76 @@ class AccountActionsSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupContainerAppearance()
+        setupDeleteButtonVisibility()
+        setupOnClickListeners()
+        setupEventCollector()
+    }
+
+    private fun setupContainerAppearance() {
         val account = args.selectedAccount
+        with(binding) {
+            actionsContainer.setBackgroundColor(Color.parseColor(account.color))
+            accountName.text = account.name
+            accountAmount.text = account.amount.toAmountFormat(withMinus = false)
+            accountCurrency.text = activityViewModel.getCurrency()
+        }
+    }
+
+    private fun setupDeleteButtonVisibility() {
         val size = args.numberOfAccounts
-
-        binding.accountName.text = account.name
-        binding.accountAmount.text = account.amount.toAmountFormat(withMinus = false)
-        binding.accountCurrency.text = activityViewModel.getCurrency()
-
-        binding.actionsContainer.setBackgroundColor(Color.parseColor(account.color))
-
-        binding.deleteButton.visibility = if (size == 1) View.GONE else View.VISIBLE
-        binding.deleteButtonText.visibility = if (size == 1) View.INVISIBLE else View.VISIBLE
-        binding.deleteButtonIcon.visibility = if (size == 1) View.INVISIBLE else View.VISIBLE
-
-        binding.editButton.setOnClickListener {
-            viewModel.editButtonClick(account)
+        with(binding) {
+            deleteButton.visibility = if (size == 1) View.GONE else View.VISIBLE
+            deleteButtonText.visibility = if (size == 1) View.INVISIBLE else View.VISIBLE
+            deleteButtonIcon.visibility = if (size == 1) View.INVISIBLE else View.VISIBLE
         }
-        binding.deleteButton.setOnClickListener {
-            viewModel.deleteButtonClick(account)
-        }
+    }
 
+    private fun setupOnClickListeners() {
+        with(binding) {
+            editButton.setOnClickListener { viewModel.editButtonClick(args.selectedAccount) }
+            deleteButton.setOnClickListener { viewModel.deleteButtonClick(args.selectedAccount) }
+        }
+    }
+
+    private fun setupEventCollector() {
         lifecycleScope.launchWhenStarted {
             viewModel.events.collectLatest {
                 when (it) {
                     is AccountActionsViewModel.Event.NavigateToEditAccountScreen -> {
                         findNavController().navigate(
                             AccountActionsSheetFragmentDirections
-                                .actionAccountActionsSheetFragmentToAccountEditFragment(account)
+                                .actionAccountActionsSheetFragmentToAccountEditFragment(args.selectedAccount)
                         )
                     }
                     is AccountActionsViewModel.Event.ShowTheDeleteAccountDialog -> {
-                        val alert = AlertDialog.Builder(requireContext())
-                            .setIcon(R.drawable.ic_warning)
-                            .setTitle(getString(R.string.delete_alert_title))
-                            .setMessage(getString(R.string.delete_alert_subtitle))
-                            .setPositiveButton(getString(R.string.ok)) { _, _ ->
-                                viewModel.deleteConfirmationButtonClick()
-                                this@AccountActionsSheetFragment.dismiss()
-                            }
-                            .setNegativeButton(getString(R.string.cancel)) { _, _ ->
-                                this@AccountActionsSheetFragment.dismiss()
-                            }
-                            .setCancelable(false)
-                            .create()
-                        alert.show()
+                        getAlertDialog().show()
                     }
                     is AccountActionsViewModel.Event.DeleteAccount -> {
-                        if (account == activityViewModel.selectedAccount.value) {
+                        if (args.selectedAccount == activityViewModel.selectedAccount.value)
                             activityViewModel.setCurrentAccount(null)
-                        }
-                        viewModel.deleteAccount(account)
+
+                        viewModel.deleteAccount(args.selectedAccount)
                         dismiss()
                     }
                 }
             }
         }
     }
+
+    private fun getAlertDialog() = AlertDialog.Builder(requireContext())
+        .setIcon(R.drawable.ic_warning)
+        .setTitle(getString(R.string.delete_alert_title))
+        .setMessage(getString(R.string.delete_alert_subtitle))
+        .setPositiveButton(getString(R.string.ok)) { _, _ ->
+            viewModel.deleteConfirmationButtonClick()
+            this@AccountActionsSheetFragment.dismiss()
+        }
+        .setNegativeButton(getString(R.string.cancel)) { _, _ ->
+            this@AccountActionsSheetFragment.dismiss()
+        }
+        .setCancelable(false)
+        .create()
 
     override fun onDestroy() {
         super.onDestroy()

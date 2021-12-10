@@ -26,25 +26,22 @@ class SelectDateDialogFragment : DialogFragment(R.layout.dialog_fragment_select_
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.selectDate.setOnClickListener {
-            viewModel.selectDateClick()
-        }
-        binding.today.setOnClickListener {
-            viewModel.selectTodayClick()
-        }
-        binding.week.setOnClickListener {
-            viewModel.selectWeekClick()
-        }
-        binding.month.setOnClickListener {
-            viewModel.selectMonthClick()
-        }
-        binding.year.setOnClickListener {
-            viewModel.selectYearClick()
-        }
-        binding.allTime.setOnClickListener {
-            viewModel.selectAllTimeClick()
-        }
+        setupOnClickListeners()
+        setupEventCollector()
+    }
 
+    private fun setupOnClickListeners() {
+        with(binding) {
+            selectDate.setOnClickListener { viewModel.selectDateClick() }
+            today.setOnClickListener { viewModel.selectTodayClick() }
+            week.setOnClickListener { viewModel.selectWeekClick() }
+            month.setOnClickListener { viewModel.selectMonthClick() }
+            year.setOnClickListener { viewModel.selectYearClick() }
+            allTime.setOnClickListener { viewModel.selectAllTimeClick() }
+        }
+    }
+
+    private fun setupEventCollector() {
         lifecycleScope.launchWhenStarted {
             viewModel.events.collectLatest {
                 when (it) {
@@ -67,17 +64,17 @@ class SelectDateDialogFragment : DialogFragment(R.layout.dialog_fragment_select_
                         dismiss()
                     }
                     is SelectDateViewModel.Event.SelectWeek -> {
-                        val from = viewModel.getTheDate(7)
+                        val from = viewModel.getTheDate(WEEK)
                         activityViewModel.setCurrentDateRange(from, null)
                         dismiss()
                     }
                     is SelectDateViewModel.Event.SelectMonth -> {
-                        val from = viewModel.getTheDate(30)
+                        val from = viewModel.getTheDate(MONTH)
                         activityViewModel.setCurrentDateRange(from, null)
                         dismiss()
                     }
                     is SelectDateViewModel.Event.SelectYear -> {
-                        val from = viewModel.getTheDate(365)
+                        val from = viewModel.getTheDate(YEAR)
                         activityViewModel.setCurrentDateRange(from, null)
                         dismiss()
                     }
@@ -92,5 +89,8 @@ class SelectDateDialogFragment : DialogFragment(R.layout.dialog_fragment_select_
 
     companion object {
         private const val DATE_PICKER_TAG = "date_picker_tag"
+        private const val WEEK = 7
+        private const val MONTH = 30
+        private const val YEAR = 365
     }
 }

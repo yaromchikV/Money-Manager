@@ -20,13 +20,13 @@ class AccountFilterViewModel @Inject constructor(
     private val getAccountsUseCase: GetAccountsUseCase
 ) : ViewModel() {
 
-    private var getAccountsJob: Job? = null
-
     private val _accounts = MutableStateFlow(emptyList<Account>())
     val accounts = _accounts.asStateFlow()
 
     private val _events = MutableSharedFlow<Event>()
     val events = _events.asSharedFlow()
+
+    private var getAccountsJob: Job? = null
 
     init {
         getAccounts()

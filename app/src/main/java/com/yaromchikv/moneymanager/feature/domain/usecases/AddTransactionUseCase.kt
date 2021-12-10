@@ -13,7 +13,6 @@ class AddTransactionUseCase(
         if (account != null) {
             val amount = account.amount - transaction.amount
             accountsRepository.updateAccountAmount(transaction.accountId, amount)
-
             transactionsRepository.insertTransaction(transaction)
         }
     }

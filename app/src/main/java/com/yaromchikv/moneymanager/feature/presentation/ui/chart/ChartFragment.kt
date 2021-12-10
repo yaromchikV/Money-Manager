@@ -43,6 +43,10 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
 
+        setupCollectors()
+    }
+
+    private fun setupCollectors() {
         lifecycleScope.launchWhenStarted {
             viewModel.categoryViews.collectLatest {
                 updateChartData(it)
@@ -76,25 +80,6 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
         }
     }
 
-    private var currentCurrency: String = ""
-
-    override fun onStart() {
-        super.onStart()
-        if (currentCurrency != activityViewModel.getCurrency())
-            updateChartData(viewModel.categoryViews.value)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        currentCurrency = activityViewModel.getCurrency()
-    }
-
-    private fun getThemeColor(color: Int): Int {
-        val value = TypedValue()
-        requireContext().theme.resolveAttribute(color, value, true)
-        return value.data
-    }
-
     private fun updateChartData(categoryViews: List<CategoryView>) {
         if (categoryViews.isNotEmpty()) {
             val currency = activityViewModel.getCurrency()
@@ -103,26 +88,27 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
 
             var amount = 0.0
             val entries = ArrayList<PieEntry>()
-            val colors = ArrayList<Int>()
+            val entryColors = ArrayList<Int>()
 
             categoryViews.forEach { category ->
                 if (category.amount != 0.0) {
                     entries.add(PieEntry(category.amount.toFloat()))
-                    colors.add(Color.parseColor(category.iconColor))
+                    entryColors.add(Color.parseColor(category.iconColor))
                     amount += category.amount
                 }
             }
 
             if (amount == 0.0) {
                 entries.add(PieEntry(1f))
-                colors.add(Color.parseColor(MAIN_COLOR))
+                entryColors.add(Color.parseColor(MAIN_COLOR))
                 binding.chart.alpha = 0.3f
             } else binding.chart.alpha = 1f
 
-            val dataSet = PieDataSet(entries, "")
-            dataSet.colors = colors
-            dataSet.setDrawValues(false)
-            dataSet.sliceSpace = 2f
+            val dataSet = PieDataSet(entries, "").apply {
+                colors = entryColors
+                setDrawValues(false)
+                sliceSpace = 2f
+            }
 
             val amountString = amount.toAmountFormat(withMinus = false) + ' ' + currency
             binding.chart.apply {
@@ -134,7 +120,6 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
                 setCenterTextSize(20f)
                 description.isEnabled = false
                 legend.isEnabled = false
-
                 data = PieData(dataSet)
             }
 
@@ -144,36 +129,50 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
     }
 
     private fun updateCategories(categoryViews: List<CategoryView>, currency: String?) {
-        binding.category1.setCategoryAttributes(categoryViews[0], currency)
-        binding.category2.setCategoryAttributes(categoryViews[1], currency)
-        binding.category3.setCategoryAttributes(categoryViews[2], currency)
-        binding.category4.setCategoryAttributes(categoryViews[3], currency)
-        binding.category5.setCategoryAttributes(categoryViews[4], currency)
-        binding.category6.setCategoryAttributes(categoryViews[5], currency)
-        binding.category7.setCategoryAttributes(categoryViews[6], currency)
-        binding.category8.setCategoryAttributes(categoryViews[7], currency)
-        binding.category9.setCategoryAttributes(categoryViews[8], currency)
-        binding.category10.setCategoryAttributes(categoryViews[9], currency)
-        binding.category11.setCategoryAttributes(categoryViews[10], currency)
-        binding.category12.setCategoryAttributes(categoryViews[11], currency)
+        with(binding) {
+            category1.setCategoryAttributes(categoryViews[0], currency)
+            category2.setCategoryAttributes(categoryViews[1], currency)
+            category3.setCategoryAttributes(categoryViews[2], currency)
+            category4.setCategoryAttributes(categoryViews[3], currency)
+            category5.setCategoryAttributes(categoryViews[4], currency)
+            category6.setCategoryAttributes(categoryViews[5], currency)
+            category7.setCategoryAttributes(categoryViews[6], currency)
+            category8.setCategoryAttributes(categoryViews[7], currency)
+            category9.setCategoryAttributes(categoryViews[8], currency)
+            category10.setCategoryAttributes(categoryViews[9], currency)
+            category11.setCategoryAttributes(categoryViews[10], currency)
+            category12.setCategoryAttributes(categoryViews[11], currency)
+        }
     }
 
     private fun ItemCategoryBinding.setCategoryAttributes(
-        categoryView: CategoryView,
+        category: CategoryView,
         currency: String?
     ) {
-        this.name.text = categoryView.name
-        this.icon.setIcon(categoryView.icon)
-        this.iconBackground.setTint(categoryView.iconColor)
-        this.amount.text = categoryView.amount.toAmountFormat(withMinus = false)
+        this.name.text = category.name
+        this.icon.setIcon(category.icon)
+        this.iconBackground.setTint(category.iconColor)
+        this.amount.text = category.amount.toAmountFormat(withMinus = false)
         this.currency.text = currency
 
-        val color = Color.parseColor(categoryView.iconColor)
-
+        val color = Color.parseColor(category.iconColor)
         this.amount.setTextColor(color)
         this.currency.setTextColor(color)
 
-        this.item.alpha = if (categoryView.amount == 0.0) 0.3f else 1f
+        this.item.alpha = if (category.amount == 0.0) 0.3f else 1f
+    }
+
+    private var currentCurrency: String = ""
+
+    override fun onStart() {
+        super.onStart()
+        if (currentCurrency != activityViewModel.getCurrency())
+            updateChartData(viewModel.categoryViews.value)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        currentCurrency = activityViewModel.getCurrency()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -190,4 +189,10 @@ class ChartFragment : Fragment(R.layout.fragment_chart) {
     private fun getCurrentDestination() =
         (findNavController().currentDestination as? FragmentNavigator.Destination)?.className
             ?: (findNavController().currentDestination as? DialogFragmentNavigator.Destination)?.className
+
+    private fun getThemeColor(color: Int): Int {
+        val value = TypedValue()
+        requireContext().theme.resolveAttribute(color, value, true)
+        return value.data
+    }
 }

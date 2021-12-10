@@ -23,10 +23,11 @@ class CurrencyConverterFragment : Fragment(R.layout.fragment_currency_converter)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.convertButton.setOnClickListener {
-            viewModel.convertButtonClick()
-        }
+        setupConversionCollector()
+        setupEventCollector()
+    }
 
+    private fun setupConversionCollector() {
         lifecycleScope.launchWhenStarted {
             viewModel.conversion.collectLatest {
                 when (it) {
@@ -45,6 +46,10 @@ class CurrencyConverterFragment : Fragment(R.layout.fragment_currency_converter)
                 }
             }
         }
+    }
+
+    private fun setupEventCollector() {
+        binding.convertButton.setOnClickListener { viewModel.convertButtonClick() }
 
         lifecycleScope.launchWhenStarted {
             viewModel.events.collectLatest {

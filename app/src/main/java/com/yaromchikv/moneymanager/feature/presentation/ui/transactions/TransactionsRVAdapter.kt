@@ -74,25 +74,22 @@ class TransactionsRVAdapter @Inject constructor(
         override fun bind(item: Any) {
             val transactionView = item as TransactionView
 
-            binding.iconBackground.setTint(transactionView.iconColor)
-            binding.icon.setIcon(transactionView.icon)
-            binding.categoryName.text = transactionView.categoryName
-            binding.cardName.text = transactionView.accountName
-            binding.note.text = transactionView.note
-            binding.textAmount.text = transactionView.amount.toAmountFormat(withMinus = true)
-            binding.textCurrency.text =
-                sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
+            with(binding) {
+                iconBackground.setTint(transactionView.iconColor)
+                icon.setIcon(transactionView.icon)
 
-            binding.note.isSelected = true
-            binding.categoryName.isSelected = true
-            binding.cardName.isSelected = true
+                categoryName.text = transactionView.categoryName
+                cardName.text = transactionView.accountName
+                note.text = transactionView.note
+                textAmount.text = transactionView.amount.toAmountFormat(withMinus = true)
+                textCurrency.text = sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
 
-            val isSelected = bindingAdapterPosition == selectedPosition
+                note.isSelected = true
+                categoryName.isSelected = true
+                cardName.isSelected = true
+            }
 
-            binding.note.visibility = if (isSelected) View.INVISIBLE else View.VISIBLE
-            binding.textAmount.visibility = if (isSelected) View.INVISIBLE else View.VISIBLE
-            binding.textCurrency.visibility = if (isSelected) View.INVISIBLE else View.VISIBLE
-            binding.deleteButton.visibility = if (!isSelected) View.INVISIBLE else View.VISIBLE
+            configureIfSelected(transactionView)
 
             itemView.setOnClickListener {
                 if (bindingAdapterPosition == selectedPosition)
@@ -103,6 +100,15 @@ class TransactionsRVAdapter @Inject constructor(
                 itemSelecting(bindingAdapterPosition != selectedPosition)
                 true
             }
+        }
+
+        private fun configureIfSelected(transactionView: TransactionView) {
+            val isSelected = bindingAdapterPosition == selectedPosition
+
+            binding.note.visibility = if (isSelected) View.INVISIBLE else View.VISIBLE
+            binding.textAmount.visibility = if (isSelected) View.INVISIBLE else View.VISIBLE
+            binding.textCurrency.visibility = if (isSelected) View.INVISIBLE else View.VISIBLE
+            binding.deleteButton.visibility = if (!isSelected) View.INVISIBLE else View.VISIBLE
 
             binding.deleteButton.setOnClickListener {
                 onDeleteClickListener?.onClick(transactionView)
@@ -123,17 +129,18 @@ class TransactionsRVAdapter @Inject constructor(
         override fun bind(item: Any) {
             val dayInfo = item as DayInfo
 
-            val date = dayInfo.transactionDate
-            val amount = dayInfo.amountPerDay
-            val monthAndYear = "${date.month} ${date.year}"
+            val dateValue = dayInfo.transactionDate
+            val amountValue = dayInfo.amountPerDay
+            val monthAndYearValue = "${dateValue.month} ${dateValue.year}"
 
-            binding.amount.text = amount.toAmountFormat(withMinus = true)
-            binding.currency.text =
-                sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
+            with(binding) {
+                amount.text = amountValue.toAmountFormat(withMinus = true)
+                currency.text = sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
 
-            binding.day.text = date.dayOfMonth.toString()
-            binding.monthAndYear.text = monthAndYear
-            binding.dayOfWeek.text = date.dayOfWeek.name
+                day.text = dateValue.dayOfMonth.toString()
+                monthAndYear.text = monthAndYearValue
+                dayOfWeek.text = dateValue.dayOfWeek.name
+            }
         }
     }
 

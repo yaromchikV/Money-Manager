@@ -17,8 +17,8 @@ import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.SheetFragmentSelectCategoryBinding
 import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class SelectCategorySheetFragment : BottomSheetDialogFragment() {
@@ -46,24 +46,35 @@ class SelectCategorySheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupContainerAppearance()
+        setupRecyclerView()
+        setupCollectors()
+    }
+
+    private fun setupContainerAppearance() {
         val account = args.selectedAccount
+        with(binding) {
+            accountName.text = account.name
+            accountAmount.text = account.amount.toAmountFormat(withMinus = false)
+            accountCurrency.text = activityViewModel.getCurrency()
+            actionsContainer.setBackgroundColor(Color.parseColor(account.color))
+        }
+    }
 
-        binding.accountName.text = account.name
-        binding.accountAmount.text = account.amount.toAmountFormat(withMinus = false)
-        binding.accountCurrency.text = activityViewModel.getCurrency()
-        binding.actionsContainer.setBackgroundColor(Color.parseColor(account.color))
-
-        categoriesRVAdapter.setOnClickListener(
-            CategoriesRVAdapter.OnClickListener {
-                viewModel.selectCategoryClick(account, it)
-            }
-        )
-
+    private fun setupRecyclerView() {
         binding.gridOfCategories.apply {
             adapter = categoriesRVAdapter
             itemAnimator = null
         }
 
+        categoriesRVAdapter.setOnClickListener(
+            CategoriesRVAdapter.OnClickListener {
+                viewModel.selectCategoryClick(args.selectedAccount, it)
+            }
+        )
+    }
+
+    private fun setupCollectors() {
         lifecycleScope.launchWhenStarted {
             viewModel.categoryViews.collectLatest { newList ->
                 categoriesRVAdapter.submitList(newList)

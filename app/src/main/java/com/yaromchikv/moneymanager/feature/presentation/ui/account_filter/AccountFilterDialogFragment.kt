@@ -33,19 +33,16 @@ class AccountFilterDialogFragment : DialogFragment(R.layout.dialog_fragment_acco
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupRecyclerView()
+        setupAllAccountsItem()
+        setupCollectors()
+    }
+
+    private fun setupRecyclerView() {
         binding.listOfAccounts.apply {
             adapter = accountsAdapter
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(getDivider(requireContext()))
-        }
-
-        binding.allAccountsCurrency.text = activityViewModel.getCurrency()
-
-        binding.allAccountsIconColor.setTint(activityViewModel.selectedAccount.value?.color)
-
-        binding.allAccountsItem.setOnClickListener {
-            activityViewModel.setCurrentAccount(null)
-            dismiss()
         }
 
         accountsAdapter.setOnClickListener(
@@ -54,7 +51,20 @@ class AccountFilterDialogFragment : DialogFragment(R.layout.dialog_fragment_acco
                 dismiss()
             }
         )
+    }
 
+    private fun setupAllAccountsItem() {
+        with(binding) {
+            allAccountsCurrency.text = activityViewModel.getCurrency()
+            allAccountsIconColor.setTint(activityViewModel.selectedAccount.value?.color)
+            allAccountsItem.setOnClickListener {
+                activityViewModel.setCurrentAccount(null)
+                dismiss()
+            }
+        }
+    }
+
+    private fun setupCollectors() {
         lifecycleScope.launchWhenStarted {
             viewModel.accounts.collectLatest { newList ->
                 accountsAdapter.submitList(newList)

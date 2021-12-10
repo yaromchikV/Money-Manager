@@ -29,13 +29,13 @@ class TransactionsViewModel @Inject constructor(
     private val _transactionsUiState = MutableStateFlow<UiState>(UiState.Idle)
     val transactionsUiState = _transactionsUiState.asStateFlow()
 
-    private var getTransactionsJob: Job? = null
-
     private val _events = MutableSharedFlow<Event>()
     val events = _events.asSharedFlow()
 
     private val _selectedAccount = MutableStateFlow<Account?>(null)
     private val _selectedDateRange = MutableStateFlow<Pair<LocalDate?, LocalDate?>>(null to null)
+
+    private var getTransactionsJob: Job? = null
 
     init {
         getTransactions()
@@ -56,6 +56,10 @@ class TransactionsViewModel @Inject constructor(
                     _transactionsUiState.value = UiState.Ready(data)
                 }
                 .launchIn(viewModelScope)
+    }
+
+    suspend fun deleteTransaction(transaction: TransactionView) {
+        deleteTransactionByIdUseCase(transaction)
     }
 
     fun setDateRange(from: LocalDate? = null, to: LocalDate? = null) {
@@ -90,10 +94,6 @@ class TransactionsViewModel @Inject constructor(
         viewModelScope.launch {
             _events.emit(Event.DeleteTransaction(transaction))
         }
-    }
-
-    suspend fun deleteTransaction(transaction: TransactionView) {
-        deleteTransactionByIdUseCase(transaction)
     }
 
     sealed class UiState {

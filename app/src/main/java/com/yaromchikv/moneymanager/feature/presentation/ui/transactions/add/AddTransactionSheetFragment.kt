@@ -42,24 +42,30 @@ class AddTransactionSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val account = args.selectedAccount
-        val category = args.selectedCategory
+        setupContainerAppearance()
+        setupEventCollector()
+    }
 
-        binding.accountName.text = account.name
-        binding.categoryName.text = category.name
-        binding.categoryIcon.setIcon(category.icon)
+    private fun setupContainerAppearance() {
+        with(binding) {
+            accountName.text = args.selectedAccount.name
+            categoryName.text = args.selectedCategory.name
+            categoryIcon.setIcon(args.selectedCategory.icon)
 
-        binding.accountBackground.setBackgroundColor(Color.parseColor(account.color))
-        binding.categoryBackground.setBackgroundColor(Color.parseColor(category.iconColor))
-
-        binding.applyButton.setOnClickListener {
-            viewModel.applyButtonClick()
+            accountBackground.setBackgroundColor(Color.parseColor(args.selectedAccount.color))
+            categoryBackground.setBackgroundColor(Color.parseColor(args.selectedCategory.iconColor))
         }
+    }
+
+    private fun setupEventCollector() {
+        binding.applyButton.setOnClickListener { viewModel.applyButtonClick() }
 
         lifecycleScope.launchWhenStarted {
             viewModel.events.collectLatest {
                 when (it) {
                     is AddTransactionViewModel.Event.AddTransaction -> {
+                        val account = args.selectedAccount
+                        val category = args.selectedCategory
                         if (account.id != null) {
                             val amount =
                                 binding.expenseTextField.editText?.text.toString().toDoubleOrNull()
@@ -69,10 +75,7 @@ class AddTransactionSheetFragment : BottomSheetDialogFragment() {
                                 val note = binding.noteTextField.editText?.text.toString()
 
                                 val transaction = Transaction(
-                                    note = note,
-                                    amount = amount,
-                                    accountId = account.id,
-                                    categoryId = category.id
+                                    note = note, amount = amount, accountId = account.id, categoryId = category.id
                                 )
 
                                 viewModel.addTransaction(transaction)
