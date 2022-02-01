@@ -1,7 +1,11 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.transactions.date
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -30,6 +34,11 @@ class SelectDateDialogFragment : DialogFragment(R.layout.dialog_fragment_select_
         setupEventCollector()
     }
 
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    }
+
     private fun setupOnClickListeners() {
         with(binding) {
             selectDate.setOnClickListener { viewModel.selectDateClick() }
@@ -49,6 +58,7 @@ class SelectDateDialogFragment : DialogFragment(R.layout.dialog_fragment_select_
                         val datePicker = MaterialDatePicker.Builder.datePicker()
                             .setTitleText(getString(R.string.select_date))
                             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                            .setTheme(R.style.MaterialCalendarTheme)
                             .build()
 
                         datePicker.addOnPositiveButtonClickListener { milliseconds ->

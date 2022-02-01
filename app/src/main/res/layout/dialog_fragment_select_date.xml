@@ -1,120 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:minWidth="256dp"
-    android:minHeight="402dp"
-    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_shape"
     tools:context=".feature.presentation.ui.transactions.date.SelectDateDialogFragment">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/select_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:foreground="?attr/selectableItemBackgroundBorderless">
+        style="@style/CardViewWithTopCorners"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="48dp"
-            android:drawablePadding="12dp"
+            style="@style/DateDialogItemStyle"
             android:text="@string/select_date"
-            android:textSize="24sp"
             app:drawableStartCompat="@drawable/ic_date_range" />
-    </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/today"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:foreground="?attr/selectableItemBackgroundBorderless">
+        android:layout_width="160dp"
+        android:layout_height="80dp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        app:cardCornerRadius="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/select_date">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="48dp"
-            android:drawablePadding="12dp"
+            style="@style/DateDialogItemStyle"
             android:text="@string/today"
-            android:textSize="24sp"
             app:drawableStartCompat="@drawable/ic_today" />
-    </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/week"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:foreground="?attr/selectableItemBackgroundBorderless">
+        android:layout_width="160dp"
+        android:layout_height="80dp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        app:cardCornerRadius="0dp"
+        app:layout_constraintStart_toEndOf="@id/today"
+        app:layout_constraintTop_toBottomOf="@id/select_date">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="48dp"
-            android:drawablePadding="12dp"
+            style="@style/DateDialogItemStyle"
             android:text="@string/week"
-            android:textSize="24sp"
             app:drawableStartCompat="@drawable/ic_week" />
-    </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/month"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:foreground="?attr/selectableItemBackgroundBorderless">
+        android:layout_width="160dp"
+        android:layout_height="80dp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        app:cardCornerRadius="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/today">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="48dp"
-            android:drawablePadding="12dp"
+            style="@style/DateDialogItemStyle"
             android:text="@string/month"
-            android:textSize="24sp"
             app:drawableStartCompat="@drawable/ic_month" />
-    </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/year"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:foreground="?attr/selectableItemBackgroundBorderless">
+        android:layout_width="160dp"
+        android:layout_height="80dp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        app:cardCornerRadius="0dp"
+        app:layout_constraintStart_toEndOf="@+id/month"
+        app:layout_constraintTop_toBottomOf="@id/week">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="48dp"
-            android:drawablePadding="12dp"
+            style="@style/DateDialogItemStyle"
             android:text="@string/year"
-            android:textSize="24sp"
             app:drawableStartCompat="@drawable/ic_year" />
-    </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/all_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:foreground="?attr/selectableItemBackgroundBorderless">
+        style="@style/CardViewWithBottomCorners"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/year">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="48dp"
-            android:drawablePadding="12dp"
+            style="@style/DateDialogItemStyle"
             android:text="@string/all_time"
-            android:textSize="24sp"
             app:drawableStartCompat="@drawable/ic_infinity" />
-    </androidx.cardview.widget.CardView>
 
-</LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

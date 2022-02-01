@@ -15,4 +15,8 @@
         <!-- Customize your theme here. -->
         <item name="android:forceDarkAllowed" tools:targetApi="29">false</item>
     </style>
+
+    <style name="MaterialCalendarTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorOnPrimary">?attr/colorOnPrimarySurface</item>
+    </style>
 </resources>
