@@ -33,12 +33,12 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
     }
 
     override fun onStart() {
-        overridePendingTransition(0, 0)
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         super.onStart()
     }
 
     override fun onPause() {
         super.onPause()
-        overridePendingTransition(0, 0)
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
     }
 }
