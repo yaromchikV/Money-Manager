@@ -42,6 +42,12 @@ class CurrencyConverterViewModel @Inject constructor(
         }
     }
 
+    fun swapButtonClick() {
+        viewModelScope.launch {
+            _events.emit(Event.Swap)
+        }
+    }
+
     sealed class ConversionState {
         class Ready(val result: String) : ConversionState()
         class Error(val error: String) : ConversionState()
@@ -51,5 +57,6 @@ class CurrencyConverterViewModel @Inject constructor(
 
     sealed class Event {
         object Convert : Event()
+        object Swap: Event()
     }
 }

@@ -25,6 +25,9 @@ class CurrencyConverterFragment : Fragment(R.layout.fragment_currency_converter)
 
         setupConversionCollector()
         setupEventCollector()
+
+        binding.convertButton.setOnClickListener { viewModel.convertButtonClick() }
+        binding.swapButton.setOnClickListener { viewModel.swapButtonClick() }
     }
 
     private fun setupConversionCollector() {
@@ -49,17 +52,27 @@ class CurrencyConverterFragment : Fragment(R.layout.fragment_currency_converter)
     }
 
     private fun setupEventCollector() {
-        binding.convertButton.setOnClickListener { viewModel.convertButtonClick() }
-
         lifecycleScope.launchWhenStarted {
             viewModel.events.collectLatest {
-                val amount = binding.amountTextField.editText?.text.toString().toDoubleOrNull()
-                val from = binding.fromCurrency.selectedItem.toString()
-                val to = binding.toCurrency.selectedItem.toString()
+                when (it) {
+                    is CurrencyConverterViewModel.Event.Convert -> {
+                        val amount =
+                            binding.amountTextField.editText?.text.toString().toDoubleOrNull()
+                        val from = binding.fromCurrency.selectedItem.toString()
+                        val to = binding.toCurrency.selectedItem.toString()
 
-                if (amount != null) {
-                    viewModel.convert(amount, from, to)
-                } else showToast(requireContext(), getString(R.string.enter_amount_error))
+                        if (amount != null) {
+                            viewModel.convert(amount, from, to)
+                        } else showToast(requireContext(), getString(R.string.enter_amount_error))
+                    }
+                    is CurrencyConverterViewModel.Event.Swap -> {
+                        val fromPosition = binding.fromCurrency.selectedItemPosition
+                        val toPosition = binding.toCurrency.selectedItemPosition
+
+                        binding.fromCurrency.setSelection(toPosition)
+                        binding.toCurrency.setSelection(fromPosition)
+                    }
+                }
             }
         }
     }
