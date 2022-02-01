@@ -8,36 +8,37 @@
 
     <TextView
         android:id="@+id/select_account_label"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:gravity="center"
         android:text="@string/accounts_filter"
         android:textAllCaps="true"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/all_accounts_item"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="@drawable/divider_shape"
         android:padding="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/all_accounts_item"
+        app:layout_constraintBottom_toTopOf="@id/all_accounts_item"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/all_accounts_item"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:foreground="?selectableItemBackgroundBorderless"
         app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/select_account_label">
+        app:layout_constraintTop_toBottomOf="@id/select_account_label">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -58,10 +59,10 @@
                 android:id="@+id/icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/all_accounts_icon_color"
-                app:layout_constraintEnd_toEndOf="@+id/all_accounts_icon_color"
-                app:layout_constraintStart_toStartOf="@+id/all_accounts_icon_color"
-                app:layout_constraintTop_toTopOf="@+id/all_accounts_icon_color"
+                app:layout_constraintBottom_toBottomOf="@id/all_accounts_icon_color"
+                app:layout_constraintEnd_toEndOf="@id/all_accounts_icon_color"
+                app:layout_constraintStart_toStartOf="@id/all_accounts_icon_color"
+                app:layout_constraintTop_toTopOf="@id/all_accounts_icon_color"
                 app:srcCompat="@drawable/ic_bank" />
 
             <TextView
@@ -83,9 +84,9 @@
                 android:textAllCaps="true"
                 android:textColor="@color/blue_green"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/all_accounts_icon_color"
-                app:layout_constraintStart_toEndOf="@+id/all_accounts_icon_color"
-                app:layout_constraintTop_toBottomOf="@+id/all_accounts_label"
+                app:layout_constraintBottom_toBottomOf="@id/all_accounts_icon_color"
+                app:layout_constraintStart_toEndOf="@id/all_accounts_icon_color"
+                app:layout_constraintTop_toBottomOf="@id/all_accounts_label"
                 tools:text="1 817,20" />
 
             <TextView
@@ -96,15 +97,15 @@
                 android:textAllCaps="true"
                 android:textColor="@color/blue_green"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="@+id/all_accounts_amount"
-                app:layout_constraintStart_toEndOf="@+id/all_accounts_amount"
+                app:layout_constraintBottom_toBottomOf="@id/all_accounts_amount"
+                app:layout_constraintStart_toEndOf="@id/all_accounts_amount"
                 tools:text="BYN" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
     <View
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="@drawable/divider_shape"
         android:padding="4dp"
@@ -114,7 +115,7 @@
 
     <TextView
         android:id="@+id/accounts_label"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:paddingStart="12dp"
@@ -123,19 +124,21 @@
         android:textAllCaps="true"
         android:textSize="14sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/all_accounts_item" />
+        app:layout_constraintTop_toBottomOf="@id/all_accounts_item" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_of_accounts"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:minWidth="300dp"
         android:overScrollMode="never"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_default="wrap"
         app:layout_constraintHeight_max="300dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/accounts_label"
+        app:layout_constraintTop_toBottomOf="@id/accounts_label"
         tools:itemCount="5"
         tools:listitem="@layout/item_account" />
 

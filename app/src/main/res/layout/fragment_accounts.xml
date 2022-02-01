@@ -27,9 +27,9 @@
         android:textAllCaps="true"
         android:textColor="@color/blue_green"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/accounts_label"
+        app:layout_constraintBottom_toBottomOf="@id/accounts_label"
         app:layout_constraintEnd_toStartOf="@id/main_currency"
-        app:layout_constraintTop_toTopOf="@+id/accounts_label" />
+        app:layout_constraintTop_toTopOf="@id/accounts_label" />
 
     <TextView
         android:id="@+id/main_currency"
@@ -46,14 +46,14 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_of_accounts"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:overScrollMode="never"
-        android:paddingBottom="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/accounts_label"
+        app:layout_constraintTop_toBottomOf="@id/accounts_label"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:itemCount="8"
         tools:listitem="@layout/item_account" />
 
