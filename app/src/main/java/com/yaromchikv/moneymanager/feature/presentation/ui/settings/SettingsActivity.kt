@@ -31,4 +31,14 @@ class SettingsActivity : AppCompatActivity(R.layout.activity_settings) {
         onBackPressed()
         return super.onSupportNavigateUp()
     }
+
+    override fun onStart() {
+        overridePendingTransition(0, 0)
+        super.onStart()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
+    }
 }
