@@ -101,8 +101,7 @@ class SelectCategorySheetFragment : BottomSheetDialogFragment() {
                             findNavController().navigate(
                                 SelectCategorySheetFragmentDirections
                                     .actionSelectCategorySheetFragmentToAddTransactionSheetFragment(
-                                        it.account,
-                                        it.category
+                                        it.account, it.category, args.amount
                                     )
                             )
                         }

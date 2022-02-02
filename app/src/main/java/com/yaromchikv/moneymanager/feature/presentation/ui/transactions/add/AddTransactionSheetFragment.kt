@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.yaromchikv.moneymanager.R
+import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.SheetFragmentAddTransactionBinding
 import com.yaromchikv.moneymanager.feature.domain.model.Transaction
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setIcon
@@ -52,6 +53,11 @@ class AddTransactionSheetFragment : BottomSheetDialogFragment() {
             categoryName.text = args.selectedCategory.name
             categoryIcon.setIcon(args.selectedCategory.icon)
 
+            if (args.amount != 0f)
+                expenseTextField.editText?.setText(
+                    args.amount.toDouble().toAmountFormat(withMinus = false)
+                )
+
             accountBackground.setBackgroundColor(Color.parseColor(args.selectedAccount.color))
             categoryBackground.setBackgroundColor(Color.parseColor(args.selectedCategory.iconColor))
         }
@@ -75,7 +81,10 @@ class AddTransactionSheetFragment : BottomSheetDialogFragment() {
                                 val note = binding.noteTextField.editText?.text.toString()
 
                                 val transaction = Transaction(
-                                    note = note, amount = amount, accountId = account.id, categoryId = category.id
+                                    note = note,
+                                    amount = amount,
+                                    accountId = account.id,
+                                    categoryId = category.id
                                 )
 
                                 viewModel.addTransaction(transaction)

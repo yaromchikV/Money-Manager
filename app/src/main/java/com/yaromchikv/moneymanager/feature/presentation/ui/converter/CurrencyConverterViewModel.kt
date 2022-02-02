@@ -3,6 +3,7 @@ package com.yaromchikv.moneymanager.feature.presentation.ui.converter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
+import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.domain.usecases.ConvertCurrencyUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -23,15 +24,17 @@ class CurrencyConverterViewModel @Inject constructor(
     private val _events = MutableSharedFlow<Event>()
     val events = _events.asSharedFlow()
 
+    var resultValue: Double = 0.0
+
     fun convert(amount: Double, from: String, to: String) {
         viewModelScope.launch {
             _conversion.value = ConversionState.Loading
-            val value = convertCurrencyUseCase(amount, from, to)
+            resultValue = convertCurrencyUseCase(amount, from, to)
             _conversion.value =
-                when (value) {
+                when (resultValue) {
                     -1.0 -> ConversionState.Error("Unexpected error")
                     -2.0 -> ConversionState.Error("Check your internet connection")
-                    else -> ConversionState.Ready(value.toAmountFormat(withMinus = false))
+                    else -> ConversionState.Ready(resultValue.toAmountFormat(withMinus = false))
                 }
         }
     }
@@ -48,6 +51,12 @@ class CurrencyConverterViewModel @Inject constructor(
         }
     }
 
+    fun addTransactionButtonClick(account: Account, amount: Float) {
+        viewModelScope.launch {
+            _events.emit(Event.OpenTheAddTransactionSheet(account, amount))
+        }
+    }
+
     sealed class ConversionState {
         class Ready(val result: String) : ConversionState()
         class Error(val error: String) : ConversionState()
@@ -57,6 +66,7 @@ class CurrencyConverterViewModel @Inject constructor(
 
     sealed class Event {
         object Convert : Event()
-        object Swap: Event()
+        object Swap : Event()
+        data class OpenTheAddTransactionSheet(val account: Account, val amount: Float) : Event()
     }
 }

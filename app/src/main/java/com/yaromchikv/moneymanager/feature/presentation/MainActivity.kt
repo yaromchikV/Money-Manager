@@ -141,7 +141,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             supportActionBar?.setDisplayShowTitleEnabled(isFragmentWithoutBars)
 
             val isFragmentWithFilter = when (currentDestination) {
-                R.id.currency_converter_fragment -> false
                 R.id.accounts_fragment -> false
                 R.id.account_actions_sheet_fragment -> false
                 else -> true

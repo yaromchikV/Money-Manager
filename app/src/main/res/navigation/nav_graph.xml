@@ -68,8 +68,7 @@
             app:argType="com.yaromchikv.moneymanager.feature.domain.model.Account" />
         <argument
             android:name="numberOfAccounts"
-            app:argType="integer"
-            />
+            app:argType="integer" />
         <action
             android:id="@+id/action_account_actions_sheet_fragment_to_account_edit_fragment"
             app:destination="@id/account_edit_fragment"
@@ -128,6 +127,10 @@
         <argument
             android:name="selectedAccount"
             app:argType="com.yaromchikv.moneymanager.feature.domain.model.Account" />
+        <argument
+            android:name="amount"
+            android:defaultValue="0.0"
+            app:argType="float" />
         <action
             android:id="@+id/action_select_category_sheet_fragment_to_add_transaction_sheet_fragment"
             app:destination="@id/add_transaction_sheet_fragment"
@@ -145,6 +148,10 @@
         <argument
             android:name="selectedCategory"
             app:argType="com.yaromchikv.moneymanager.feature.domain.model.CategoryView" />
+        <argument
+            android:name="amount"
+            android:defaultValue="0.0"
+            app:argType="float" />
         <action
             android:id="@+id/action_add_transaction_sheet_fragment_to_transactions_fragment"
             app:destination="@id/transactions_fragment" />
@@ -169,10 +176,13 @@
         android:id="@+id/currency_converter_fragment"
         android:name="com.yaromchikv.moneymanager.feature.presentation.ui.converter.CurrencyConverterFragment"
         android:label="Currencies"
-        tools:layout="@layout/fragment_currency_converter" >
+        tools:layout="@layout/fragment_currency_converter">
         <action
             android:id="@+id/action_currency_converter_fragment_to_settingsActivity"
             app:destination="@id/settingsActivity" />
+        <action
+            android:id="@+id/action_currency_converter_fragment_to_select_category_sheet_fragment"
+            app:destination="@id/select_category_sheet_fragment" />
     </fragment>
 
 </navigation>
