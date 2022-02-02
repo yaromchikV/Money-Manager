@@ -2,6 +2,7 @@ package com.yaromchikv.moneymanager.feature.presentation.ui.converter
 
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -18,6 +19,7 @@ import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
+
 @AndroidEntryPoint
 class CurrencyConverterFragment : Fragment(R.layout.fragment_currency_converter) {
 
@@ -31,6 +33,7 @@ class CurrencyConverterFragment : Fragment(R.layout.fragment_currency_converter)
 
         setupConversionCollector()
         setupEventCollector()
+        setupSpinnerListener()
 
         with(binding) {
             convertButton.setOnClickListener { viewModel.convertButtonClick() }
@@ -42,10 +45,12 @@ class CurrencyConverterFragment : Fragment(R.layout.fragment_currency_converter)
                 )
             }
         }
+    }
 
-        binding.convertButton.setOnClickListener { viewModel.convertButtonClick() }
-        binding.swapButton.setOnClickListener { viewModel.swapButtonClick() }
-
+    override fun onStart() {
+        super.onStart()
+        binding.addTransactionButton.isVisible =
+            binding.spinnerTo.selectedItem.toString() == activityViewModel.getCurrency()
     }
 
     private fun setupConversionCollector() {
@@ -56,7 +61,8 @@ class CurrencyConverterFragment : Fragment(R.layout.fragment_currency_converter)
                         with(binding) {
                             progressBar.isVisible = false
                             resultText.text = it.result
-                            addTransactionButton.isVisible = true
+                            addTransactionButton.isClickable = true
+                            addTransactionButton.alpha = 1f
                         }
                     }
                     is CurrencyConverterViewModel.ConversionState.Loading -> {
@@ -79,19 +85,19 @@ class CurrencyConverterFragment : Fragment(R.layout.fragment_currency_converter)
                     is CurrencyConverterViewModel.Event.Convert -> {
                         val amount =
                             binding.amountTextField.editText?.text.toString().toDoubleOrNull()
-                        val from = binding.fromCurrency.selectedItem.toString()
-                        val to = binding.toCurrency.selectedItem.toString()
+                        val from = binding.spinnerFrom.selectedItem.toString()
+                        val to = binding.spinnerTo.selectedItem.toString()
 
                         if (amount != null) {
                             viewModel.convert(amount, from, to)
                         } else showToast(requireContext(), getString(R.string.enter_amount_error))
                     }
                     is CurrencyConverterViewModel.Event.Swap -> {
-                        val fromPosition = binding.fromCurrency.selectedItemPosition
-                        val toPosition = binding.toCurrency.selectedItemPosition
+                        val fromPosition = binding.spinnerFrom.selectedItemPosition
+                        val toPosition = binding.spinnerTo.selectedItemPosition
 
-                        binding.fromCurrency.setSelection(toPosition)
-                        binding.toCurrency.setSelection(fromPosition)
+                        binding.spinnerFrom.setSelection(toPosition)
+                        binding.spinnerTo.setSelection(fromPosition)
                     }
                     is CurrencyConverterViewModel.Event.OpenTheAddTransactionSheet -> {
                         if (getCurrentDestination() == this@CurrencyConverterFragment.javaClass.name) {
@@ -103,6 +109,29 @@ class CurrencyConverterFragment : Fragment(R.layout.fragment_currency_converter)
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun setupSpinnerListener() {
+        with(binding) {
+            spinnerTo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    adapter: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    resultText.text = ""
+                    addTransactionButton.apply {
+                        isVisible =
+                            spinnerTo.selectedItem.toString() == activityViewModel.getCurrency()
+                        isClickable = resultText.text.isNotEmpty()
+                        alpha = if (resultText.text.isEmpty()) 0.3f else 1f
+                    }
+                }
+
+                override fun onNothingSelected(adapter: AdapterView<*>?) {}
             }
         }
     }

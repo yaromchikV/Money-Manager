@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.ItemDayInfoBinding
 import com.yaromchikv.moneymanager.databinding.ItemTransactionBinding
@@ -82,7 +83,8 @@ class TransactionsRVAdapter @Inject constructor(
                 cardName.text = transactionView.accountName
                 note.text = transactionView.note
                 textAmount.text = transactionView.amount.toAmountFormat(withMinus = true)
-                textCurrency.text = sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
+                textCurrency.text =
+                    sharedPreferences.getString(CURRENCY_PREFERENCE_KEY, MAIN_CURRENCY)
 
                 note.isSelected = true
                 categoryName.isSelected = true
@@ -104,14 +106,15 @@ class TransactionsRVAdapter @Inject constructor(
 
         private fun configureIfSelected(transactionView: TransactionView) {
             val isSelected = bindingAdapterPosition == selectedPosition
+            with(binding) {
+                note.visibility = if (isSelected) View.INVISIBLE else View.VISIBLE
+                textAmount.visibility = if (isSelected) View.INVISIBLE else View.VISIBLE
+                textCurrency.visibility = if (isSelected) View.INVISIBLE else View.VISIBLE
+                deleteButton.visibility = if (!isSelected) View.INVISIBLE else View.VISIBLE
 
-            binding.note.visibility = if (isSelected) View.INVISIBLE else View.VISIBLE
-            binding.textAmount.visibility = if (isSelected) View.INVISIBLE else View.VISIBLE
-            binding.textCurrency.visibility = if (isSelected) View.INVISIBLE else View.VISIBLE
-            binding.deleteButton.visibility = if (!isSelected) View.INVISIBLE else View.VISIBLE
-
-            binding.deleteButton.setOnClickListener {
-                onDeleteClickListener?.onClick(transactionView)
+                deleteButton.setOnClickListener {
+                    onDeleteClickListener?.onClick(transactionView)
+                }
             }
         }
 
