@@ -22,8 +22,10 @@ object Utils {
     const val THEME_DEFAULT = "default"
 
     const val CURRENCY_PREFERENCE_KEY = "currency"
-    const val AUTH_CODE_KEY = "auth_code"
-    const val FIRST_TIME_KEY = "first_time"
+    const val RESET_PIN_PREFERENCE_KEY = "reset_pin"
+
+    const val AUTH_CODE_PREFERENCE_KEY = "auth_code"
+    const val FIRST_TIME_PREFERENCE_KEY = "first_time"
 
     private val mapOfDrawables = mapOf(
         0 to R.drawable.ic_family,

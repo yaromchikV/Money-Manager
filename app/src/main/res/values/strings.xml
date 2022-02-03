@@ -59,4 +59,6 @@
     <string name="forgot_alert_message">You can restore access to the application only by erasing all data.</string>
     <string name="erase_data_alert_title">Erase application data?</string>
     <string name="erase_data_alert_message">Are you sure you want to do this? It will be impossible to restore the data. After deleting, the application will be closed.</string>
+    <string name="reset_pin_message">Click twice to reset the PIN and set a new one</string>
+    <string name="reset_pin_message_repeat">Click to reset the PIN and set a new one</string>
 </resources>

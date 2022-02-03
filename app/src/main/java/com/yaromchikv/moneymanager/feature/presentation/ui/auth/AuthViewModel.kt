@@ -3,8 +3,8 @@ package com.yaromchikv.moneymanager.feature.presentation.ui.auth
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.AUTH_CODE_KEY
-import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.FIRST_TIME_KEY
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.AUTH_CODE_PREFERENCE_KEY
+import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.FIRST_TIME_PREFERENCE_KEY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -36,7 +36,7 @@ class AuthViewModel @Inject constructor(
     private fun checkTheCode() {
         viewModelScope.launch {
             if (!isAppLaunchedFirstTime()) {
-                val correctCode = sharedPreferences.getString(AUTH_CODE_KEY, "") ?: ""
+                val correctCode = sharedPreferences.getString(AUTH_CODE_PREFERENCE_KEY, "") ?: ""
                 _events.emit(if (_code.value == correctCode) Event.OpenMainActivity else Event.DeleteCode)
             } else {
                 checkAuth()
@@ -48,8 +48,8 @@ class AuthViewModel @Inject constructor(
         if (_tempCode.value != "") {
             if (_tempCode.value == _code.value) {
                 sharedPreferences.edit()
-                    .putString(AUTH_CODE_KEY, _tempCode.value)
-                    .putBoolean(FIRST_TIME_KEY, false)
+                    .putString(AUTH_CODE_PREFERENCE_KEY, _tempCode.value)
+                    .putBoolean(FIRST_TIME_PREFERENCE_KEY, false)
                     .apply()
                 _events.emit(Event.OpenMainActivity)
             } else {
@@ -86,13 +86,7 @@ class AuthViewModel @Inject constructor(
     }
 
     fun isAppLaunchedFirstTime(): Boolean {
-        return sharedPreferences.getBoolean(FIRST_TIME_KEY, true)
-    }
-
-    fun startAuthSetup() {
-        viewModelScope.launch {
-            _events.emit(Event.SetThePin)
-        }
+        return sharedPreferences.getBoolean(FIRST_TIME_PREFERENCE_KEY, true)
     }
 
     sealed class Event {

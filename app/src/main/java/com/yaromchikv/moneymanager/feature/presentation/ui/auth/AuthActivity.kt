@@ -50,7 +50,8 @@ class AuthActivity : AppCompatActivity() {
         setupEventCollectors()
 
         if (viewModel.isAppLaunchedFirstTime()) {
-            viewModel.startAuthSetup()
+            binding.enterPinText.text = getString(R.string.set_the_pin)
+            binding.forgotCode.isVisible = false
         }
     }
 
@@ -150,7 +151,6 @@ class AuthActivity : AppCompatActivity() {
                     }
                     is AuthViewModel.Event.SetThePin -> {
                         binding.enterPinText.text = getString(R.string.set_the_pin)
-                        binding.forgotCode.isVisible = false
                     }
                     is AuthViewModel.Event.RepeatThePin -> {
                         binding.enterPinText.text = getString(R.string.repeat_the_pin)

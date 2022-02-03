@@ -18,4 +18,10 @@
         app:title="@string/default_currency"
         app:useSimpleSummaryProvider="true" />
 
+    <Preference
+        app:icon="@drawable/ic_password"
+        app:key="reset_pin"
+        app:summary="@string/reset_pin_message"
+        app:title="Reset PIN" />
+
 </PreferenceScreen>
