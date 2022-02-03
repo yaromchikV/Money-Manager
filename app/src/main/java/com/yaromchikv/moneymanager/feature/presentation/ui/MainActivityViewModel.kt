@@ -1,4 +1,4 @@
-package com.yaromchikv.moneymanager.feature.presentation
+package com.yaromchikv.moneymanager.feature.presentation.ui
 
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel

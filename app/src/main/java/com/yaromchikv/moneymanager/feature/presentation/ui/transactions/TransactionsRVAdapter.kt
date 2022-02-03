@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.ItemDayInfoBinding
 import com.yaromchikv.moneymanager.databinding.ItemTransactionBinding

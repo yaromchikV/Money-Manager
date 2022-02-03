@@ -12,6 +12,7 @@
         <item name="colorOnPrimarySurface">@color/light_gray</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <!-- Customize your theme here. -->
         <item name="android:forceDarkAllowed" tools:targetApi="29">false</item>
     </style>

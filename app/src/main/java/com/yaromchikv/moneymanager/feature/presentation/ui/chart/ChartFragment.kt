@@ -24,7 +24,7 @@ import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.FragmentChartBinding
 import com.yaromchikv.moneymanager.databinding.ItemCategoryBinding
 import com.yaromchikv.moneymanager.feature.domain.model.CategoryView
-import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
+import com.yaromchikv.moneymanager.feature.presentation.ui.MainActivityViewModel
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.MAIN_COLOR
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setIcon
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setTint

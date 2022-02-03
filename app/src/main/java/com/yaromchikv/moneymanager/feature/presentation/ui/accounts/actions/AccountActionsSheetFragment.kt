@@ -15,7 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.SheetFragmentAccountActionsBinding
-import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
+import com.yaromchikv.moneymanager.feature.presentation.ui.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -107,10 +107,8 @@ class AccountActionsSheetFragment : BottomSheetDialogFragment() {
             viewModel.deleteConfirmationButtonClick()
             this@AccountActionsSheetFragment.dismiss()
         }
-        .setNegativeButton(getString(R.string.cancel)) { _, _ ->
-            this@AccountActionsSheetFragment.dismiss()
-        }
-        .setCancelable(false)
+        .setNegativeButton(getString(R.string.cancel)) { _, _ -> this@AccountActionsSheetFragment.dismiss() }
+        .setOnCancelListener { this@AccountActionsSheetFragment.dismiss() }
         .create()
 
     override fun onDestroy() {

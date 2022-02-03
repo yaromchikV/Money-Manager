@@ -1,4 +1,4 @@
-package com.yaromchikv.moneymanager.feature.presentation.ui.transactions.date
+package com.yaromchikv.moneymanager.feature.presentation.ui.date
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

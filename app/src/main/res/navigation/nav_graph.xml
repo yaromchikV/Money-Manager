@@ -112,7 +112,7 @@
 
     <dialog
         android:id="@+id/select_date_dialog_fragment"
-        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.transactions.date.SelectDateDialogFragment"
+        android:name="com.yaromchikv.moneymanager.feature.presentation.ui.date.SelectDateDialogFragment"
         android:label="select_date_dialog_fragment"
         tools:layout="@layout/dialog_fragment_select_date" />
 

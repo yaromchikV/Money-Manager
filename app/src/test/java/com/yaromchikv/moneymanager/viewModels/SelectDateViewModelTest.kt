@@ -5,7 +5,7 @@ import app.cash.turbine.test
 import com.yaromchikv.moneymanager.TestCoroutineRule
 import com.yaromchikv.moneymanager.common.DateUtils.DAY_IN_MS
 import com.yaromchikv.moneymanager.common.DateUtils.toLocalDate
-import com.yaromchikv.moneymanager.feature.presentation.ui.transactions.date.SelectDateViewModel
+import com.yaromchikv.moneymanager.feature.presentation.ui.date.SelectDateViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals

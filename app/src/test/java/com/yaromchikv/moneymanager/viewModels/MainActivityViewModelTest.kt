@@ -6,7 +6,7 @@ import app.cash.turbine.test
 import com.yaromchikv.moneymanager.TestCoroutineRule
 import com.yaromchikv.moneymanager.feature.domain.model.Account
 import com.yaromchikv.moneymanager.feature.domain.usecases.GetAccountsUseCase
-import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
+import com.yaromchikv.moneymanager.feature.presentation.ui.MainActivityViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runBlockingTest

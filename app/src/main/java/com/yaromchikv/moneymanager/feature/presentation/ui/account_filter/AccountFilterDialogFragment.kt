@@ -11,7 +11,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.DateUtils.toAmountFormat
 import com.yaromchikv.moneymanager.databinding.DialogFragmentAccountFilterBinding
-import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
+import com.yaromchikv.moneymanager.feature.presentation.ui.MainActivityViewModel
 import com.yaromchikv.moneymanager.feature.presentation.ui.accounts.AccountsRVAdapter
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.getDivider
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.setTint

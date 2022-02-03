@@ -14,11 +14,10 @@ import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.databinding.FragmentCurrencyConverterBinding
-import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
+import com.yaromchikv.moneymanager.feature.presentation.ui.MainActivityViewModel
 import com.yaromchikv.moneymanager.feature.presentation.utils.Utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-
 
 @AndroidEntryPoint
 class CurrencyConverterFragment : Fragment(R.layout.fragment_currency_converter) {

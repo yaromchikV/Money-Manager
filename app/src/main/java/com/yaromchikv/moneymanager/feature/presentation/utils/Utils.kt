@@ -1,11 +1,14 @@
 package com.yaromchikv.moneymanager.feature.presentation.utils
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.yaromchikv.moneymanager.R
 
@@ -19,6 +22,8 @@ object Utils {
     const val THEME_DEFAULT = "default"
 
     const val CURRENCY_PREFERENCE_KEY = "currency"
+    const val AUTH_CODE_KEY = "auth_code"
+    const val FIRST_TIME_KEY = "first_time"
 
     private val mapOfDrawables = mapOf(
         0 to R.drawable.ic_family,
@@ -41,6 +46,13 @@ object Utils {
 
     fun ImageView.setTint(value: String?) {
         DrawableCompat.setTint(this.drawable, Color.parseColor(value ?: MAIN_COLOR))
+    }
+
+    fun ImageView.setTint(@ColorRes colorRes: Int) {
+        ImageViewCompat.setImageTintList(
+            this,
+            ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
+        )
     }
 
     fun getImageViewTint(imageView: ImageView): String {

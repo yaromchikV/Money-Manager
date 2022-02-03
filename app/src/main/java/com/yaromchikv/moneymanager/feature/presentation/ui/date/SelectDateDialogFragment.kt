@@ -1,11 +1,9 @@
-package com.yaromchikv.moneymanager.feature.presentation.ui.transactions.date
+package com.yaromchikv.moneymanager.feature.presentation.ui.date
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -15,7 +13,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.yaromchikv.moneymanager.R
 import com.yaromchikv.moneymanager.common.DateUtils.toLocalDate
 import com.yaromchikv.moneymanager.databinding.DialogFragmentSelectDateBinding
-import com.yaromchikv.moneymanager.feature.presentation.MainActivityViewModel
+import com.yaromchikv.moneymanager.feature.presentation.ui.MainActivityViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
