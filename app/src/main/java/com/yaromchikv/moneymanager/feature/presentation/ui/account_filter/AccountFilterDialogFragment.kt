@@ -1,5 +1,7 @@
 package com.yaromchikv.moneymanager.feature.presentation.ui.account_filter
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.DialogFragment
@@ -37,6 +39,12 @@ class AccountFilterDialogFragment : DialogFragment(R.layout.dialog_fragment_acco
         setupAllAccountsItem()
         setupCollectors()
     }
+
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    }
+
 
     private fun setupRecyclerView() {
         binding.listOfAccounts.apply {

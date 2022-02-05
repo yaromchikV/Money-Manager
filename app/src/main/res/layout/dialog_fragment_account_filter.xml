@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@drawable/dialog_shape"
     tools:context=".feature.presentation.ui.account_filter.AccountFilterDialogFragment">
 
     <TextView
@@ -12,6 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:gravity="center"
+        android:padding="4dp"
+        android:textStyle="bold"
         android:text="@string/accounts_filter"
         android:textAllCaps="true"
         android:textSize="18sp"
@@ -44,7 +47,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minWidth="300dp"
-            android:padding="12dp">
+            android:padding="12dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
 
             <ImageView
                 android:id="@+id/all_accounts_icon_color"
@@ -118,8 +123,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:text="@string/accounts"
         android:textAllCaps="true"
         android:textSize="14sp"
@@ -134,12 +139,15 @@
         android:layout_height="0dp"
         android:minWidth="300dp"
         android:overScrollMode="never"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_default="wrap"
         app:layout_constraintHeight_max="300dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/accounts_label"
-        tools:itemCount="5"
+        tools:itemCount="6"
         tools:listitem="@layout/item_account" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
