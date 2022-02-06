@@ -14,7 +14,7 @@ import com.yaromchikv.moneymanager.R
 
 object Utils {
     const val MAIN_COLOR = "#ffee423e"
-    const val MAIN_CURRENCY = "BYN"
+    const val MAIN_CURRENCY = "USD"
 
     const val THEME_PREFERENCE_KEY = "theme"
     const val THEME_DARK = "dark"
