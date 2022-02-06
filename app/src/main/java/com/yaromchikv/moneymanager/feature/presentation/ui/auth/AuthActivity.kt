@@ -102,7 +102,6 @@ class AuthActivity : AppCompatActivity() {
     private fun setupEventCollectors() {
         lifecycleScope.launchWhenStarted {
             viewModel.events.collectLatest {
-                Log.d("!!!", it.javaClass.simpleName)
                 when (it) {
                     is AuthViewModel.Event.ForgotClick -> {
                         showAlert(
